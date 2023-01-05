@@ -41,6 +41,7 @@ function tap(event) {
         clearTimeout(data.tapTimer)
         data.tapTimer = null
         router.push({ name: 'home' })
+        return
     }
     data.tapTimer = setTimeout(() => {
         data.tapTimer = null
