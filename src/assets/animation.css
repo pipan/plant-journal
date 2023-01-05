@@ -1,0 +1,70 @@
+:root {
+  --animation-duration: 220ms;
+}
+
+.origin--0 .view { transform-origin: 3% 3%; }
+.origin--1 .view { transform-origin: 50% 3%; }
+.origin--2 .view { transform-origin: 97% 3%; }
+.origin--3 .view { transform-origin: 3% 50%; }
+.origin--4 .view { transform-origin: 50% 50%; }
+.origin--5 .view { transform-origin: 97% 50%; }
+.origin--6 .view { transform-origin: 3% 97%; }
+.origin--7 .view { transform-origin: 50% 97%; }
+.origin--8 .view { transform-origin: 97% 97%; }
+
+.animation-zone-leave-from .view, .animation-navigation-enter-to .view {
+  opacity: 1;
+  transform: scale(1);
+}
+.animation-navigation-leave-active .view, .animation-navigation-enter-active .view, .animation-zone-leave-active .view, .animation-zone-enter-active .view {
+  transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;  
+}
+.animation-navigation-leave-active .view, .animation-zone-enter-active .view {
+  transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;  
+}
+.animation-zone-leave-to .view, .animation-navigation-enter-from .view {
+  transform: scale(3.3);
+  opacity: 0;
+}
+
+.animation-zone-enter-from .view, .animation-navigation-leave-to .view {
+  opacity: 0;
+  transform: scale(0.3);
+}
+.animation-zone-enter-to .view, .animation-navigation-leave-from .view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.animation-zone-enter-active, .animation-navigation-enter-active {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+}
+.animation-zone-enter-active, .animation-navigation-enter-active, .animation-zone-leave-active, .animation-navigation-leave-active {
+  overflow: hidden;
+}
+
+.animation-modal-enter-from, .animation-modal-leave-to {
+  opacity: 0;
+}
+
+.animation-modal-enter-active, .animation-modal-leave-active {
+  transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;
+}
+
+.animation-modal-enter-to, .animation-modal-leave-from {
+  opacity: 1;
+}
+
+.animation-modal-enter-from .modal__card, .animation-modal-leave-to .modal__card {
+  transform: scale(0.01, 2);
+}
+.animation-modal-enter-active .modal__card, .animation-modal-leave-active .modal__card {
+  transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;
+}
+.animation-modal-enter-to .modal__card, .animation-modal-leave-from .modal__card {
+  transform: scale(1);
+}

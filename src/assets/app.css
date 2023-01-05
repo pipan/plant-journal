@@ -1,0 +1,60 @@
+/* color palette from <https://github.com/vuejs/theme> */
+@import 'flex.css';
+@import 'padding.css';
+@import 'text.css';
+@import 'button.css';
+@import 'animation.css';
+@import 'icons.css';
+@import 'position.css';
+
+:root {
+  --color-bg: #1A1C1A;
+  --color-overlay: rgba(26, 28, 26, 0.85);
+  --color-border: #4A4A4A;
+  --color-fg-secondary: #929292;
+  --color-fg: #F3F3F3;
+  --color-highlight-primary: #8ED18B;
+  --color-primary: #4D894D;
+
+  --color-hover: rgba(243, 243, 243, 0.04);
+  --color-active: rgba(243, 243, 243, 0.12);
+
+  --unit-xs: 4px;
+  --unit-s: 8px;
+  --unit-m: 16px;
+  --unit-l: 24px;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  margin: 0px;
+}
+
+.color--red { --color-value: #AC2525; }
+.color--orange { --color-value: #AC6625; }
+.color--blue { --color-value: #258CAC; }
+.color--purple { --color-value: #9125AC; }
+
+.shape--circle {
+  margin: 0px;
+  width: var(--shape-size);
+  height: var(--shape-size);
+  border-radius: 100%;
+}
+.shape--square {
+  margin: 0px;
+  width: var(--shape-size);
+  height: var(--shape-size);
+  border-radius: calc(var(--shape-size) / 6);
+}
+.shape--rectangle {
+  width: var(--shape-size);
+  height: calc(var(--shape-size) / 2);
+  margin: calc(var(--shape-size) / 4) 0px;
+  border-radius: calc(var(--shape-size) / 6);
+}

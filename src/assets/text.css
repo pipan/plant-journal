@@ -1,0 +1,7 @@
+.text-center { text-align: center; }
+
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-fg-secondary); }
+.text-idle { color: var(--color-border); }
+
+.text-s { font-size: 12px; }

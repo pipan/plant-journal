@@ -1,0 +1,61 @@
+button {
+    background-color: transparent;
+    border: none;
+    color: var(--color-fg);
+}
+
+button, .clickable {
+    transition: background-color 180ms ease;
+}
+
+.clickable:hover, .btn-icon:hover {
+    background-color: var(--color-hover);
+}
+
+.btn-circle:active, .clickable:active, .btn-icon:active {
+    transition-duration: 0ms;
+    background-color: var(--color-active);
+}
+
+.btn-circle {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    color: var(--color-border);
+    border-radius: 100%;
+    width: 48px;
+    height: 48px;
+}
+
+.btn-circle:hover {
+    border-width: 2px;
+}
+
+.btn-circle.btn-circle--primary {
+    border-color: var(--color-highlight-primary);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+}
+
+.btn-circle.btn-circle--primary:active {
+    transition-duration: 0ms;
+    background-color: var(--color-highlight-primary);
+}
+
+.btn-icon {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-border);
+    border-radius: 100%;
+    padding: var(--unit-s);
+}
+
+.btn-icon.btn-icon--active {
+    color: var(--color-fg);
+}

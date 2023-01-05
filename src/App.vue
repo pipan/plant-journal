@@ -1,0 +1,34 @@
+<script setup>
+import { reactive } from '@vue/reactivity'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { useCanvas } from './stores/canvas'
+
+const canvas = useCanvas()
+
+const router = useRouter()
+
+const data = reactive({
+    zoneId: 0
+})
+
+router.beforeEach((to, from) => {
+  data.zoneId = to.params.id || from.params.id
+})
+
+canvas.insertPlant(0, { id: '1', name: 'one', x: 0, y: 0, color: 'red', shape: 'circle' })
+canvas.insertPlant(0, { id: '2', name: 'two', x: 0.1, y: 0.3, color: 'orange', shape: 'square' })
+canvas.insertPlant(0, { id: '3', name: 'THREE', x: 0.5, y: 0.5, color: 'purple', shape: 'rectangle' })
+canvas.insertPlant(1, { id: '4', name: 'four the best', x: 0, y: 0, color: 'red', shape: 'circle' })
+</script>
+
+<template>
+  <router-view v-slot="{ Component, route }">
+    <transition :name="route.meta.transition" :class="'origin--' + data.zoneId" duration="220">
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
+</template>
+
+<style scoped>
+
+</style>
