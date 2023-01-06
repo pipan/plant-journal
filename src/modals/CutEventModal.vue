@@ -34,9 +34,11 @@ function close() {
                 <i class="icon icon-clock icon--l"></i>
             </button>
         </div>
-        <datetime-input v-if="data.datetimeVisible"
-            :value="data.datetime"
-            @change="data.datetime = $event"></datetime-input>
+        <transition name="animation-row" duration="220">
+            <datetime-input v-if="data.datetimeVisible"
+                :value="data.datetime"
+                @change="data.datetime = $event"></datetime-input>
+        </transition>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>

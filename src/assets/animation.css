@@ -50,21 +50,31 @@
 .animation-modal-enter-from, .animation-modal-leave-to {
   opacity: 0;
 }
-
 .animation-modal-enter-active, .animation-modal-leave-active {
   transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;
 }
-
 .animation-modal-enter-to, .animation-modal-leave-from {
   opacity: 1;
 }
 
 .animation-modal-enter-from .modal__card, .animation-modal-leave-to .modal__card {
-  transform: scale(0.01, 2);
+  transform: scale(1, 0.01);
 }
 .animation-modal-enter-active .modal__card, .animation-modal-leave-active .modal__card {
   transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;
 }
 .animation-modal-enter-to .modal__card, .animation-modal-leave-from .modal__card {
   transform: scale(1);
+}
+
+.animation-row-enter-from, .animation-row-leave-to {
+  transform: scale(0.9);
+  opacity: 0;
+}
+.animation-row-enter-active, .animation-row-leave-active {
+  transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;
+}
+.animation-row-enter-to, .animation-row-leave-from {
+  transform: scale(1);
+  opacity: 1;
 }

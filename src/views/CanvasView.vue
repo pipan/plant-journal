@@ -84,24 +84,26 @@ function selectPlant(plant) {
             <div class="row row--middle row--center gap-s"><i class="icon icon-tap"></i> tap to create</div>
             <div class="row row--middle row--center gap-s"><i class="icon icon-doubletap"></i> double tap to navigate</div>
         </div>
-        <plant-box v-for="plant in canvas.items[route.params.id].plants"
-            :key="plant.id"
-            :plant="plant"
-            @move="move(plant, $event)"
-            @select="selectPlant(plant)"></plant-box>
+        <transition-group name="animation-row" duration="220">
+            <plant-box v-for="plant in canvas.items[route.params.id].plants"
+                :key="plant.id"
+                :plant="plant"
+                @move="move(plant, $event)"
+                @select="selectPlant(plant)"></plant-box>
+        </transition-group>
     </div>
     <bottom-drawer title="Test">
-        <div class="row text-center">
-            <button type="button" class="flex p-m clickable" @click="toggleTool('fertilizer')">
+        <div class="row text-center gap-s p-s">
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('fertilizer')">
                 <i class="icon icon--l icon-fertilizer" :class="{ 'text-idle': data.tool != 'fertilizer' }"></i>
             </button>
-            <button type="button" class="flex p-m clickable" @click="toggleTool('water')">
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('water')">
                 <i class="icon icon--l icon-water-drop" :class="{ 'text-idle': data.tool != 'water' }"></i>
             </button>
-            <button type="button" class="flex p-m clickable" @click="toggleTool('cut')">
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('cut')">
                 <i class="icon icon--l icon-shears" :class="{ 'text-idle': data.tool != 'cut' }"></i>
             </button>
-            <button type="button" class="flex p-m clickable" @click="toggleTool('plant')">
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('plant')">
                 <i class="icon icon--l icon-trowel" :class="{ 'text-idle': data.tool != 'plant' }"></i>
             </button>
         </div>
@@ -134,7 +136,7 @@ function selectPlant(plant) {
 .canvas {
     position: relative;
     width: 100vw;
-    height: calc(100vh - 83px);
+    height: calc(100vh - 92.5px);
     overflow: hidden;
 }
 
@@ -155,22 +157,6 @@ function selectPlant(plant) {
     transition: border-radius 120ms ease, height 120ms ease, margin 120ms ease, border-color 120ms ease;
 }
 
-.plant--circle {
-    margin: 0px;
-    height: 64px;
-    border-radius: 100%;
-}
-.plant--square {
-    margin: 0px;
-    height: 64px;
-    border-radius: 12px;
-}
-.plant--rectangle {
-    height: 32px;
-    margin: 16px 0px;
-    border-radius: 12px;
-}
-
 .color {
     width: 24px;
     height: 24px;
@@ -185,5 +171,11 @@ function selectPlant(plant) {
 
 .color.color--active {
     background-color: var(--color-value);
+}
+
+.bottom-drawer-button {
+    border-radius: 4px;
+    padding: var(--unit-s);
+    flex: 1;
 }
 </style>

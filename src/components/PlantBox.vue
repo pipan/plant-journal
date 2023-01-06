@@ -97,13 +97,13 @@ function dragMove(event) {
 
 <style scoped>
 .plant-box {
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-33%);
     --shape-size: 64px;
     cursor: move;
 }
 
 .plant-box.dragging {
-    transform: translateX(-50%) translateY(-50%) scale(1.1);
+    transform: translateX(-50%) translateY(-33%) scale(1.1);
     z-index: 5;
 }
 

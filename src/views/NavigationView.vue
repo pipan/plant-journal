@@ -70,4 +70,8 @@ function open(index) {
     border: 2px solid var(--color-value);
     background-color: var(--color-bg);
 }
+
+.plant-small.shape--rectangle {
+    transform: translateX(-50%) translateY(-100%);
+}
 </style>
