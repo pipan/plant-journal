@@ -15,10 +15,10 @@ router.beforeEach((to, from) => {
   data.zoneId = to.params.id || from.params.id
 })
 
-canvas.insertPlant(0, { id: '1', name: 'one', x: 0, y: 0, color: 'red', shape: 'circle' })
-canvas.insertPlant(0, { id: '2', name: 'two', x: 0.1, y: 0.3, color: 'orange', shape: 'square' })
-canvas.insertPlant(0, { id: '3', name: 'THREE', x: 0.5, y: 0.5, color: 'purple', shape: 'rectangle' })
-canvas.insertPlant(1, { id: '4', name: 'four the best', x: 0, y: 0, color: 'red', shape: 'circle' })
+canvas.createPot(0, { name: 'one', x: 0, y: 0, color: 'red', shape: 'circle' })
+canvas.createPot(0, { name: 'two', x: 0.1, y: 0.3, color: 'orange', shape: 'square' })
+canvas.createPot(0, { name: 'THREE', x: 0.5, y: 0.5, color: 'purple', shape: 'rectangle' })
+canvas.createPot(1, { name: 'four the best', x: 0, y: 0, color: 'red', shape: 'circle' })
 </script>
 
 <template>

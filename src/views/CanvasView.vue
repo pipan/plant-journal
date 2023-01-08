@@ -4,15 +4,15 @@ import BottomDrawer from '../components/BottomDrawer.vue'
 import PlantBox from '../components/PlantBox.vue'
 import { useCanvas } from '../stores/canvas'
 import { useRoute, useRouter } from 'vue-router'
+import { usePots } from '../stores/pots'
 
 const canvas = useCanvas()
+const pots = usePots()
 const route = useRoute()
 const router = useRouter()
 
 const data = reactive({
     tool: 'none',
-    x: 0.5,
-    y: 0.5,
     tapAt: -1,
     tapTimer: null,
 })
@@ -32,10 +32,6 @@ function toggleTool(tool) {
     }
 }
 
-function createEvent() {
-    
-}
-
 function tap(event) {
     if (data.tapTimer) {
         clearTimeout(data.tapTimer)
@@ -45,26 +41,18 @@ function tap(event) {
     }
     data.tapTimer = setTimeout(() => {
         data.tapTimer = null
-        router.push({ name: 'pot.new' })
+        let position = {
+            x: 0.5,
+            y: 0.5
+        }
         if (canvasView.value) {
             const x = event.clientX !== undefined ? event.clientX : event.touches[0].clientX
             const y = event.clientY !== undefined ? event.clientY : event.touches[0].clientY
-            data.x = Math.min(1, Math.max(x / canvasView.value.offsetWidth, 0))
-            data.y = Math.min(1, Math.max(y / canvasView.value.offsetHeight, 0))
+            position.x = Math.min(1, Math.max(x / canvasView.value.offsetWidth, 0))
+            position.y = Math.min(1, Math.max(y / canvasView.value.offsetHeight, 0))
         }
+        router.push({ name: 'pot.new', query: { x: position.x, y: position.y } })
     }, 200)
-}
-
-function create(event) {
-    canvas.items[route.params.id].plants.push({
-        id: 'test-1',
-        name: event.name,
-        volume: event.volume,
-        color: event.color,
-        shape: event.shape,
-        x: data.x,
-        y: data.y
-    })
 }
 
 function selectPlant(plant) {
@@ -85,14 +73,14 @@ function selectPlant(plant) {
             <div class="row row--middle row--center gap-s"><i class="icon icon-doubletap"></i> double tap to navigate</div>
         </div>
         <transition-group name="animation-row" duration="220">
-            <plant-box v-for="plant in canvas.items[route.params.id].plants"
-                :key="plant.id"
-                :plant="plant"
-                @move="move(plant, $event)"
-                @select="selectPlant(plant)"></plant-box>
+            <plant-box v-for="potId in canvas.items[route.params.id].pots"
+                :key="potId"
+                :plant="pots.items[potId]"
+                @move="move(pots.items[potId], $event)"
+                @select="selectPlant(pots.items[potId])"></plant-box>
         </transition-group>
     </div>
-    <bottom-drawer title="Test">
+    <bottom-drawer :title="canvas.items[route.params.id].name">
         <div class="row text-center gap-s p-s">
             <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('fertilizer')">
                 <i class="icon icon--l icon-fertilizer" :class="{ 'text-idle': data.tool != 'fertilizer' }"></i>

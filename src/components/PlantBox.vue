@@ -114,6 +114,7 @@ function dragMove(event) {
     padding: 4px var(--unit-m);
     font-size: 12px;
     background-color: var(--color-bg);
+    white-space: nowrap;
 }
 
 .plant {

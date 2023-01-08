@@ -4,8 +4,11 @@ import Modal from '../components/Modal.vue'
 import InputField from '../components/InputField.vue'
 import InputSlider from '../components/InputSlider.vue'
 import ShapeSelect from '../components/ShapeSelect.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useCanvas } from '../stores/canvas'
 
+const canvas = useCanvas()
+const route = useRoute()
 const router = useRouter()
 
 const data = reactive({
@@ -16,12 +19,16 @@ const data = reactive({
 })
 
 function create() {
-    // emit('submit', {
-    //     name: data.name,
-    //     volume: data.volume,
-    //     color: data.color,
-    //     shape: data.shape
-    // })
+    const pots = {
+        name: data.name,
+        volume: data.volume,
+        color: data.color,
+        shape: data.shape,
+        x: parseFloat(route.query.x),
+        y: parseFloat(route.query.y)
+    }
+    canvas.createPot(route.params.id, pots)
+    this.close()
 }
 
 function close() {

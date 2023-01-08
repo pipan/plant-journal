@@ -2,8 +2,10 @@
 import BottomDrawer from '../components/BottomDrawer.vue'
 import { useRouter } from 'vue-router'
 import { useCanvas } from '../stores/canvas'
+import { usePots } from '../stores/pots'
 
 const canvas = useCanvas()
+const pots = usePots()
 const router = useRouter()
 
 function open(index) {
@@ -19,13 +21,14 @@ function open(index) {
             v-for="item in canvas.items"
             :key="item.index"
             @click="open(item.index)">
-            <div v-for="plant in item.plants" :key="plant.id"
+            <div v-for="potId in item.pots" :key="potId"
                 class="plant-small"
-                :class="['color--' + plant.color, 'shape--' + plant.shape]"
-                :style="{ left: plant.x * 100 + '%', top: plant.y * 100 + '%' }"></div>
+                :class="['color--' + pots.items[potId].color, 'shape--' + pots.items[potId].shape]"
+                :style="{ left: pots.items[potId].x * 100 + '%', top: pots.items[potId].y * 100 + '%' }"></div>
+            <div class="canvas-name">{{ item.name }}</div>
         </div>
     </div>
-    <bottom-drawer title="Test">
+    <bottom-drawer>
         <div class="row text-center">
             <button type="button" class="flex p-m clickable">JOURNAL</button>
             <button type="button" class="flex p-m clickable">STATS</button>
@@ -58,8 +61,24 @@ function open(index) {
     transition: border-color 120ms ease;
 }
 
+.canvas-name {
+    position: absolute;
+    top: 25%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: var(--color-border);
+    font-size: 12px;
+    transition: color 120ms ease;
+}
+
 .canvas-small:hover {
     border-color: var(--color-highlight-primary);
+}
+
+.canvas-small:hover .canvas-name {
+    color: var(--color-highlight-primary);
 }
 
 .plant-small {

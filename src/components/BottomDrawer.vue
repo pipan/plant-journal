@@ -24,6 +24,7 @@ const props = defineProps({
 .bottom-drawer__title {
     text-align: center;
     padding: var(--unit-s);
+    color: var(--color-fg-secondary)
 }
 
 .bottom-drawer__line {
