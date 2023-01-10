@@ -6,7 +6,9 @@ const props = defineProps({
 
 <template>
   <div class="bottom-drawer">
-    <div class="bottom-drawer__title" v-if="title">{{ title }}</div>
+    <div class="bottom-drawer__top" v-if="title">
+        <div class="bottom-drawer__title">{{ title }}</div>
+    </div>
     <div class="bottom-drawer__line">
         <slot></slot>
     </div>
@@ -17,14 +19,21 @@ const props = defineProps({
 .bottom-drawer {
     position: fixed;
     bottom: 0px;
-    background-color: var(--color-overlay);
     width: 100%;
+    z-index: 5;
+}
+
+.bottom-drawer__top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .bottom-drawer__title {
     text-align: center;
     padding: var(--unit-s);
-    color: var(--color-fg-secondary)
+    color: var(--color-fg-secondary);
 }
 
 .bottom-drawer__line {

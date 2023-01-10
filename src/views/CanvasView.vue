@@ -55,11 +55,12 @@ function tap(event) {
     }, 200)
 }
 
-function selectPlant(plant) {
+function selectPot(pot) {
     if (data.tool == 'none') {
+        router.push({ name: 'pot', params: { id: pot.id } })    
         return
     }
-    router.push({ name: 'event.' + data.tool, params: { potId: plant.id } })
+    router.push({ name: 'event.' + data.tool, params: { potId: pot.id } })
 }
 </script>
 
@@ -77,7 +78,7 @@ function selectPlant(plant) {
                 :key="potId"
                 :plant="pots.items[potId]"
                 @move="move(pots.items[potId], $event)"
-                @select="selectPlant(pots.items[potId])"></plant-box>
+                @select="selectPot(pots.items[potId])"></plant-box>
         </transition-group>
     </div>
     <bottom-drawer :title="canvas.items[route.params.id].name">

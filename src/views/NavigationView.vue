@@ -34,10 +34,10 @@ function openEdit(index) {
         </div>
     </div>
     <bottom-drawer>
-        <div class="row text-center">
-            <button type="button" class="flex p-m clickable">JOURNAL</button>
-            <button type="button" class="flex p-m clickable">STATS</button>
-            <button type="button" class="flex p-m clickable">SETTINGS</button>
+        <div class="row text-center gap-s p-s">
+            <button type="button" class="bottom-drawer-button clickable">JOURNAL</button>
+            <button type="button" class="bottom-drawer-button clickable">STATS</button>
+            <button type="button" class="bottom-drawer-button clickable">SETTINGS</button>
         </div>
     </bottom-drawer>
     <router-view v-slot="{ Component }">
@@ -102,5 +102,11 @@ function openEdit(index) {
 
 .plant-small.shape--rectangle {
     transform: translateX(-50%) translateY(-100%);
+}
+
+.bottom-drawer-button {
+    border-radius: 4px;
+    padding: 13px var(--unit-s);
+    flex: 1;
 }
 </style>

@@ -8,10 +8,19 @@ const canvas = useCanvas()
 const router = useRouter()
 
 const data = reactive({
-    zoneId: 0
+    zoneId: 0,
+    transition: ''
 })
 
 router.beforeEach((to, from) => {
+  if (from.meta.layer < to.meta.layer) {
+    data.transition = 'animation-view'
+  } else {
+    data.transition = 'animation-view-back'
+  }
+  if (to.meta.transition && to.meta.transition[from.name]) {
+    data.transition = to.meta.transition[from.name]
+  }
   data.zoneId = to.params.id || from.params.id
 })
 
@@ -22,8 +31,8 @@ canvas.createPot(1, { name: 'four the best', x: 0, y: 0, color: 'red', shape: 'c
 </script>
 
 <template>
-  <router-view v-slot="{ Component, route }">
-    <transition :name="route.meta.transition" :class="'origin--' + data.zoneId" duration="220">
+  <router-view v-slot="{ Component }">
+    <transition :name="data.transition" :class="'origin--' + data.zoneId" duration="340">
       <component :is="Component"></component>
     </transition>
   </router-view>

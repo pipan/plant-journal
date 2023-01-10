@@ -1,5 +1,5 @@
 :root {
-  --animation-duration: 220ms;
+  --animation-duration: 340ms;
 }
 
 .origin--0 .view { transform-origin: 3% 3%; }
@@ -19,9 +19,6 @@
 .animation-navigation-leave-active .view, .animation-navigation-enter-active .view, .animation-zone-leave-active .view, .animation-zone-enter-active .view {
   transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;  
 }
-.animation-navigation-leave-active .view, .animation-zone-enter-active .view {
-  transition: transform var(--animation-duration) ease, opacity var(--animation-duration) ease;  
-}
 .animation-zone-leave-to .view, .animation-navigation-enter-from .view {
   transform: scale(3.3);
   opacity: 0;
@@ -36,6 +33,65 @@
   transform: scale(1);
 }
 
+.animation-zone-enter-to .bottom-drawer__line, .animation-zone-leave-from .bottom-drawer__line,
+.animation-navigation-enter-to .bottom-drawer__line, .animation-navigation-leave-from .bottom-drawer__line,
+.animation-view-enter-to .bottom-drawer__line, .animation-view-leave-from .bottom-drawer__line,
+.animation-view-back-enter-to .bottom-drawer__line, .animation-view-back-leave-from .bottom-drawer__line {
+  opacity: 1;
+}
+.animation-zone-enter-from .bottom-drawer__line, .animation-zone-leave-to .bottom-drawer__line,
+.animation-navigation-enter-from .bottom-drawer__line, .animation-navigation-leave-to .bottom-drawer__line,
+.animation-view-enter-from .bottom-drawer__line, .animation-view-leave-to .bottom-drawer__line,
+.animation-view-back-enter-from .bottom-drawer__line, .animation-view-back-leave-to .bottom-drawer__line {
+  opacity: 0;
+}
+.animation-zone-enter-to .bottom-drawer__line::before, .animation-zone-leave-from .bottom-drawer__line::before,
+.animation-navigation-enter-to .bottom-drawer__line::before, .animation-navigation-leave-from .bottom-drawer__line::before,
+.animation-view-enter-to .bottom-drawer__line::before, .animation-view-leave-from .bottom-drawer__line::before,
+.animation-view-back-enter-to .bottom-drawer__line::before, .animation-view-back-leave-from .bottom-drawer__line::before {
+  transform: translateX(-50%) scaleX(1);
+}
+.animation-zone-enter-from .bottom-drawer__line::before, .animation-zone-leave-to .bottom-drawer__line::before,
+.animation-navigation-enter-from .bottom-drawer__line::before, .animation-navigation-leave-to .bottom-drawer__line::before,
+.animation-view-enter-from .bottom-drawer__line::before, .animation-view-leave-to .bottom-drawer__line::before,
+.animation-view-back-enter-from .bottom-drawer__line::before, .animation-view-back-leave-to .bottom-drawer__line::before {
+  transform: translateX(-50%) scaleX(0);
+}
+.animation-zone-enter-to .bottom-drawer__title, .animation-zone-leave-from .bottom-drawer__title,
+.animation-navigation-enter-to .bottom-drawer__title, .animation-navigation-leave-from .bottom-drawer__title,
+.animation-view-enter-to .bottom-drawer__title, .animation-view-leave-from .bottom-drawer__title,
+.animation-view-back-enter-to .bottom-drawer__title, .animation-view-back-leave-from .bottom-drawer__title {
+  transform: translateY(0%);
+}
+.animation-zone-enter-from .bottom-drawer__title, .animation-zone-leave-to .bottom-drawer__title,
+.animation-navigation-enter-from .bottom-drawer__title, .animation-navigation-leave-to .bottom-drawer__title,
+.animation-view-enter-from .bottom-drawer__title, .animation-view-leave-to .bottom-drawer__title,
+.animation-view-back-enter-from .bottom-drawer__title, .animation-view-back-leave-to .bottom-drawer__title {
+  transform: translateY(100%);
+}
+.animation-zone-leave-active .bottom-drawer__line, .animation-zone-enter-active .bottom-drawer__line,
+.animation-navigation-leave-active .bottom-drawer__line, .animation-navigation-enter-active .bottom-drawer__line,
+.animation-view-leave-active .bottom-drawer__line, .animation-view-enter-active .bottom-drawer__line,
+.animation-view-back-leave-active .bottom-drawer__line, .animation-view-back-enter-active .bottom-drawer__line,
+.animation-zone-leave-active .bottom-drawer__line::before, .animation-zone-enter-active .bottom-drawer__line::before,
+.animation-navigation-leave-active .bottom-drawer__line::before, .animation-navigation-enter-active .bottom-drawer__line::before,
+.animation-view-leave-active .bottom-drawer__line::before, .animation-view-enter-active .bottom-drawer__line::before,
+.animation-view-back-leave-active .bottom-drawer__line::before, .animation-view-back-enter-active .bottom-drawer__line::before,
+.animation-zone-leave-active .bottom-drawer__title, .animation-zone-enter-active .bottom-drawer__title,
+.animation-navigation-leave-active .bottom-drawer__title, .animation-navigation-enter-active .bottom-drawer__title,
+.animation-view-leave-active .bottom-drawer__title, .animation-view-enter-active .bottom-drawer__title,
+.animation-view-back-leave-active .bottom-drawer__title, .animation-view-back-enter-active .bottom-drawer__title {
+  transition: transform calc(var(--animation-duration) / 2) ease, opacity calc(var(--animation-duration) / 2) ease;
+}
+.animation-navigation-enter-active .bottom-drawer__line, .animation-zone-enter-active .bottom-drawer__line,
+.animation-view-enter-active .bottom-drawer__line, .animation-view-back-enter-active .bottom-drawer__line,
+.animation-navigation-enter-active .bottom-drawer__line::before, .animation-zone-enter-active .bottom-drawer__line::before,
+.animation-view-enter-active .bottom-drawer__line::before, .animation-view-back-enter-active .bottom-drawer__line::before,
+.animation-navigation-enter-active .bottom-drawer__title, .animation-zone-enter-active .bottom-drawer__title,
+.animation-view-enter-active .bottom-drawer__title, .animation-view-back-enter-active .bottom-drawer__title {
+  transition-delay: calc(var(--animation-duration) / 2);
+}
+
 .animation-zone-enter-active, .animation-navigation-enter-active {
   position: absolute;
   top: 0px;
@@ -45,6 +101,41 @@
 }
 .animation-zone-enter-active, .animation-navigation-enter-active, .animation-zone-leave-active, .animation-navigation-leave-active {
   overflow: hidden;
+}
+
+.animation-view-enter-from .view, .animation-view-back-leave-to .view {
+  transform: scale(0.6, 0.01);
+  opacity: 0;
+}
+.animation-view-enter-active .view, .animation-view-back-leave-active .view {
+  position: absolute;
+  top: 0px;
+  z-index: 2;
+  transform-origin: 50% 50%;
+}
+.animation-view-enter-active .view {
+  transition: transform var(--animation-duration) ease, opacity calc(var(--animation-duration) / 2) ease;
+}
+.animation-view-back-leave-active .view {
+  transition: transform var(--animation-duration) ease, opacity calc(var(--animation-duration) / 2) ease calc(var(--animation-duration) / 4);
+}
+.animation-view-enter-to .view, .animation-view-back-leave-from .view {
+  transform: scale(1);
+  opacity: 1;
+}
+.animation-view-enter-from, .animation-view-back-leave-to {
+  background-color: transparent;
+}
+.animation-view-enter-active, .animation-view-back-leave-active {
+  position: absolute;
+  top: 0px;
+  width: 100vw;
+  min-height: 100vh;
+  z-index: 2;
+  transition: background-color var(--animation-duration) ease;
+}
+.animation-view-enter-to, .animation-view-back-leave-from {
+  background-color: #101010;
 }
 
 .animation-modal-enter-from, .animation-modal-leave-to {

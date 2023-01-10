@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CanvasView from '../views/CanvasView.vue'
 import NavigationView from '../views/NavigationView.vue'
+import PotView from '../views/PotView.vue'
 import PotModal from '../modals/PotModal.vue'
 import WaterEventModal from '../modals/WaterEventModal.vue'
 import FertilizeEventModal from '../modals/FertilizeEventModal.vue'
@@ -15,7 +16,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: NavigationView,
-      meta: { transition: 'animation-navigation' },
+      meta: { transition: { zone: 'animation-navigation' }, layer: 0 },
       children: [
         {
           path: 'zone/:id/edit',
@@ -28,7 +29,7 @@ const router = createRouter({
       path: '/zone/:id',
       name: 'zone',
       component: CanvasView,
-      meta: { transition: 'animation-zone' },
+      meta: { transition: { home: 'animation-zone' }, layer: 1 },
       children: [
         {
           path: 'pot/new',
@@ -56,6 +57,12 @@ const router = createRouter({
           component: CutEventModal
         }
       ]
+    },
+    {
+      path: '/pot/:id',
+      name: 'pot',
+      component: PotView,
+      meta: { transition: '', layer: 2 },
     }
   ]
 })

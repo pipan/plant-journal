@@ -28,6 +28,7 @@ function clickEnd() {
 <style scoped>
 .modal {
     position: fixed;
+    z-index: 20;
     top: 0px;
     left: 0px;
     width: 100%;
