@@ -12,6 +12,10 @@ function open(index) {
     router.push({ name: 'zone', params: { id: index } })
 }
 
+function openEdit(index) {
+    router.push({ name: 'zone.edit', params: { id: index } })
+}
+
 </script>
 
 <template>
@@ -20,7 +24,8 @@ function open(index) {
         <div class="canvas-small"
             v-for="item in canvas.items"
             :key="item.index"
-            @click="open(item.index)">
+            @click="open(item.index)"
+            @contextmenu.prevent="openEdit(item.index)">
             <div v-for="potId in item.pots" :key="potId"
                 class="plant-small"
                 :class="['color--' + pots.items[potId].color, 'shape--' + pots.items[potId].shape]"
@@ -35,6 +40,11 @@ function open(index) {
             <button type="button" class="flex p-m clickable">SETTINGS</button>
         </div>
     </bottom-drawer>
+    <router-view v-slot="{ Component }">
+        <transition name="animation-modal" duration="220">
+            <component :is="Component"></component>
+        </transition>
+    </router-view>
 </div>
 </template>
 

@@ -6,6 +6,7 @@ import WaterEventModal from '../modals/WaterEventModal.vue'
 import FertilizeEventModal from '../modals/FertilizeEventModal.vue'
 import PlantEventModal from '../modals/PlantEventModal.vue'
 import CutEventModal from '../modals/CutEventModal.vue'
+import CanvasEditModal from '../modals/CanvasEditModal.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +16,13 @@ const router = createRouter({
       name: 'home',
       component: NavigationView,
       meta: { transition: 'animation-navigation' },
+      children: [
+        {
+          path: 'zone/:id/edit',
+          name: 'zone.edit',
+          component: CanvasEditModal
+        }
+      ]
     },
     {
       path: '/zone/:id',

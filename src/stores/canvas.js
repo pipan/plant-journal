@@ -22,9 +22,13 @@ export const useCanvas = defineStore('canvas', () => {
     linkPot(canvasIndex, pot.id)
   }
 
+  function edit(canvasIndex, data) {
+    items.value[canvasIndex] = Object.assign({}, items.value[canvasIndex], data)
+  }
+
   function linkPot(canvasIndex, potId) {
     items.value[canvasIndex].pots.push(potId)
   }
 
-  return { items, createPot }
+  return { items, createPot, edit }
 })
