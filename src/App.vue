@@ -32,7 +32,7 @@ canvas.createPot(1, { name: 'four the best', x: 0, y: 0, color: 'red', shape: 'c
 
 <template>
   <router-view v-slot="{ Component }">
-    <transition :name="data.transition" :class="'origin--' + data.zoneId" duration="340">
+    <transition :name="data.transition" :class="'origin--' + data.zoneId" duration="300">
       <component :is="Component"></component>
     </transition>
   </router-view>

@@ -1,3 +1,11 @@
 .p-s { padding: var(--unit-s); }
 .p-m { padding: var(--unit-m); }
 .p-l { padding: var(--unit-l); }
+
+.px-s { padding-left: var(--unit-s); padding-right: var(--unit-s); }
+.px-m { padding-left: var(--unit-m); padding-right: var(--unit-m); }
+.px-l { padding-left: var(--unit-l); padding-right: var(--unit-l); }
+
+.py-s { padding-top: var(--unit-s); padding-bottom: var(--unit-s); }
+.py-m { padding-top: var(--unit-m); padding-bottom: var(--unit-m); }
+.py-l { padding-top: var(--unit-l); padding-bottom: var(--unit-l); }

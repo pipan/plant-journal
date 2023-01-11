@@ -38,6 +38,7 @@ const props = defineProps({
 
 .bottom-drawer__line {
     position: relative;
+    background-color: var(--color-overlay);
 }
 
 .bottom-drawer__line::before {
@@ -45,7 +46,7 @@ const props = defineProps({
     position: absolute;
     left: 50%;
     top: 0px;
-    width: 20%;
+    width: 30%;
     height: 1px;
     background-color: var(--color-highlight-primary);
     transform: translateX(-50%);

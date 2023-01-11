@@ -1,5 +1,5 @@
 :root {
-  --animation-duration: 340ms;
+  --animation-duration: 300ms;
 }
 
 .origin--0 .view { transform-origin: 3% 3%; }
@@ -103,8 +103,12 @@
   overflow: hidden;
 }
 
-.animation-view-enter-from .view, .animation-view-back-leave-to .view {
-  transform: scale(0.6, 0.01);
+.animation-view-enter-from .view {
+  transform: scale(0.6, 0.4);
+  opacity: 0;
+}
+.animation-view-back-leave-to .view {
+  transform: scale(1.2);
   opacity: 0;
 }
 .animation-view-enter-active .view, .animation-view-back-leave-active .view {
@@ -132,10 +136,16 @@
   width: 100vw;
   min-height: 100vh;
   z-index: 2;
-  transition: background-color var(--animation-duration) ease;
+  overflow: hidden;
+}
+.animation-view-enter-active {
+  transition: background-color calc(var(--animation-duration) / 2) ease;
+}
+.animation-view-back-leave-active {
+  transition: background-color calc(var(--animation-duration) / 2) ease calc(var(--animation-duration) / 4);
 }
 .animation-view-enter-to, .animation-view-back-leave-from {
-  background-color: #101010;
+  background-color: rgba(20, 20, 20, 0.8);
 }
 
 .animation-modal-enter-from, .animation-modal-leave-to {

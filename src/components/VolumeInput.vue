@@ -17,7 +17,7 @@ const unit = computed(() => {
     return props.value >= 1000 ? 'l' : 'ml'
 })
 const readUnit = computed(() => {
-    return props.value >= 1000 ? Math.round(props.value / 10) / 100 : props.value
+    return props.value >= 1000 ? (Math.round(props.value / 10) / 100).toFixed(2) : props.value
 })
 
 const emit = defineEmits(['change'])
