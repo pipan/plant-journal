@@ -1,7 +1,6 @@
 <script setup>
 import { reactive } from '@vue/reactivity'
 import { onMounted } from '@vue/runtime-core'
-import { computed } from '@vue/runtime-core'
 import CircleSlider from './CircleSlider.vue'
 
 const data = reactive({

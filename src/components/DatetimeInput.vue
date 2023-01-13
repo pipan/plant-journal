@@ -4,7 +4,7 @@ import InputField from './InputField.vue'
 import CircleSlider from './CircleSlider.vue'
 import CircleStepInput from './CircleStepInput.vue'
 import { computed, onMounted } from '@vue/runtime-core'
-import { norm, stepRound } from '../services/units'
+import { normMap, stepRound } from '../services/units'
 
 const emit = defineEmits(['change'])
 
@@ -67,9 +67,9 @@ function setTime(value) {
 onMounted(() => {
     const yearDiff = new Date(props.value.getFullYear() + 1, 0, 0, 0, 0, 0, 0).getTime() - new Date(props.value.getFullYear(), 0, 0, 0, 0, 0, 0).getTime()
     const valueDiff = props.value.getTime() - new Date(props.value.getFullYear(), 0, 0, 0, 0, 0, 0).getTime()
-    data.time = norm(props.value.getHours() * 60 + props.value.getMinutes(), 0, 24 * 60)
-    data.date = norm(valueDiff / (1000 * 60 * 60 * 24), 0, yearDiff / (1000 * 60 * 60 * 24))
-    data.year = norm(props.value.getFullYear(), 2000, 2100)
+    data.time = normMap(props.value.getHours() * 60 + props.value.getMinutes(), 0, 24 * 60)
+    data.date = normMap(valueDiff / (1000 * 60 * 60 * 24), 0, yearDiff / (1000 * 60 * 60 * 24))
+    data.year = normMap(props.value.getFullYear(), 2000, 2100)
 })
 </script>
 

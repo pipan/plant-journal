@@ -6,22 +6,36 @@ import InputSlider from '../components/InputSlider.vue'
 import ShapeSelect from '../components/ShapeSelect.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCanvas } from '../stores/canvas'
+import { useScale } from '../services/scale'
+import { computed } from '@vue/runtime-core'
 
 const canvas = useCanvas()
 const route = useRoute()
 const router = useRouter()
+const scale = useScale([0.0, 0.5, 1.0], [0, 3000, 10000])
 
 const data = reactive({
     name: '',
-    volume: 0,
+    volumeNorm: scale.norm(0),
     color: 'orange',
     shape: 'circle',
+})
+
+const volume = computed(() => {
+    return scale.mapRound(data.volumeNorm, [100, 250])
+})
+
+const unit = computed(() => {
+    return volume.value >= 1000 ? 'l' : 'ml'
+})
+const volumeDisplayValue = computed(() => {
+    return volume.value >= 1000 ? (Math.round(volume.value / 10) / 100).toFixed(2) : volume.value
 })
 
 function create() {
     const pots = {
         name: data.name,
-        volume: data.volume,
+        volume: volume,
         color: data.color,
         shape: data.shape,
         x: parseFloat(route.query.x),
@@ -44,11 +58,14 @@ function close() {
     <div class="p-m column gap-l">
         <input-field placeholder="Name" :value="data.name" @change="data.name = $event"></input-field>
         <div class="row row--center">
-            <div class="plant" :class="['shape--' + data.shape, 'color--' + data.color]">{{ Math.round(data.volume * 10) }}l</div>
+            <div class="plant" :class="['shape--' + data.shape, 'color--' + data.color]">
+                <div>{{ volumeDisplayValue }}</div>
+                <div class="text-s text-secondary">{{ unit }}</div>
+            </div>
         </div>
         <div class="row row--center">
-            <div class="w-50">
-                <input-slider :value="data.volume" @change="data.volume = $event"></input-slider>
+            <div class="w-80">
+                <input-slider :value="data.volumeNorm" @change="data.volumeNorm = $event"></input-slider>
             </div>
         </div>
         
@@ -78,9 +95,10 @@ function close() {
     box-sizing: border-box;
     font-size: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: var(--unit-s);
     background-color: var(--color-bg);
     transition: border-radius 120ms ease, height 120ms ease, margin 120ms ease, border-color 120ms ease;
 }
