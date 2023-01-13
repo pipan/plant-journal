@@ -4,19 +4,33 @@ import Modal from '../components/Modal.vue'
 import InputField from '../components/InputField.vue'
 import CircleSlider from '../components/CircleSlider.vue'
 import NumberInput from '../components/NumberInput.vue'
-import VolumeInput from '../components/VolumeInput.vue'
 import DatetimeInput from '../components/DatetimeInput.vue'
 import { useRouter } from 'vue-router'
+import { useScale } from '../services/scale'
+import { computed } from '@vue/runtime-core'
 
 const router = useRouter()
+const scale = useScale([0.0, 0.25, 0.5, 0.75, 1.0], [0, 20, 100, 500, 3000])
 
 const data = reactive({
     n: 1,
     p: 1,
     k: 1,
-    volume: 20,
+    volumeNorm: scale.norm(0),
     datetimeVisible: false,
     datetime: new Date()
+})
+
+const volume = computed(() => {
+    return scale.mapRound(data.volumeNorm, [1, 5, 20, 100])
+})
+
+const volumeUnit = computed(() => {
+    return volume.value >= 1000 ? 'kg' : 'g'
+})
+
+const volumeDisplayValue = computed(() => {
+    return volume.value >= 1000 ? (Math.round(volume.value / 10) / 100).toFixed(2) : volume.value
 })
 
 const emit = defineEmits(['submit'])
@@ -53,7 +67,12 @@ function close() {
             <number-input :value="data.k" @change="data.k = $event"></number-input>
         </div>
         <div class="row row--center gap-l">
-            <volume-input :value="data.volume" @change="data.volume = $event"></volume-input>
+            <circle-slider :value="data.volumeNorm" @change="data.volumeNorm = $event" :step="1">
+                <div class="column column--center">
+                    <div>{{ volumeDisplayValue }}</div>
+                    <div class="text-s text-secondary">{{ volumeUnit }}</div>
+                </div>
+            </circle-slider> 
         </div>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">

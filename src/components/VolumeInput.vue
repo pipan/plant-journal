@@ -43,8 +43,7 @@ onMounted(() => {
             <div>{{ readUnit }}</div>
             <div class="unit">{{ unit }}</div>
         </div>
-    </circle-slider>
-    
+    </circle-slider> 
 </div>
 </template>
 
