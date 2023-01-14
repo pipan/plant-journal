@@ -3,6 +3,8 @@ import { reactive } from '@vue/reactivity'
 import Modal from '../components/Modal.vue'
 import DatetimeInput from '../components/DatetimeInput.vue'
 import InputField from '../components/InputField.vue'
+import RadioSelect from '../components/RadioSelect.vue'
+import NumberInput from '../components/NumberInput.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -10,7 +12,9 @@ const router = useRouter()
 const data = reactive({
     datetime: new Date(),
     datetimeVisible: false,
-    plant: ''
+    plantId: 'seed',
+    count: 1,
+    plantOptions: [{ id: 'seed', name: 'seed' }, { id: 'cutting', name: 'cutting' }, { id: 'plant', name: 'plant' }]
 })
 
 const emit = defineEmits(['submit'])
@@ -41,20 +45,10 @@ function close() {
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
-        <input-field placeholder="Plant" :value="data.plant" @change="data.plant = $event"></input-field>
-        <div class="row row--center gap-l">
-            <div class="column column--center gap-s">
-                <label for="plant-seed">Seed</label>
-                <input type="radio" id="plant-seed" name="plant" value="seed" />
-            </div>
-            <div class="column column--center gap-s">
-                <label for="plant-cutting">Cutting</label>
-                <input type="radio" id="plant-cutting" name="plant" value="cutting" />
-            </div>
-            <div class="column column--center gap-s">
-                <label for="plant-plant">Plant</label>
-                <input type="radio" id="plant-plant" name="plant" value="plant" />
-            </div>
+        <input-field placeholder="Plant name" :value="data.plant" @change="data.plant = $event"></input-field>
+        <radio-select :options="data.plantOptions" :value="data.plantId" @change="data.plantId = $event"></radio-select>
+        <div class="row row--center">
+            <number-input :value="data.count" @change="data.count = $event" :max="20"></number-input>
         </div>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
