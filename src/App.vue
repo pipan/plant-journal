@@ -4,7 +4,6 @@ import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useCanvas } from './stores/canvas'
 
 const canvas = useCanvas()
-
 const router = useRouter()
 
 const data = reactive({
