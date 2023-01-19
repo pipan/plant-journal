@@ -2,26 +2,37 @@
 import { reactive, ref } from '@vue/reactivity'
 import BottomDrawer from '../components/BottomDrawer.vue'
 import PlantBox from '../components/PlantBox.vue'
-import { useCanvas } from '../stores/canvas'
-import { useRoute, useRouter } from 'vue-router'
-import { usePots } from '../stores/pots'
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
+import { onMounted } from '@vue/runtime-core'
+import { useCanvasRepository } from '../repository/canvas.repository'
+import { usePotRepository } from '../repository/pot.repository'
 
-const canvas = useCanvas()
-const pots = usePots()
+const canvasRepository = useCanvasRepository()
+const potRepository = usePotRepository()
 const route = useRoute()
 const router = useRouter()
 
 const data = reactive({
+    canvas: null,
     tool: 'none',
     tapAt: -1,
     tapTimer: null,
 })
+
+let patchDelays = {}
 
 const canvasView = ref(null)
 
 function move(plant, event) {
     plant.x = Math.min(1, Math.max(0, plant.x + event.deltaX / canvasView.value.offsetWidth))
     plant.y = Math.min(1, Math.max(0, plant.y + event.deltaY / canvasView.value.offsetHeight))
+    if (patchDelays[plant.id]) {
+        clearTimeout(patchDelays[plant.id])
+    }
+    patchDelays[plant.id] = setTimeout(() => {
+        potRepository.patch(plant.id, { x: plant.x, y: plant.y })
+        patchDelays[plant.id] = null
+    }, 120)
 }
 
 function toggleTool(tool) {
@@ -62,6 +73,25 @@ function selectPot(pot) {
     }
     router.push({ name: 'event.' + data.tool, params: { potId: pot.id } })
 }
+
+function load () {
+    const id = parseInt(route.params.id)
+    canvasRepository.select(id).then((canvas) => {
+        data.canvas = canvas
+    })
+}
+
+onBeforeRouteUpdate((to, from) => {
+    if (to.name !== 'canvas') {
+        return
+    }
+    load()
+})
+
+onMounted(() => {
+    load()
+})
+
 </script>
 
 <template>
@@ -73,15 +103,15 @@ function selectPot(pot) {
             <div class="row row--middle row--center gap-s"><i class="icon icon-tap"></i> tap to create</div>
             <div class="row row--middle row--center gap-s"><i class="icon icon-doubletap"></i> double tap to navigate</div>
         </div>
-        <transition-group name="animation-row" duration="220">
-            <plant-box v-for="potId in canvas.items[route.params.id].pots"
-                :key="potId"
-                :plant="pots.items[potId]"
-                @move="move(pots.items[potId], $event)"
-                @select="selectPot(pots.items[potId])"></plant-box>
+        <transition-group name="animation-row" duration="220" v-if="data.canvas">
+            <plant-box v-for="pot in data.canvas.pots || []"
+                :key="pot.id"
+                :plant="pot"
+                @move="move(pot, $event)"
+                @select="selectPot(pot)"></plant-box>
         </transition-group>
     </div>
-    <bottom-drawer :title="canvas.items[route.params.id].name">
+    <bottom-drawer :title="data.canvas ? data.canvas.name : '...'">
         <div class="row text-center gap-s p-s">
             <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('fertilizer')">
                 <i class="icon icon--l icon-fertilizer" :class="{ 'text-idle': data.tool != 'fertilizer' }"></i>

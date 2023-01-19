@@ -3,19 +3,22 @@ import { reactive } from '@vue/reactivity'
 import Modal from '../components/Modal.vue'
 import InputField from '../components/InputField.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useCanvas } from '../stores/canvas'
+import { onMounted } from '@vue/runtime-core'
+import { useCanvasRepository } from '../repository/canvas.repository'
 
-const canvas = useCanvas()
+const canvasRepository = useCanvasRepository()
 const route = useRoute()
 const router = useRouter()
 
 const data = reactive({
-    name: canvas.items[route.params.id].name
+    name: ''
 })
 
 function save() {
-    canvas.edit(route.params.id, { name: data.name })
-    this.close()
+    const id = parseInt(route.params.id)
+    canvasRepository.patch(id, { name: data.name }).then(() => {
+        this.close()
+    })
 }
 
 function close() {
@@ -24,6 +27,13 @@ function close() {
     }
     router.go(-1)
 }
+
+onMounted(() => {
+    const id = parseInt(route.params.id)
+    canvasRepository.select(id).then((canvas) => {
+        data.name = canvas.name
+    })
+})
 </script>
 
 <template>

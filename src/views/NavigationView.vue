@@ -1,20 +1,41 @@
 <script setup>
 import BottomDrawer from '../components/BottomDrawer.vue'
-import { useRouter } from 'vue-router'
-import { useCanvas } from '../stores/canvas'
-import { usePots } from '../stores/pots'
+import { onBeforeRouteUpdate, useRouter } from 'vue-router'
+import { onMounted, reactive } from '@vue/runtime-core'
+import { useCanvasRepository } from '../repository/canvas.repository'
 
-const canvas = useCanvas()
-const pots = usePots()
+
+const canvasRepository = useCanvasRepository()
 const router = useRouter()
 
-function open(index) {
-    router.push({ name: 'zone', params: { id: index } })
+const data = reactive({
+    canvas: []
+})
+
+function open(id) {
+    router.push({ name: 'canvas', params: { id: id } })
 }
 
-function openEdit(index) {
-    router.push({ name: 'zone.edit', params: { id: index } })
+function openEdit(id) {
+    router.push({ name: 'canvas.edit', params: { id: id } })
 }
+
+function load () {
+    canvasRepository.selectAll().then((canvas) => {
+        data.canvas = canvas
+    })
+}
+
+onBeforeRouteUpdate((to, from) => {
+    if (to.name !== 'home') {
+        return
+    }
+    load()
+})
+
+onMounted(() => {
+    load()
+})
 
 </script>
 
@@ -22,14 +43,14 @@ function openEdit(index) {
 <div>
     <div class="view">
         <div class="canvas-small"
-            v-for="item in canvas.items"
-            :key="item.index"
-            @click="open(item.index)"
-            @contextmenu.prevent="openEdit(item.index)">
-            <div v-for="potId in item.pots" :key="potId"
+            v-for="item in data.canvas"
+            :key="item.id"
+            @click="open(item.id)"
+            @contextmenu.prevent="openEdit(item.id)">
+            <div v-for="pot in item.pots" :key="pot.id"
                 class="plant-small"
-                :class="['color--' + pots.items[potId].color, 'shape--' + pots.items[potId].shape]"
-                :style="{ left: pots.items[potId].x * 100 + '%', top: pots.items[potId].y * 100 + '%' }"></div>
+                :class="['color--' + pot.color, 'shape--' + pot.shape]"
+                :style="{ left: pot.x * 100 + '%', top: pot.y * 100 + '%' }"></div>
             <div class="canvas-name">{{ item.name }}</div>
         </div>
     </div>

@@ -1,9 +1,16 @@
 <script setup>
-import { reactive } from '@vue/reactivity'
-import { useRouter } from 'vue-router'
+import { onMounted, reactive } from '@vue/runtime-core'
+import { useRoute, useRouter } from 'vue-router'
 import BottomDrawer from '../components/BottomDrawer.vue'
+import { usePotRepository } from '../repository/pot.repository'
 
+const potRepository = usePotRepository()
 const router = useRouter()
+const route = useRoute()
+
+const data = reactive({
+    pot: null
+})
 
 function close() {
     if (window.history.length <= 1) {
@@ -12,12 +19,23 @@ function close() {
     router.go(-1)
 }
 
+function load () {
+    const id = parseInt(route.params.id)
+    potRepository.select(id).then((pot) => {
+        data.pot = pot
+    })
+}
+
+onMounted(() => {
+    load()
+})
+
 </script>
 
 <template>
 <div>
     <div class="view">
-        <h1>Pot Name</h1>
+        <h1>{{ data.pot?.name || '' }}</h1>
         <div class="column py-m">
             <div class="devider">Jan 2023</div>
             <div class="row row--middle gap-m p-m">

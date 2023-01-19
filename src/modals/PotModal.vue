@@ -5,11 +5,11 @@ import InputField from '../components/InputField.vue'
 import InputSlider from '../components/InputSlider.vue'
 import ShapeSelect from '../components/ShapeSelect.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useCanvas } from '../stores/canvas'
 import { useScale } from '../services/scale'
 import { computed } from '@vue/runtime-core'
+import { usePotRepository } from '../repository/pot.repository'
 
-const canvas = useCanvas()
+const potRepository = usePotRepository()
 const route = useRoute()
 const router = useRouter()
 const scale = useScale([0.0, 0.5, 1.0], [0, 3000, 10000])
@@ -33,16 +33,20 @@ const volumeDisplayValue = computed(() => {
 })
 
 function create() {
-    const pots = {
+    const pot = {
+        canvasId: parseInt(route.params.id),
         name: data.name,
-        volume: volume,
+        volume: volume.value,
         color: data.color,
         shape: data.shape,
         x: parseFloat(route.query.x),
         y: parseFloat(route.query.y)
     }
-    canvas.createPot(route.params.id, pots)
-    this.close()
+    potRepository.insert(pot).then(() => {
+        this.close()
+    }).catch((err) => {
+        console.error('err', err)
+    })
 }
 
 function close() {

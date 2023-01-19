@@ -16,20 +16,20 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: NavigationView,
-      meta: { transition: { zone: 'animation-navigation' }, layer: 0 },
+      meta: { transition: { canvas: 'animation-navigation' }, layer: 0 },
       children: [
         {
-          path: 'zone/:id/edit',
-          name: 'zone.edit',
+          path: 'canvas/:id/edit',
+          name: 'canvas.edit',
           component: CanvasEditModal
         }
       ]
     },
     {
-      path: '/zone/:id',
-      name: 'zone',
+      path: '/canvas/:id',
+      name: 'canvas',
       component: CanvasView,
-      meta: { transition: { home: 'animation-zone' }, layer: 1 },
+      meta: { transition: { home: 'animation-canvas' }, layer: 1 },
       children: [
         {
           path: 'pot/new',
