@@ -40,6 +40,10 @@ body {
 .color--blue { --color-value: #258CAC; }
 .color--purple { --color-value: #9125AC; }
 
+.volume--s { --shape-size: 36px }
+.volume--m { --shape-size: 54px }
+.volume--l { --shape-size: 72px }
+
 .shape--circle {
   margin: 0px;
   width: var(--shape-size);

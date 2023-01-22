@@ -14,9 +14,10 @@ const data = reactive({
     datetime: new Date(),
     datetimeVisible: false,
     withTag: true,
-    plantId: 'pot',
+    plantType: 'pot',
     plantOptions: [{ id: 'pot', name: 'pot' }, { id: 'seed', name: 'seed' }, { id: 'cutting', name: 'cutting' }, { id: 'plant', name: 'plant' }],
-    items: []
+    items: [],
+    newPlantTypes: ['seed', 'cutting', 'plant']
 })
 
 const emit = defineEmits(['submit'])
@@ -35,6 +36,10 @@ function addItem() {
     }
     
     data.items.push({ multiply: 1, tag: tag, variety: '' })
+}
+
+function isNewPlantType() {
+    return data.newPlantTypes.indexOf(data.plantType) > -1
 }
 
 function removeItem(index) {
@@ -68,27 +73,32 @@ function close() {
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
-        <radio-select :options="data.plantOptions" :value="data.plantId" @change="data.plantId = $event"></radio-select>
+        <radio-select :options="data.plantOptions" :value="data.plantType" @change="data.plantType = $event"></radio-select>
 
-        <transition name="animation-row" duration="220">
-            <div class="column gap-m" v-if="data.items && data.items.length > 0">
-                <transition-group name="animation-row" duration="220">
-                    <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
-                        <number-input v-if="!data.withTag" :sensitivity="1.5" :value="item.multiply" @change="item.multiply = $event" :max="30"></number-input>
-                        <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
-                        <input-field placeholder="Variety" :value="item.variety" @change="item.variety = $event"></input-field>
-                        <button type="button" class="btn-circle btn-circle--no-border shrink-0" @click="removeItem(index)">
-                            <i class="icon icon--l icon-close"></i>
-                        </button>
-                    </div>
-                </transition-group>
-            </div>
-        </transition>
-        
+        <div class="column gap-m" v-if="isNewPlantType()">
+            <transition name="animation-row" duration="220">
+                <div class="column gap-m" v-if="data.items && data.items.length > 0">
+                    <transition-group name="animation-row" duration="220">
+                        <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
+                            <number-input v-if="!data.withTag" :sensitivity="1.5" sufix="x" :value="item.multiply" @change="item.multiply = $event" :max="30"></number-input>
+                            <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
+                            <input-field placeholder="Variety" :value="item.variety" @change="item.variety = $event"></input-field>
+                            <button type="button" class="btn-circle btn-circle--no-border shrink-0" @click="removeItem(index)">
+                                <i class="icon icon--l icon-close"></i>
+                            </button>
+                        </div>
+                    </transition-group>
+                </div>
+            </transition>
+            <button type="button" class="btn-circle btn-circle--no-border" @click="addItem()">
+                <i class="icon icon--l icon-plus"></i>
+            </button>
+        </div>
 
-        <button type="button" class="btn-circle btn-circle--no-border" @click="addItem()">
-            <i class="icon icon--l icon-plus"></i>
-        </button>
+        <div class="column gap-m" v-if="!isNewPlantType()">
+            Not new plant
+        </div>
+
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>

@@ -49,7 +49,7 @@ onMounted(() => {
             @contextmenu.prevent="openEdit(item.id)">
             <div v-for="pot in item.pots" :key="pot.id"
                 class="plant-small"
-                :class="['color--' + pot.color, 'shape--' + pot.shape]"
+                :class="['color--' + pot.color, 'shape--' + pot.shape, pot.volume < 1000 ? 'volume--s' : pot.volume < 3000 ? 'volume--m' : 'volume--l']"
                 :style="{ left: pot.x * 100 + '%', top: pot.y * 100 + '%' }"></div>
             <div class="canvas-name">{{ item.name }}</div>
         </div>
@@ -90,6 +90,7 @@ onMounted(() => {
     height: calc(33.33% - 16px / 3);
     width: calc(33.33% - 16px / 3);
     transition: border-color 120ms ease;
+    overflow: hidden;
 }
 
 .canvas-name {
@@ -120,6 +121,9 @@ onMounted(() => {
     border: 2px solid var(--color-value);
     background-color: var(--color-bg);
 }
+.plant-small.volume--s { --shape-size: 12px; }
+.plant-small.volume--m { --shape-size: 18px; }
+.plant-small.volume--l { --shape-size: 24px; }
 
 .plant-small.shape--rectangle {
     transform: translateX(-50%) translateY(-100%);

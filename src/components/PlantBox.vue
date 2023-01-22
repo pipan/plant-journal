@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from "@vue/reactivity"
+import { computed } from "@vue/runtime-core"
 
 let drag = {
     start: { x: 0, y: 0 },
@@ -16,6 +17,16 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['move', 'select'])
+
+const volumeClass = computed(() => {
+    if (props.plant.volume < 1000) {
+        return 'volume--s'
+    } else if (props.plant.volume < 3000) {
+        return 'volume--m'
+    } else {
+        return 'volume--l'
+    }
+})
 
 function select() {
     if (data.dragStatus === 'move') {
@@ -83,7 +94,7 @@ function dragMove(event) {
 
 <template>
 <div class="plant-box column gap-s column--center"
-    :class="['color--' + plant.color, data.dragStatus === 'move' ? 'dragging' : '']"
+    :class="['color--' + plant.color, volumeClass, data.dragStatus === 'move' ? 'dragging' : '']"
     :style="{ 'left': plant.x * 100 + '%', 'top': plant.y * 100 + '%' }"
     @mousedown.left="dragStart($event)"
     @touchstart="dragStart($event)"
@@ -98,7 +109,6 @@ function dragMove(event) {
 <style scoped>
 .plant-box {
     transform: translateX(-50%) translateY(-33%);
-    --shape-size: 64px;
     cursor: move;
 }
 

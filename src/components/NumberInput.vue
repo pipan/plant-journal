@@ -12,7 +12,8 @@ const props = defineProps({
     min: { type: Number, default: 0 },
     max: { type: Number, default: 9 },
     step: { type: Number, default: 1 },
-    sensitivity: { type: Number, default: 3 }
+    sensitivity: { type: Number, default: 3 },
+    sufix: { type: String, default: '' }
 })
 
 const emit = defineEmits(['change'])
@@ -32,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-<circle-slider :value="data.sliderValue" :step="sensitivity" @change="onChange($event)">{{ value }}</circle-slider>
+<circle-slider :value="data.sliderValue" :step="sensitivity" @change="onChange($event)">{{ value }}{{ sufix }}</circle-slider>
 </template>
 
 <style scoped>
