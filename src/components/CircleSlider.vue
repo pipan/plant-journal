@@ -84,6 +84,7 @@ onMounted(() => {
     align-items: center;
     user-select: none;
     cursor: move;
+    flex-shrink: 0;
 }
 
 .circle-slider-content {

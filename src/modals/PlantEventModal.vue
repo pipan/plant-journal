@@ -5,6 +5,7 @@ import DatetimeInput from '../components/DatetimeInput.vue'
 import InputField from '../components/InputField.vue'
 import RadioSelect from '../components/RadioSelect.vue'
 import NumberInput from '../components/NumberInput.vue'
+import TagInput from '../components/TagInput.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -12,15 +13,32 @@ const router = useRouter()
 const data = reactive({
     datetime: new Date(),
     datetimeVisible: false,
-    plantId: 'seed',
-    count: 1,
-    plantOptions: [{ id: 'seed', name: 'seed' }, { id: 'cutting', name: 'cutting' }, { id: 'plant', name: 'plant' }]
+    withTag: true,
+    plantId: 'pot',
+    plantOptions: [{ id: 'pot', name: 'pot' }, { id: 'seed', name: 'seed' }, { id: 'cutting', name: 'cutting' }, { id: 'plant', name: 'plant' }],
+    items: []
 })
 
 const emit = defineEmits(['submit'])
 
 function create() {
     emit('submit', {})
+}
+
+function addItem() {
+    let tag = 'A'
+    if (data.items.length > 0) {
+        const nextCharCode = data.items[data.items.length - 1].tag.charCodeAt(0) + 1
+        if (nextCharCode <= "Z".charCodeAt(0)) {
+            tag = String.fromCharCode(nextCharCode)
+        }
+    }
+    
+    data.items.push({ multiply: 1, tag: tag, variety: '' })
+}
+
+function removeItem(index) {
+    data.items.splice(index, 1)
 }
 
 function close() {
@@ -36,20 +54,41 @@ function close() {
     <div class="p-m column gap-l">
         <div class="pos-r row row--center row--middle">
             <i class="icon icon-trowel icon--l"></i>
-            <button type="button" class="pos-a pos-right btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
-                <i class="icon icon-clock icon--l"></i>
-            </button>
+            <div class="pos-a pos-right row">
+                <button type="button" class="btn-icon" :class="{'btn-icon--active': data.withTag}" @click="data.withTag = !data.withTag">
+                    <i class="icon icon-bookmark icon--l"></i>
+                </button>
+                <button type="button" class=" btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
+                    <i class="icon icon-clock icon--l"></i>
+                </button>
+            </div>
         </div>
         <transition name="animation-row" duration="220">
             <datetime-input v-if="data.datetimeVisible"
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
-        <input-field placeholder="Plant name" :value="data.plant" @change="data.plant = $event"></input-field>
         <radio-select :options="data.plantOptions" :value="data.plantId" @change="data.plantId = $event"></radio-select>
-        <div class="row row--center">
-            <number-input :value="data.count" @change="data.count = $event" :max="20"></number-input>
-        </div>
+
+        <transition name="animation-row" duration="220">
+            <div class="column gap-m" v-if="data.items && data.items.length > 0">
+                <transition-group name="animation-row" duration="220">
+                    <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
+                        <number-input v-if="!data.withTag" :sensitivity="1.5" :value="item.multiply" @change="item.multiply = $event" :max="30"></number-input>
+                        <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
+                        <input-field placeholder="Variety" :value="item.variety" @change="item.variety = $event"></input-field>
+                        <button type="button" class="btn-circle btn-circle--no-border shrink-0" @click="removeItem(index)">
+                            <i class="icon icon--l icon-close"></i>
+                        </button>
+                    </div>
+                </transition-group>
+            </div>
+        </transition>
+        
+
+        <button type="button" class="btn-circle btn-circle--no-border" @click="addItem()">
+            <i class="icon icon--l icon-plus"></i>
+        </button>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>

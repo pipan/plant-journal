@@ -45,6 +45,10 @@ button, .clickable {
     background-color: var(--color-highlight-primary);
 }
 
+.btn-circle.btn-circle--no-border {
+    border: none;
+}
+
 .btn-icon {
     box-sizing: border-box;
     display: flex;

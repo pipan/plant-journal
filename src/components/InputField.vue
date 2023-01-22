@@ -33,16 +33,18 @@ function change(value) {
 .input-field {
     position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .input-field::before {
     content: '';
     position: absolute;
     bottom: 0px;
-    width: 25%;
+    width: 70px;
     height: 1px;
     background-color: var(--color-border);
-    transform: translateX(150%);
     transition: width 120ms ease-out, transform 120ms ease-in, background-color 120ms ease;
 }
 

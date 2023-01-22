@@ -46,5 +46,6 @@ function clickEnd() {
     width: 80%;
     max-height: 80%;
     border: 1px solid var(--color-border);
+    overflow: auto;
 }
 </style>

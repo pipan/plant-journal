@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-bookmark:before {
+  content: "\e90a";
+}
+.icon-plus:before {
+  content: "\e901";
+}
+.icon-close:before {
+  content: "\e90b";
+}
 .icon-shears:before {
   content: "\e908";
 }
@@ -45,15 +54,13 @@
 .icon-water-drop:before {
   content: "\e907";
 }
-.icon-close:before {
-  content: "\e901";
-}
 .icon-check:before {
   content: "\e900";
 }
 .icon-sliders:before {
   content: "\e902";
 }
+
 
 /* Custom code start */
 

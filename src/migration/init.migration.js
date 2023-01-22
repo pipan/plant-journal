@@ -14,7 +14,12 @@ export function initMigration(dbRef) {
     const potStore = dbRef.createObjectStore("pot", { autoIncrement: true, keyPath: 'id' });
     potStore.createIndex("id", "id", { unique: true });
     potStore.createIndex("canvasId", "canvasId", { unique: false });
-    potStore.put({ canvasId: 0, name: 'TEST', x: 0.5, y: 0.5, color: 'red', shape: 'circle', volume: 4000 })
-    potStore.put({ canvasId: 0, name: 'TEST B', x: 0.2, y: 0.2, color: 'orange', shape: 'circle', volume: 4000 })
-    potStore.put({ canvasId: 1, name: 'ABC', x: 0.5, y: 0.5, color: 'red', shape: 'square', volume: 4000 })
+
+    const plantStore = dbRef.createObjectStore("plant", { autoIncrement: true, keyPath: 'id' });
+    plantStore.createIndex("id", "id", { unique: true });
+    plantStore.createIndex("potId", "potId", { unique: false });
+
+    const eventStore = dbRef.createObjectStore("event", { autoIncrement: true, keyPath: 'id' });
+    eventStore.createIndex("id", "id", { unique: true });
+    eventStore.createIndex("plantId", "plantId", { unique: false });
 }

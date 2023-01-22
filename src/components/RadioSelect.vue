@@ -21,7 +21,7 @@ function setValue(value) {
 </script>
 
 <template>
-    <div class="row row--center row--middle gap-m">
+    <div class="row row--center row--middle">
         <button type="button" class="radio-select-item clickable"
             v-for="item of options"
             :key="item.id"
@@ -32,28 +32,28 @@ function setValue(value) {
 
 <style scoped>
 .radio-select-item {
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--unit-s);
-    padding: var(--unit-s) var(--unit-m);
+    padding: var(--unit-s);
     font-size: 16px;
+    color: var(--color-fg);
+    border: solid 1px var(--color-border);
+    text-align: center;
+    flex: 1;
 }
 
-.radio-select-item::after {
-    content: '';
-    width: var(--unit-m);
-    height: var(--unit-m);
-    box-sizing: border-box;
-    border: 2px solid var(--color-border);
-    border-radius: 100%;
-    transition: border-color 120ms ease;
+.radio-select-item:first-of-type {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
-.radio-select-item.checked::after {
+.radio-select-item:last-of-type {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.radio-select-item.checked {
+    color: var(--color-bg);
     border-color: var(--color-highlight-primary);
+    background-color: var(--color-primary);
 }
 
 </style>
