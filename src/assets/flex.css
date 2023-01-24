@@ -5,6 +5,7 @@
 
 .row--center { justify-content: center; }
 .row--middle { align-items: center; }
+.row--end { justify-content: flex-end; }
 
 .column {
     display: flex;

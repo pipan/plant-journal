@@ -6,9 +6,12 @@ import InputField from '../components/InputField.vue'
 import RadioSelect from '../components/RadioSelect.vue'
 import NumberInput from '../components/NumberInput.vue'
 import TagInput from '../components/TagInput.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { usePlant } from '../services/plant'
 
+const plantService = usePlant()
 const router = useRouter()
+const route = useRoute()
 
 const data = reactive({
     datetime: new Date(),
@@ -20,10 +23,29 @@ const data = reactive({
     newPlantTypes: ['seed', 'cutting', 'plant']
 })
 
-const emit = defineEmits(['submit'])
-
 function create() {
-    emit('submit', {})
+    if (!isNewPlantType()) {
+        console.log("TODO: not new plant")
+    } else {
+        if (data.items.length === 0) {
+            console.log("TODO: validate error / disable button")
+            return
+        }
+        const potId = parseInt(route.params.potId)
+        for (let item of data.items) {
+            if (!item.variety) {
+                continue
+            }
+            let plantData = { potId: potId, variety: item.variety, tag: item.tag, type: data.plantType }
+            if (data.withTag) {
+                plantService.create(plantData)
+            } else {
+                plantData.tag = ''
+                plantService.createBatch(plantData, item.count)
+            }
+        }
+    }
+    close()
 }
 
 function addItem() {
@@ -35,7 +57,7 @@ function addItem() {
         }
     }
     
-    data.items.push({ multiply: 1, tag: tag, variety: '' })
+    data.items.push({ count: 1, tag: tag, variety: '' })
 }
 
 function isNewPlantType() {
@@ -80,7 +102,7 @@ function close() {
                 <div class="column gap-m" v-if="data.items && data.items.length > 0">
                     <transition-group name="animation-row" duration="220">
                         <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
-                            <number-input v-if="!data.withTag" :sensitivity="1.5" sufix="x" :value="item.multiply" @change="item.multiply = $event" :max="30"></number-input>
+                            <number-input v-if="!data.withTag" :sensitivity="1.5" sufix="x" :value="item.count" @change="item.count = $event" :max="30"></number-input>
                             <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
                             <input-field placeholder="Variety" :value="item.variety" @change="item.variety = $event"></input-field>
                             <button type="button" class="btn-circle btn-circle--no-border shrink-0" @click="removeItem(index)">

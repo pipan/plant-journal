@@ -9,3 +9,7 @@
 .py-s { padding-top: var(--unit-s); padding-bottom: var(--unit-s); }
 .py-m { padding-top: var(--unit-m); padding-bottom: var(--unit-m); }
 .py-l { padding-top: var(--unit-l); padding-bottom: var(--unit-l); }
+
+.pt-s { padding-top: var(--unit-s); }
+.pt-m { padding-top: var(--unit-m); }
+.pt-l { padding-top: var(--unit-l); }

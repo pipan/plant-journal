@@ -6,7 +6,8 @@ const emit = defineEmits(['change'])
 const props = defineProps({
     placeholder: { type: String },
     value: { type: String },
-    mode: { type: String, default: 'text' }
+    mode: { type: String, default: 'text' },
+    align: { type: String, default: 'center' }
 })
 
 const data = reactive({
@@ -19,7 +20,7 @@ function change(value) {
 </script>
 
 <template>
-    <div class="input-field" :class="{ 'input-field--focus': data.isFocused }">
+    <div class="input-field" :class="{ 'input-field--focus': data.isFocused, 'input-field--left': align === 'left' }">
         <input :type="mode"
             :placeholder="placeholder"
             :value="value"
@@ -69,5 +70,11 @@ function change(value) {
     color: var(--color-fg);
     outline: none;
     font-size: 16px;
+}
+.input-field.input-field--left input {
+    text-align: left;
+}
+.input-field.input-field--left {
+    align-items: flex-start;
 }
 </style>
