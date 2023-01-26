@@ -1,14 +1,14 @@
 <script setup>
-import { reactive, ref } from '@vue/reactivity'
+import { reactive } from '@vue/reactivity'
 import Modal from '../components/Modal.vue'
-import InputField from '../components/InputField.vue'
-import CircleSlider from '../components/CircleSlider.vue'
-import NumberInput from '../components/NumberInput.vue'
 import VolumeInput from '../components/VolumeInput.vue'
 import DatetimeInput from '../components/DatetimeInput.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { usePot } from '../services/pot'
 
 const router = useRouter()
+const route = useRoute()
+const potService = usePot()
 
 const data = reactive({
     volume: 800,
@@ -16,10 +16,11 @@ const data = reactive({
     datetimeVisible: false
 })
 
-const emit = defineEmits(['submit'])
-
 function create() {
-    emit('submit', {})
+    const potId = parseInt(route.params.potId)
+    potService.water(potId, { volume: data.volume, createdAt: data.datetimeVisible ? data.datetime : new Date() }).then(() => {
+        this.close()
+    })
 }
 
 function close() {

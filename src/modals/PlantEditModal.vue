@@ -4,7 +4,7 @@ import Modal from '../components/Modal.vue'
 import InputField from '../components/InputField.vue'
 import TagInput from '../components/TagInput.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted } from '@vue/runtime-core'
+import { onBeforeUnmount, onMounted } from '@vue/runtime-core'
 import { usePlantRepository } from '../repository/plant.repository'
 
 const plantRepository = usePlantRepository()
@@ -46,7 +46,7 @@ onMounted(() => {
 <template>
 <modal @outside-click="close()">
     <div class="p-m column gap-l">
-        <div class="column gap-m">
+        <div class="column">
             <div class="row row--end row--middle">
                 <button type="button" class="btn-icon" :class="{'btn-icon--active': data.withTag}" @click="data.withTag = !data.withTag">
                     <i class="icon icon-bookmark icon--l"></i>

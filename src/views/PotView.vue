@@ -1,18 +1,47 @@
 <script setup>
-import { onMounted, reactive } from '@vue/runtime-core'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from '@vue/runtime-core'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import BottomDrawer from '../components/BottomDrawer.vue'
+import MonthEventList from '../components/MonthEventList.vue'
+import { useEventRepository } from '../repository/eventRepository'
 import { usePlantRepository } from '../repository/plant.repository'
 import { usePotRepository } from '../repository/pot.repository'
 
 const potRepository = usePotRepository()
 const plantRepository = usePlantRepository()
+const eventRepository = useEventRepository()
 const router = useRouter()
 const route = useRoute()
 
 const data = reactive({
     pot: null,
-    plants: []
+    plants: [],
+    events: []
+})
+
+const view = ref(null)
+
+const eventBlocks = computed(() => {
+    let result = []
+    for (let event of data.events) {
+        const blockId = event.createdAt.getFullYear() + "-" + (event.createdAt.getMonth() + 1)
+        if (result.length === 0 || result[result.length - 1].id !== blockId) {
+            result.push({ id: blockId, date: event.createdAt, events: [] })
+        }
+        result[result.length - 1].events.push(event)
+    }
+    for (let item of result) {
+        let uniqueEvents = []
+        for (let event of item.events) {
+            const lastEvent = uniqueEvents[uniqueEvents.length - 1]
+            if (uniqueEvents.length > 0 && lastEvent.type === event.type && lastEvent.createdAt.getTime() === event.createdAt.getTime()) {
+                continue
+            }
+            uniqueEvents.push(event)
+        }
+        item.events = uniqueEvents
+    }
+    return result
 })
 
 function close() {
@@ -27,9 +56,23 @@ function load () {
     potRepository.select(id).then((pot) => {
         data.pot = pot
     })
-    plantRepository.selectByPot(id).then((plants) => {
-        data.plants = plants
-    })
+    plantRepository.selectByPot(id)
+        .then((plants) => {
+            data.plants = plants
+            let plantIds = []
+            for (let plant of plants) {
+                plantIds.push(plant.id)
+            }
+            return eventRepository.selectByPlants(plantIds)    
+        }).then((events) => {
+            data.events = events
+            data.events.sort((a, b) => {
+                if (a.createdAt < b.createdAt) return -1
+                else if (a.createdAt > b.createdAt) return 1
+                else return 0
+            })
+            return data.events
+        })
 }
 
 function openPlantEdit(id) {
@@ -47,11 +90,16 @@ onMounted(() => {
     load()
 })
 
+onBeforeUnmount(() => {
+    const scrollTop = document.scrollingElement.scrollTop
+    view.value.style.top = (scrollTop * -1) + "px"
+    view.value.style.setProperty('--origin-y', scrollTop + "px") 
+})
 </script>
 
 <template>
 <div>
-    <div class="view">
+    <div class="view" id="pot-view" ref="view">
         <h1>{{ data.pot?.name || '' }}</h1>
         <div class="column gap-m py-m">
             <div class="row gap-m py-s px-m scroll-x scroll--hidden">
@@ -61,127 +109,10 @@ onMounted(() => {
                 </div>
             </div>
             <div class="column">
-                <div class="devider">Jan 2023</div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">1.5 l</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>26</div>
-                        <div class="text-s">10:00</div>
-                    </div>
-                </div>
-                <!-- <div class="devider">25 Jan 2023</div> -->
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">500 ml</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>25</div>
-                        <div class="text-s">10:00</div>
-                    </div>
-                </div>
-                <!-- <div class="devider">24 Jan 2023</div> -->
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">750 ml</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>24</div>
-                        <div class="text-s">18:50</div>
-                    </div>
-                </div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">750 ml</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>24</div>
-                        <div class="text-s">10:00</div>
-                    </div>
-                </div>
-                <div class="devider">Dec 2022</div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">1.5 l</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>31</div>
-                        <div class="text-s">08:10</div>
-                    </div>
-                </div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">1.5 l</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>31</div>
-                        <div class="text-s">08:10</div>
-                    </div>
-                </div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">1.5 l</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>31</div>
-                        <div class="text-s">08:10</div>
-                    </div>
-                </div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">1.5 l</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>31</div>
-                        <div class="text-s">08:10</div>
-                    </div>
-                </div>
-                <div class="row row--middle gap-m p-m">
-                    <div class="event-icon">
-                        <i class="icon icon-water-drop"></i>
-                    </div>
-                    <div class="column gap-s flex">
-                        <div>Water</div>
-                        <div class="text-secondary text-s">1.5 l</div>
-                    </div>
-                    <div class="column column--center text-idle">
-                        <div>31</div>
-                        <div class="text-s">08:10</div>
-                    </div>
-                </div>
+                <month-event-list v-for="block of eventBlocks" :key="block.id"
+                    :month="block.date.getMonth() + 1"
+                    :year="block.date.getFullYear()"
+                    :events="block.events"></month-event-list>
             </div>
         </div>
     </div>
@@ -234,19 +165,6 @@ h1::before {
     border-radius: 4px;
     padding: var(--unit-s);
     flex: 1;
-}
-
-.event-icon {
-    border: 1px solid var(--color-border);
-    border-radius: 100%;
-    padding: 4px;
-}
-
-.devider {
-    position: relative;
-    padding: var(--unit-m);
-    text-align: right;
-    color: var(--color-border);
 }
 
 .plant {

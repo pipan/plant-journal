@@ -43,11 +43,15 @@ function toggleTool(tool) {
     }
 }
 
+function openHome() {
+    router.push({ name: 'home' })
+}
+
 function tap(event) {
     if (data.tapTimer) {
         clearTimeout(data.tapTimer)
         data.tapTimer = null
-        router.push({ name: 'home' })
+        openHome()
         return
     }
     data.tapTimer = setTimeout(() => {
@@ -98,6 +102,7 @@ onMounted(() => {
 <div>
     <div class="view canvas"
         @click.stop="tap($event)"
+        @contextmenu.prevent="openHome()"
         ref="canvasView">
         <div class="hint">
             <div class="row row--middle row--center gap-s"><i class="icon icon-tap"></i> tap to create</div>

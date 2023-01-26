@@ -112,10 +112,11 @@
   opacity: 0;
 }
 .animation-view-enter-active .view, .animation-view-back-leave-active .view {
+  --origin-y: 0px;
   position: absolute;
   top: 0px;
   z-index: 2;
-  transform-origin: 50% 50%;
+  transform-origin: 50vw calc(50vh + var(--origin-y));
 }
 .animation-view-enter-active .view {
   transition: transform var(--animation-duration) ease, opacity calc(var(--animation-duration) / 2) ease;

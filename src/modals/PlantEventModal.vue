@@ -8,6 +8,7 @@ import NumberInput from '../components/NumberInput.vue'
 import TagInput from '../components/TagInput.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePlant } from '../services/plant'
+import { onMounted } from '@vue/runtime-core'
 
 const plantService = usePlant()
 const router = useRouter()
@@ -37,11 +38,12 @@ function create() {
                 continue
             }
             let plantData = { potId: potId, variety: item.variety, tag: item.tag, type: data.plantType }
+            let eventData = { type: 'plant', plantType: data.plantType, createdAt: data.datetimeVisible ? data.datetime : new Date() }
             if (data.withTag) {
-                plantService.create(plantData)
+                plantService.create(plantData, eventData)
             } else {
                 plantData.tag = ''
-                plantService.createBatch(plantData, item.count)
+                plantService.createBatch(plantData, item.count, eventData)
             }
         }
     }
@@ -74,6 +76,10 @@ function close() {
     }
     router.go(-1)
 }
+
+onMounted(() => {
+    addItem()
+})
 </script>
 
 <template>
@@ -98,20 +104,16 @@ function close() {
         <radio-select :options="data.plantOptions" :value="data.plantType" @change="data.plantType = $event"></radio-select>
 
         <div class="column gap-m" v-if="isNewPlantType()">
-            <transition name="animation-row" duration="220">
-                <div class="column gap-m" v-if="data.items && data.items.length > 0">
-                    <transition-group name="animation-row" duration="220">
-                        <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
-                            <number-input v-if="!data.withTag" :sensitivity="1.5" sufix="x" :value="item.count" @change="item.count = $event" :max="30"></number-input>
-                            <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
-                            <input-field placeholder="Variety" :value="item.variety" @change="item.variety = $event"></input-field>
-                            <button type="button" class="btn-circle btn-circle--no-border shrink-0" @click="removeItem(index)">
-                                <i class="icon icon--l icon-close"></i>
-                            </button>
-                        </div>
-                    </transition-group>
+            <transition-group name="animation-row" duration="220" appear>
+                <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
+                    <number-input v-if="!data.withTag" :sensitivity="1.5" sufix="x" :value="item.count" @change="item.count = $event" :max="30"></number-input>
+                    <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
+                    <input-field placeholder="Variety" :value="item.variety" @change="item.variety = $event"></input-field>
+                    <button type="button" class="btn-circle btn-circle--no-border shrink-0" @click="removeItem(index)">
+                        <i class="icon icon--l icon-close"></i>
+                    </button>
                 </div>
-            </transition>
+            </transition-group>
             <button type="button" class="btn-circle btn-circle--no-border" @click="addItem()">
                 <i class="icon icon--l icon-plus"></i>
             </button>
