@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref } from '@vue/runtim
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import BottomDrawer from '../components/BottomDrawer.vue'
 import MonthEventList from '../components/MonthEventList.vue'
+import PlantSelect from '../components/PlantSelect.vue'
 import { useEventRepository } from '../repository/eventRepository'
 import { usePlantRepository } from '../repository/plant.repository'
 import { usePotRepository } from '../repository/pot.repository'
@@ -16,7 +17,8 @@ const route = useRoute()
 const data = reactive({
     pot: null,
     plants: [],
-    events: []
+    events: [],
+    selectedPlants: []
 })
 
 const view = ref(null)
@@ -51,24 +53,24 @@ function close() {
     router.go(-1)
 }
 
-function load () {
+function loadPlants() {
+    const id = parseInt(route.params.id)
+    return plantRepository.selectByPot(id)
+}
+
+function load(plantIds) {
     const id = parseInt(route.params.id)
     potRepository.select(id).then((pot) => {
         data.pot = pot
     })
-    plantRepository.selectByPot(id)
-        .then((plants) => {
+    return loadPlants().then((plants) => {
             data.plants = plants
-            let plantIds = []
-            for (let plant of plants) {
-                plantIds.push(plant.id)
-            }
-            return eventRepository.selectByPlants(plantIds)    
+            return eventRepository.selectByPlants(plantIds)
         }).then((events) => {
             data.events = events
             data.events.sort((a, b) => {
-                if (a.createdAt < b.createdAt) return -1
-                else if (a.createdAt > b.createdAt) return 1
+                if (a.createdAt.getTime() < b.createdAt.getTime()) return 1
+                else if (a.createdAt.getTime() > b.createdAt.getTime()) return -1
                 else return 0
             })
             return data.events
@@ -79,15 +81,28 @@ function openPlantEdit(id) {
     router.push({ name: 'plant.edit', params: { plantId: id } })
 }
 
+function setSelectedPlants(value) {
+    data.selectedPlants = value
+    load(data.selectedPlants)
+}
+
 onBeforeRouteUpdate((to, from) => {
     if (to.name !== 'pot') {
         return
     }
-    load()
+    load(data.selectedPlants)
 })
 
 onMounted(() => {
-    load()
+    loadPlants().then((plants) => {
+        data.plants = plants
+        let selected = []
+        for (let plant of data.plants) {
+            selected.push(plant.id)
+        }
+        data.selectedPlants = selected
+        return load(data.selectedPlants)
+    })
 })
 
 onBeforeUnmount(() => {
@@ -102,12 +117,11 @@ onBeforeUnmount(() => {
     <div class="view" id="pot-view" ref="view">
         <h1>{{ data.pot?.name || '' }}</h1>
         <div class="column gap-m py-m">
-            <div class="row gap-m py-s px-m scroll-x scroll--hidden">
-                <div class="plant" v-for="plant of data.plants" :key="plant.id" @contextmenu.prevent="openPlantEdit(plant.id)">
-                    <div class="plant__tag" v-if="plant.tag">{{ plant.tag }}</div>
-                    <div class="plant__variety">{{ plant.variety }}</div>
-                </div>
-            </div>
+            <plant-select align="inline"
+                :value="data.selectedPlants"
+                :options="data.plants"
+                @change="setSelectedPlants($event)"
+                @select="openPlantEdit($event.id)"></plant-select>
             <div class="column">
                 <month-event-list v-for="block of eventBlocks" :key="block.id"
                     :month="block.date.getMonth() + 1"
@@ -165,33 +179,5 @@ h1::before {
     border-radius: 4px;
     padding: var(--unit-s);
     flex: 1;
-}
-
-.plant {
-    --plant-color-border: var(--color-border);
-    --plant-tag-color-background: var(--color-border);
-    --plant-tag-color: var(--color-fg);
-    border: 1px solid var(--plant-color-border);
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    box-sizing: border-box;
-}
-.plant.active {
-    --plant-color-border: var(--color-highlight-primary);
-    --plant-tag-color-background: var(--color-primary);
-    --plant-tag-color: var(--color-bg);
-}
-
-.plant__tag {
-    background-color: var(--plant-tag-color-background);
-    padding: var(--unit-s);
-    color: var(--plant-tag-color);
-}
-
-.plant__variety {
-    padding: var(--unit-s);
-    font-size: 14px;
-    white-space: nowrap;
 }
 </style>

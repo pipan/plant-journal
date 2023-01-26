@@ -113,13 +113,13 @@ function dragMove(event) {
 }
 
 .plant-box.dragging:active {
-    transform: translateX(-50%) translateY(-33%) scale(1.25);
+    transform: translateX(-50%) translateY(-33%) scale(1.15);
     z-index: 5;
 }
 
 .plant-box:active {
     transition-duration: 0ms;
-    transform: translateX(-50%) translateY(-33%) scale(1.1);
+    transform: translateX(-50%) translateY(-33%) scale(0.9);
 }
 
 .plant-label {

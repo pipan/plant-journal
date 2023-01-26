@@ -5,3 +5,4 @@
 .text-idle { color: var(--color-border); }
 
 .text-s { font-size: 12px; }
+.text-pre { white-space: pre; }

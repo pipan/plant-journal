@@ -86,7 +86,7 @@ onMounted(() => {
 <modal @outside-click="close()">
     <div class="p-m column gap-l">
         <div class="pos-r row row--center row--middle">
-            <i class="icon icon-trowel icon--l"></i>
+            <i class="icon icon-trowel icon--l color-trowel"></i>
             <div class="pos-a pos-right row">
                 <button type="button" class="btn-icon" :class="{'btn-icon--active': data.withTag}" @click="data.withTag = !data.withTag">
                     <i class="icon icon-bookmark icon--l"></i>
@@ -136,5 +136,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.icon-trowel {
+    color: var(--color-value);
+}
 </style>

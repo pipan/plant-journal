@@ -5,11 +5,14 @@ import InputField from '../components/InputField.vue'
 import CircleSlider from '../components/CircleSlider.vue'
 import NumberInput from '../components/NumberInput.vue'
 import DatetimeInput from '../components/DatetimeInput.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useScale } from '../services/scale'
 import { computed } from '@vue/runtime-core'
+import { usePot } from '../services/pot'
 
+const potService = usePot()
 const router = useRouter()
+const route = useRoute()
 const scale = useScale([0.0, 0.25, 0.5, 0.75, 1.0], [0, 20, 100, 500, 3000])
 
 const data = reactive({
@@ -33,10 +36,18 @@ const volumeDisplayValue = computed(() => {
     return volume.value >= 1000 ? (Math.round(volume.value / 10) / 100).toFixed(2) : volume.value
 })
 
-const emit = defineEmits(['submit'])
-
 function create() {
-    emit('submit', {})
+    const potId = parseInt(route.params.potId)
+    let event = {
+        volume: volume.value,
+        n: data.n,
+        p: data.p,
+        k: data.k,
+        createdAt: data.datetimeVisible ? data.datetime : new Date()
+    }
+    potService.fertilize(potId, event).then(() => {
+        this.close()
+    })
 }
 
 function close() {
@@ -51,7 +62,7 @@ function close() {
 <modal @outside-click="close()">
     <div class="p-m column gap-l">
         <div class="pos-r row row--center row--middle">
-            <i class="icon icon-fertilizer icon--l"></i>
+            <i class="icon icon-fertilizer icon--l color-fertilize"></i>
             <button type="button" class="pos-a pos-right btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
                 <i class="icon icon-clock icon--l"></i>
             </button>
@@ -87,5 +98,7 @@ function close() {
 </template>
 
 <style scoped>
-
+.icon-fertilizer {
+    color: var(--color-value);
+}
 </style>

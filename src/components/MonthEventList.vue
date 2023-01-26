@@ -4,9 +4,23 @@ import { computed } from "@vue/runtime-core"
 const config = {
     water: (event) => {
         return {
-            icon: 'icon-water-drop',
+            icon: ['icon-water-drop', 'color-water'],
             firstLine: 'Water',
             secondLine: event.volume + " ml"
+        }
+    },
+    fertilize: (event) => {
+        return {
+            icon: ['icon-fertilizer', 'color-fertilize'],
+            firstLine: 'Fertilize',
+            secondLine: event.volume + " g\t" + [event.n, event.p, event.k].join("-")
+        }
+    },
+    plant: (event) => {
+        return {
+            icon: ['icon-trowel', 'color-trowel'],
+            firstLine: 'Plant',
+            secondLine: ''
         }
     }
 }
@@ -41,11 +55,11 @@ const renderEvents = computed(() => {
         <div class="devider">{{ monthLabel }}</div>
         <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id">
             <div class="event-icon">
-                <i class="icon" :class="event.icon"></i>
+                <i class="icon icon--l" :class="event.icon"></i>
             </div>
             <div class="column gap-s flex">
                 <div>{{ event.firstLine }}</div>
-                <div class="text-secondary text-s">{{ event.secondLine }}</div>
+                <div class="text-secondary text-s text-pre">{{ event.secondLine }}</div>
             </div>
             <div class="column column--center text-idle">
                 <div>{{ event.date }}</div>
@@ -57,10 +71,15 @@ const renderEvents = computed(() => {
 
 <style scoped>
 .event-icon {
-    border: 1px solid var(--color-border);
+    --color-value: var(--color-fg-secondary)
     border-radius: 100%;
-    padding: 4px;
+    padding: 8px;
     flex-shrink: 0;
+}
+
+.event-icon .icon {
+    color: var(--color-value);
+    opacity: 0.65;
 }
 
 .devider {

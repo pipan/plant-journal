@@ -35,7 +35,7 @@ function close() {
 <modal @outside-click="close()">
     <div class="p-m column gap-l">
         <div class="pos-r row row--center row--middle">
-            <i class="icon icon-water-drop icon--l"></i>
+            <i class="icon icon-water-drop icon--l color-water"></i>
             <button type="button" class="pos-a pos-right btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
                 <i class="icon icon-clock icon--l"></i>
             </button>
@@ -61,5 +61,7 @@ function close() {
 </template>
 
 <style scoped>
-
+.icon-water-drop {
+    color: var(--color-value);
+}
 </style>

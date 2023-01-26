@@ -39,6 +39,10 @@ body {
 .color--orange { --color-value: #AC6625; }
 .color--blue { --color-value: #258CAC; }
 .color--purple { --color-value: #9125AC; }
+.color-fertilize { --color-value: #7d2a78 }
+.color-water { --color-value: #2d5884 }
+.color-trowel { --color-value: #377322 }
+.color-shears { --color-value: #5b3d1f }
 
 .volume--s { --shape-size: 36px }
 .volume--m { --shape-size: 54px }

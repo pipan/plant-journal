@@ -2,19 +2,22 @@
 import { reactive, ref } from '@vue/reactivity'
 import Modal from '../components/Modal.vue'
 import DatetimeInput from '../components/DatetimeInput.vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { usePlantRepository } from '../repository/plant.repository'
+import { onMounted } from '@vue/runtime-core'
 
+const plantRepository = usePlantRepository()
 const router = useRouter()
+const route = useRoute()
 
 const data = reactive({
     datetime: new Date(),
-    datetimeVisible: false
+    datetimeVisible: false,
+    plants: []
 })
 
-const emit = defineEmits(['submit'])
-
 function create() {
-    emit('submit', {})
+    
 }
 
 function close() {
@@ -23,13 +26,24 @@ function close() {
     }
     router.go(-1)
 }
+
+function load () {
+    const id = parseInt(route.params.potId)
+    plantRepository.selectByPot(id).then((plants) => {
+        data.plants = plants
+    })
+}
+
+onMounted(() => {
+    load()
+})
 </script>
 
 <template>
 <modal @outside-click="close()">
     <div class="p-m column gap-l">
         <div class="pos-r row row--center row--middle">
-            <i class="icon icon-shears icon--l"></i>
+            <i class="icon icon-shears icon--l color-shears"></i>
             <button type="button" class="pos-a pos-right btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
                 <i class="icon icon-clock icon--l"></i>
             </button>
@@ -52,5 +66,7 @@ function close() {
 </template>
 
 <style scoped>
-
+.icon-shears {
+    color: var(--color-value);
+}
 </style>

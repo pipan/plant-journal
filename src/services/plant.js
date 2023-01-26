@@ -7,7 +7,7 @@ export function usePlant() {
 
     function create(plantData, eventData) {
         return plantRepo.insert(plantData).then((plantId) => {
-            const event = Object.assign({plantId: plantId}, eventData)
+            const event = Object.assign({ plantId: plantId }, eventData)
             return eventRepo.insert(event).then((eventId) => {
                 return { plantId: plantId, eventId: eventId }
             })

@@ -5,16 +5,24 @@ export function usePot() {
     const plantRepo = usePlantRepository()
     const eventRepo = useEventRepository()
 
-    function water(potId, data) {
+    function createEvent(potId, data) {
         return plantRepo.selectByPot(potId).then((plants) => {
             let promises = []
             for (let plant of plants) {
-                const promise = eventRepo.insert(Object.assign({}, data, { plantId: plant.id, type: 'water' }))
+                const promise = eventRepo.insert(Object.assign({ plantId: plant.id }, data))
                 promises.push(promise)
             }
             return Promise.all(promises)
         })
     }
 
-    return { water }
+    function water(potId, data) {
+        return createEvent(potId, Object.assign({ type: 'water' }, data))
+    }
+
+    function fertilize(potId, data) {
+        return createEvent(potId, Object.assign({ type: 'fertilize' }, data))
+    }
+
+    return { water, fertilize }
 }
