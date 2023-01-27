@@ -118,17 +118,17 @@ onMounted(() => {
     </div>
     <bottom-drawer :title="data.canvas ? data.canvas.name : '...'">
         <div class="row text-center gap-s p-s">
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('plant')">
+                <i class="icon icon--l icon-trowel" :class="{ 'color-trowel': data.tool == 'plant' }"></i>
+            </button>
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('cut')">
+                <i class="icon icon--l icon-shears" :class="{ 'color-shears': data.tool == 'cut' }"></i>
+            </button>
             <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('fertilizer')">
                 <i class="icon icon--l icon-fertilizer" :class="{ 'color-fertilize': data.tool == 'fertilizer' }"></i>
             </button>
             <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('water')">
                 <i class="icon icon--l icon-water-drop" :class="{ 'color-water': data.tool == 'water' }"></i>
-            </button>
-            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('cut')">
-                <i class="icon icon--l icon-shears" :class="{ 'color-shears': data.tool == 'cut' }"></i>
-            </button>
-            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('plant')">
-                <i class="icon icon--l icon-trowel" :class="{ 'color-trowel': data.tool == 'plant' }"></i>
             </button>
             <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('note')">
                 <i class="icon icon--l icon-note" :class="{ 'color-note': data.tool == 'note' }"></i>
