@@ -3,7 +3,7 @@ export function initMigration(dbRef) {
     canvasStore.createIndex("id", "id", { unique: true });
     canvasStore.put({ id: 0, name: 'top left'})
     canvasStore.put({ id: 1, name: 'top'})
-    canvasStore.put({ id: 2, name: 'topright'})
+    canvasStore.put({ id: 2, name: 'top right'})
     canvasStore.put({ id: 3, name: 'left'})
     canvasStore.put({ id: 4, name: 'center'})
     canvasStore.put({ id: 5, name: 'right'})

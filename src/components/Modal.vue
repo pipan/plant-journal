@@ -31,8 +31,8 @@ function clickEnd() {
     z-index: 20;
     top: 0px;
     left: 0px;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.55);
     display: flex;
     flex-direction: row;

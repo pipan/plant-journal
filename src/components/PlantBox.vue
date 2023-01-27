@@ -97,8 +97,7 @@ function dragMove(event) {
     :class="['color--' + plant.color, volumeClass, data.dragStatus === 'move' ? 'dragging' : '']"
     :style="{ 'left': plant.x * 100 + '%', 'top': plant.y * 100 + '%' }"
     @mousedown.left="dragStart($event)"
-    @touchstart="dragStart($event)"
-    @touchend="select()"
+    @touchstart.stop="dragStart($event)"
     @mouseup="select()"
     @click.stop>
     <div class="plant" :class="'shape--' + plant.shape"></div>

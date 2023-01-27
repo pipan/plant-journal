@@ -3,6 +3,7 @@ import { reactive } from '@vue/reactivity'
 import { onMounted, onUnmounted } from '@vue/runtime-core'
 
 let isDraging = false
+let previousTouchEvent = null
 
 const props = defineProps({
     value: { type: Number },
@@ -25,7 +26,16 @@ function mouseMove(event) {
         return
     }
 
-    const newValue = props.value + props.step * event.movementX / document.body.offsetWidth
+    let movementX = event.movementX
+    if (movementX === undefined) {
+        if (previousTouchEvent) {
+            movementX = event.touches[0].clientX - previousTouchEvent.touches[0].clientX
+        } else {
+            movementX = 0
+        }
+        previousTouchEvent = event
+    }
+    const newValue = props.value + props.step * movementX / document.body.offsetWidth
     setValue(Math.min(Math.max(newValue, 0), 1))
 }
 
@@ -35,6 +45,7 @@ function startDrag() {
 
 function stopDrag(event) {
     event.preventDefault()
+    previousTouchEvent = null
     isDraging = false
 }
 
@@ -49,11 +60,15 @@ function onScroll(event) {
 onUnmounted(() => {
     document.removeEventListener('mousemove', mouseMove)
     document.removeEventListener('mouseup', stopDrag)
+    document.removeEventListener('touchmove', mouseMove)
+    document.removeEventListener('touhend', stopDrag)
 })
 
 onMounted(() => {
     document.addEventListener('mousemove', mouseMove)
     document.addEventListener('mouseup', stopDrag)
+    document.addEventListener('touchmove', mouseMove)
+    document.addEventListener('touchend', stopDrag)
 })
 </script>
 
@@ -61,7 +76,8 @@ onMounted(() => {
     <div class="circle-slider" :class="{ 'circle-field--focus': data.isFocused }" :style="{'--angel-value': (10 + (value * 340)) + 'deg'}"
         tabindex="0"
         @wheel="onScroll($event)"
-        @mousedown="startDrag()">
+        @mousedown="startDrag()"
+        @touchstart="startDrag()">
         <div class="circle-slider-content">
             <slot></slot>
         </div>

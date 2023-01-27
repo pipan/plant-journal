@@ -102,7 +102,6 @@ function close() {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: var(--unit-s);
     background-color: var(--color-bg);
     transition: border-radius 120ms ease, height 120ms ease, margin 120ms ease, border-color 120ms ease;
 }
