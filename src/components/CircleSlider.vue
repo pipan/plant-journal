@@ -44,6 +44,9 @@ function startDrag() {
 }
 
 function stopDrag(event) {
+    if (!isDraging) {
+        return
+    }
     event.preventDefault()
     previousTouchEvent = null
     isDraging = false
