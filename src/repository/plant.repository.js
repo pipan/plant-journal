@@ -3,8 +3,21 @@ import { useRepository } from "./repository"
 export function usePlantRepository() {
     const plantRepo = useRepository('plant')
 
-    function selectByPot(potId) {
+    function selectAllByPot(potId) {
         return plantRepo.selectByIndex('potId', potId)
+    }
+
+    function selectActiveByPot(potId) {
+        return selectAllByPot(potId).then((plants) => {
+            let result = []
+            for (let plant of plants) {
+                if (plant.dead) {
+                    continue
+                }
+                result.push(plant)
+            }
+            return result
+        })
     }
 
     function select(id) {
@@ -23,5 +36,5 @@ export function usePlantRepository() {
         return plantRepo.insert(data)
     }
 
-    return { update, patch, insert, select, selectByPot }
+    return { update, patch, insert, select, selectAllByPot, selectActiveByPot }
 }

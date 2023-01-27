@@ -6,7 +6,7 @@ export function usePot() {
     const eventRepo = useEventRepository()
 
     function createEvent(potId, data) {
-        return plantRepo.selectByPot(potId).then((plants) => {
+        return plantRepo.selectActiveByPot(potId).then((plants) => {
             let promises = []
             for (let plant of plants) {
                 const promise = eventRepo.insert(Object.assign({ plantId: plant.id }, data))

@@ -55,7 +55,7 @@ function close() {
 
 function loadPlants() {
     const id = parseInt(route.params.id)
-    return plantRepository.selectByPot(id)
+    return plantRepository.selectAllByPot(id)
 }
 
 function load(plantIds) {

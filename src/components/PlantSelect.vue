@@ -6,10 +6,10 @@ const emit = defineEmits(['change', 'select'])
 const config = {
     alignments: {
         inline: {
-            row: ['row', 'scroll-x', 'scroll-hidden']
+            row: ['row', 'scroll-x', 'scroll--hidden']
         },
         center: {
-            row: ['row', 'row--wrap', 'row--center']
+            row: ['row', 'flex--wrap', 'row--center']
         }
     }
 }
@@ -42,7 +42,7 @@ function select(plant) {
 
 <template>
     <div class="gap-m py-s px-m" :class="alignment.row">
-        <div class="plant" v-for="plant of options" :key="plant.id"
+        <div class="plant clickable" v-for="plant of options" :key="plant.id"
             :class="value.indexOf(plant.id) > -1 ? 'active' : ''"
             @click="toggleValue(plant.id)"
             @contextmenu.prevent="select(plant)">
@@ -54,30 +54,32 @@ function select(plant) {
 
 <style scoped>
 .plant {
-    --plant-color-border: var(--color-border);
-    --plant-tag-color-background: var(--color-border);
-    --plant-tag-color: var(--color-fg);
-    border: 1px solid var(--plant-color-border);
     border-radius: 4px;
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
-}
-.plant.active {
-    --plant-color-border: var(--color-highlight-primary);
-    --plant-tag-color-background: var(--color-primary);
-    --plant-tag-color: var(--color-bg);
+    align-items: center;
+    padding: 0px 4px;
+    cursor: pointer;
 }
 
 .plant__tag {
-    background-color: var(--plant-tag-color-background);
-    padding: var(--unit-s);
-    color: var(--plant-tag-color);
+    background-color: var(--color-border);
+    padding: 2px 4px;
+    color: var(--color-bg);
+    border-radius: 4px;
+}
+.plant.active .plant__tag {
+    color: var(--color-highlight-primary);
 }
 
 .plant__variety {
     padding: var(--unit-s);
-    font-size: 14px;
+    font-size: 12px;
     white-space: nowrap;
+    color: var(--color-fg-secondary);
+}
+.plant.active .plant__variety {
+    color: var(--color-highlight-primary);
 }
 </style>

@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-skull:before {
+  content: "\e90d";
+}
+.icon-note:before {
+  content: "\e90c";
+}
 .icon-bookmark:before {
   content: "\e90a";
 }
@@ -61,7 +67,6 @@
 .icon-sliders:before {
   content: "\e902";
 }
-
 
 /* Custom code start */
 

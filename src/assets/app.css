@@ -43,6 +43,8 @@ body {
 .color-water { --color-value: #2d5884 }
 .color-trowel { --color-value: #377322 }
 .color-shears { --color-value: #5b3d1f }
+.color-note { --color-value: #9b8f29 }
+.color-skull { --color-value: #662323 }
 
 .volume--s { --shape-size: 36px }
 .volume--m { --shape-size: 54px }

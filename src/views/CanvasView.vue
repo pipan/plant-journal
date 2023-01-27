@@ -130,6 +130,12 @@ onMounted(() => {
             <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('plant')">
                 <i class="icon icon--l icon-trowel" :class="{ 'color-trowel': data.tool == 'plant' }"></i>
             </button>
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('note')">
+                <i class="icon icon--l icon-note" :class="{ 'color-note': data.tool == 'note' }"></i>
+            </button>
+            <button type="button" class="bottom-drawer-button clickable" @click="toggleTool('death')">
+                <i class="icon icon--l icon-skull" :class="{ 'color-skull': data.tool == 'death' }"></i>
+            </button>
         </div>
     </bottom-drawer>
     <router-view v-slot="{ Component }">

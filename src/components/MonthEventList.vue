@@ -22,6 +22,27 @@ const config = {
             firstLine: 'Plant',
             secondLine: ''
         }
+    },
+    cut: (event) => {
+        return {
+            icon: ['icon-shears', 'color-shears'],
+            firstLine: 'Cut',
+            secondLine: ''
+        }
+    },
+    death: (event) => {
+        return {
+            icon: ['icon-skull', 'color-skull'],
+            firstLine: 'Death',
+            secondLine: ''
+        }
+    },
+    note: (event) => {
+        return {
+            icon: ['icon-note', 'color-note'],
+            firstLine: 'Note',
+            secondLine: event.note
+        }
     }
 }
 
@@ -59,7 +80,7 @@ const renderEvents = computed(() => {
             </div>
             <div class="column gap-s flex">
                 <div>{{ event.firstLine }}</div>
-                <div class="text-secondary text-s text-pre">{{ event.secondLine }}</div>
+                <div class="text-secondary text-s text-pre" v-if="event.secondLine">{{ event.secondLine }}</div>
             </div>
             <div class="column column--center text-idle">
                 <div>{{ event.date }}</div>

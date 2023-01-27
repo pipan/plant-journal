@@ -22,5 +22,34 @@ export function usePlant() {
         return Promise.all(promises)
     }
 
-    return { create, createBatch }
+    function createEvent(plantIds, data) {
+        let promises = []
+        for (let id of plantIds) {
+            let insertPromise = eventRepo.insert(Object.assign({ plantId: id }, data))
+            promises.push(insertPromise)
+        }
+        return Promise.all(promises)
+    }
+
+    function cut(plantIds, data) {
+        return createEvent(plantIds, Object.assign({ type: 'cut' }, data))
+    }
+
+    function death(plantIds, data) {
+        let promises = []
+        for (let id of plantIds) {
+            let promise = plantRepo.patch(id, { dead: true })
+            promises.push(promise)
+        }
+        return Promise.all(promises).then(() => {
+            return createEvent(plantIds, Object.assign({ type: 'death' }, data))
+        })
+        
+    }
+
+    function note(plantIds, data) {
+        return createEvent(plantIds, Object.assign({ type: 'note' }, data))
+    }
+
+    return { create, createBatch, cut, death, note }
 }

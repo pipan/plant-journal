@@ -9,6 +9,8 @@ import PlantEventModal from '../modals/PlantEventModal.vue'
 import CutEventModal from '../modals/CutEventModal.vue'
 import CanvasEditModal from '../modals/CanvasEditModal.vue'
 import PlantEditModal from '../modals/PlantEditModal.vue'
+import NoteEventModal from '../modals/NoteEventModal.vue'
+import DeathEventModal from '../modals/DeathEventModal.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +58,16 @@ const router = createRouter({
           path: 'pot/:potId/event/cut',
           name: 'event.cut',
           component: CutEventModal
+        },
+        {
+          path: 'pot/:potId/event/note',
+          name: 'event.note',
+          component: NoteEventModal
+        },
+        {
+          path: 'pot/:potId/event/death',
+          name: 'event.death',
+          component: DeathEventModal
         }
       ]
     },

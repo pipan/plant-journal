@@ -24,7 +24,7 @@ function create() {
     let event = {
         createdAt: data.datetimeVisible ? data.datetime : new Date()
     }
-    plantService.cut(data.selectedPlants, event).then(() => {
+    plantService.death(data.selectedPlants, event).then(() => {
         this.close()
     })
 }
@@ -52,7 +52,7 @@ onMounted(() => {
 <modal @outside-click="close()">
     <div class="p-m column gap-l">
         <div class="pos-r row row--center row--middle">
-            <i class="icon icon-shears icon--l color-shears"></i>
+            <i class="icon icon-skull icon--l color-skull"></i>
             <button type="button" class="pos-a pos-right btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
                 <i class="icon icon-clock icon--l"></i>
             </button>
@@ -76,7 +76,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.icon-shears {
+.icon-skull {
     color: var(--color-value);
 }
 </style>
