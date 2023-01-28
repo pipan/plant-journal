@@ -74,6 +74,12 @@ body {
   transform: rotate(180deg);
 }
 
+.holdable.hold--active {
+  transform: scale(0.96);
+  opacity: 0.5;
+  transition: transform linear 600ms 80ms, opacity linear 600ms 80ms;
+}
+
 .holdable::before {
   content: '';
   position: absolute;
@@ -87,7 +93,7 @@ body {
   transition: none;  
 }
 
-.holdable:active::before {
+.holdable.hold--active::before {
   transform: scale(1, 1);
-  transition: transform ease 700ms 40ms;
+  transition: transform ease 600ms 80ms;
 }

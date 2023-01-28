@@ -13,7 +13,8 @@ const props = defineProps({
     max: { type: Number, default: 9 },
     step: { type: Number, default: 1 },
     sensitivity: { type: Number, default: 3 },
-    sufix: { type: String, default: '' }
+    sufix: { type: String, default: '' },
+    label: { type: String, default: '' }
 })
 
 const emit = defineEmits(['change'])
@@ -33,9 +34,17 @@ onMounted(() => {
 </script>
 
 <template>
-<circle-slider :value="data.sliderValue" :step="sensitivity" @change="onChange($event)">{{ value }}{{ sufix }}</circle-slider>
+    <circle-slider :value="data.sliderValue" :step="sensitivity" @change="onChange($event)">
+        <div class="column column--center">
+            <div>{{ value }}{{ sufix }}</div>
+            <div v-if="label" class="label">{{ label }}</div>
+        </div>
+    </circle-slider>
 </template>
 
 <style scoped>
-
+.label {
+    font-size: 12px;
+    color: var(--color-fg-secondary);
+}
 </style>

@@ -65,7 +65,7 @@ onMounted(() => {
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
-        <plant-select align="center" :options="data.plants" :value="data.selectedPlants" @change="data.selectedPlants = $event"></plant-select>
+        <plant-select v-if="data.plants" align="center" :options="data.plants" :value="data.selectedPlants" @change="data.selectedPlants = $event"></plant-select>
         <input-field placeholder="Note" :value="data.note" @change="data.note = $event"></input-field>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">

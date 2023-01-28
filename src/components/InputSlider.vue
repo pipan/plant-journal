@@ -1,9 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { reactive } from '@vue/reactivity'
-import { onMounted, onUnmounted } from '@vue/runtime-core'
-
-let isDraging = false
 
 const props = defineProps({
     value: Number
@@ -21,41 +18,17 @@ function setValue(value) {
     emit('change', value)
 }
 
-function mouseMove(event) {
-    if (!isDraging) {
-        return
-    }
-
-    const x = event.clientX !== undefined ? event.clientX : event.touches[0].clientX
-    const newValue = (x - inputSlider.value.offsetLeft) / inputSlider.value.offsetWidth
+function onDrag(event) {
+    const newValue = (event.x - inputSlider.value.offsetLeft) / inputSlider.value.offsetWidth
     setValue(Math.min(Math.max(newValue, 0), 1))
 }
-
-function startDrag() {
-    isDraging = true
-}
-
-function stopDrag() {
-    isDraging = false
-}
-
-onUnmounted(() => {
-    document.removeEventListener('mousemove', mouseMove)
-    document.removeEventListener('mouseup', stopDrag)
-    document.removeEventListener('touhmove', mouseMove)
-    document.removeEventListener('touchend', stopDrag)
-})
-
-onMounted(() => {
-    document.addEventListener('mousemove', mouseMove)
-    document.addEventListener('mouseup', stopDrag)
-    document.addEventListener('touchmove', mouseMove)
-    document.addEventListener('touchend', stopDrag)
-})
 </script>
 
 <template>
-    <div class="input-slider" :class="{ 'input-field--focus': data.isFocused }" tabindex="0" ref="inputSlider" @mousedown.stop="startDrag" @touchstart.stop="startDrag">
+    <div class="input-slider" tabindex="0"
+        :class="{ 'input-field--focus': data.isFocused }"
+        ref="inputSlider"
+        v-drag="onDrag">
         <div class="input-slider__pin" :style="{ left: (value * 100) + '%' }"></div>
     </div>
 </template>
@@ -91,7 +64,7 @@ onMounted(() => {
     outline: none;
 }
 
-.input-slider:focus .input-slider__pin {
+.input-slider:focus .input-slider__pin, .input-slider.drag--active .input-slider__pin {
     transform: translateX(-50%) scale(120%);
     background-color: var(--color-highlight-primary);
 }

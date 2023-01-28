@@ -42,7 +42,8 @@ onMounted(() => {
 <template>
 <div>
     <div class="view">
-        <div class="canvas-small holdable"
+        <div class="canvas-small"
+            v-hold
             v-for="item in data.canvas"
             :key="item.id"
             @click="open(item.id)"
@@ -106,14 +107,6 @@ onMounted(() => {
     user-select: none;
 }
 
-.canvas-small:hover {
-    border-color: var(--color-highlight-primary);
-}
-
-.canvas-small:hover .canvas-name {
-    color: var(--color-highlight-primary);
-}
-
 .plant-small {
     --shape-size: var(--unit-m);
     box-sizing: border-box;
@@ -134,5 +127,6 @@ onMounted(() => {
     border-radius: 4px;
     padding: 13px var(--unit-s);
     flex: 1;
+    user-select: none;
 }
 </style>

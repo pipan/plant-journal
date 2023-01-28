@@ -4,15 +4,14 @@ import Modal from '../components/Modal.vue'
 import InputField from '../components/InputField.vue'
 import InputSlider from '../components/InputSlider.vue'
 import ShapeSelect from '../components/ShapeSelect.vue'
-import { useRoute, useRouter } from 'vue-router'
 import { useScale } from '../services/scale'
-import { computed } from '@vue/runtime-core'
-import { usePotRepository } from '../repository/pot.repository'
+import { computed, onMounted } from '@vue/runtime-core'
 
-const potRepository = usePotRepository()
-const route = useRoute()
-const router = useRouter()
 const scale = useScale([0.0, 0.5, 1.0], [0, 3000, 10000])
+
+const props = defineProps({
+    pot: { type: Object, default: () => { return {} }}
+})
 
 const data = reactive({
     name: '',
@@ -21,40 +20,39 @@ const data = reactive({
     shape: 'circle',
 })
 
-const volume = computed(() => {
+const emit = defineEmits(['close', 'submit'])
+
+const dataVolume = computed(() => {
     return scale.mapRound(data.volumeNorm, [100, 250])
 })
 
 const unit = computed(() => {
-    return volume.value >= 1000 ? 'l' : 'ml'
+    return dataVolume.value >= 1000 ? 'l' : 'ml'
 })
 const volumeDisplayValue = computed(() => {
-    return volume.value >= 1000 ? (Math.round(volume.value / 10) / 100).toFixed(2) : volume.value
+    return dataVolume.value >= 1000 ? (Math.round(dataVolume.value / 10) / 100).toFixed(2) : dataVolume.value
 })
 
 function create() {
     const pot = {
-        canvasId: parseInt(route.params.id),
         name: data.name,
-        volume: volume.value,
+        volume: dataVolume.value,
         color: data.color,
-        shape: data.shape,
-        x: parseFloat(route.query.x),
-        y: parseFloat(route.query.y)
+        shape: data.shape
     }
-    potRepository.insert(pot).then(() => {
-        this.close()
-    }).catch((err) => {
-        console.error('err', err)
-    })
+    emit('submit', pot)
 }
 
 function close() {
-    if (window.history.length <= 1) {
-        return router.push({ name: 'zone' })
-    }
-    router.go(-1)
+    emit('close')
 }
+
+onMounted(() => {
+    data.name = props.pot.name || ''
+    data.volumeNorm = scale.norm(props.pot.volume || 0)
+    data.color = props.pot.color || 'orange'
+    data.shape = props.pot.shape || 'circle'
+})
 </script>
 
 <template>

@@ -73,9 +73,9 @@ function close() {
                 @change="data.datetime = $event"></datetime-input>
         </transition>
         <div class="row row--center gap-l">
-            <number-input :value="data.n" @change="data.n = $event"></number-input>
-            <number-input :value="data.p" @change="data.p = $event"></number-input>
-            <number-input :value="data.k" @change="data.k = $event"></number-input>
+            <number-input label="N" :value="data.n" @change="data.n = $event"></number-input>
+            <number-input label="P" :value="data.p" @change="data.p = $event"></number-input>
+            <number-input label="K" :value="data.k" @change="data.k = $event"></number-input>
         </div>
         <div class="row row--center gap-l">
             <circle-slider :value="data.volumeNorm" @change="data.volumeNorm = $event" :step="1">

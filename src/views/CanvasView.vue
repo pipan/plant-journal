@@ -23,15 +23,15 @@ let patchDelays = {}
 
 const canvasView = ref(null)
 
-function move(plant, event) {
-    plant.x = Math.min(1, Math.max(0, plant.x + event.deltaX / canvasView.value.offsetWidth))
-    plant.y = Math.min(1, Math.max(0, plant.y + event.deltaY / canvasView.value.offsetHeight))
-    if (patchDelays[plant.id]) {
-        clearTimeout(patchDelays[plant.id])
+function move(pot, event) {
+    pot.x = Math.min(1, Math.max(0, pot.x + event.deltaX / canvasView.value.offsetWidth))
+    pot.y = Math.min(1, Math.max(0, pot.y + event.deltaY / canvasView.value.offsetHeight))
+    if (patchDelays[pot.id]) {
+        clearTimeout(patchDelays[pot.id])
     }
-    patchDelays[plant.id] = setTimeout(() => {
-        potRepository.patch(plant.id, { x: plant.x, y: plant.y })
-        patchDelays[plant.id] = null
+    patchDelays[pot.id] = setTimeout(() => {
+        potRepository.patch(pot.id, { x: pot.x, y: pot.y })
+        patchDelays[pot.id] = null
     }, 120)
 }
 
@@ -82,6 +82,10 @@ function selectPot(pot) {
     router.push({ name: 'event.' + data.tool, params: { potId: pot.id } })
 }
 
+function openEdit(pot) {
+    router.push({ name: 'pot.edit', params: { potId: pot.id } })
+}
+
 function load () {
     const id = parseInt(route.params.id)
     canvasRepository.select(id).then((canvas) => {
@@ -104,7 +108,8 @@ onMounted(() => {
 
 <template>
 <div>
-    <div class="view canvas holdable"
+    <div class="view canvas"
+        v-hold
         @click.stop="tap($event)"
         @contextmenu.prevent="openHome()"
         ref="canvasView">
@@ -117,7 +122,8 @@ onMounted(() => {
                 :key="pot.id"
                 :plant="pot"
                 @move="move(pot, $event)"
-                @select="selectPot(pot)"></plant-box>
+                @select="selectPot(pot)"
+                @selectHold="openEdit(pot)"></plant-box>
         </transition-group>
     </div>
     <bottom-drawer :title="data.canvas ? data.canvas.name : '...'">

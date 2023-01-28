@@ -6,11 +6,16 @@ import App from './App.vue'
 import router from './router'
 
 import './assets/app.css'
+import { holdDirective } from './directives/hold'
+import { dragDirective } from './directives/drag'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+
+app.directive('hold', holdDirective)
+app.directive('drag', dragDirective)
 
 const updateSW = registerSW({
   onOfflineReady() {},

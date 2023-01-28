@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import CanvasView from '../views/CanvasView.vue'
 import NavigationView from '../views/NavigationView.vue'
 import PotView from '../views/PotView.vue'
-import PotModal from '../modals/PotModal.vue'
+import PotCreateModal from '../modals/PotCreateModal.vue'
+import PotEditModal from '../modals/PotEditModal.vue'
 import WaterEventModal from '../modals/WaterEventModal.vue'
 import FertilizeEventModal from '../modals/FertilizeEventModal.vue'
 import PlantEventModal from '../modals/PlantEventModal.vue'
@@ -37,7 +38,12 @@ const router = createRouter({
         {
           path: 'pot/new',
           name: 'pot.new',
-          component: PotModal
+          component: PotCreateModal
+        },
+        {
+          path: 'pot/:potId/edit',
+          name: 'pot.edit',
+          component: PotEditModal
         },
         {
           path: 'pot/:potId/event/water',

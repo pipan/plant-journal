@@ -1,8 +1,6 @@
 <script setup>
 import { reactive } from '@vue/reactivity'
-import { onMounted, onUnmounted } from '@vue/runtime-core'
 
-let isDraging = false
 let previousTouchEvent = null
 
 const props = defineProps({
@@ -21,12 +19,8 @@ function setValue(value) {
     emit('change', value)
 }
 
-function mouseMove(event) {
-    if (!isDraging) {
-        return
-    }
-
-    let movementX = event.movementX
+function onDrag(event) {
+    let movementX = event.deltaX
     if (movementX === undefined) {
         if (previousTouchEvent) {
             movementX = event.touches[0].clientX - previousTouchEvent.touches[0].clientX
@@ -39,19 +33,6 @@ function mouseMove(event) {
     setValue(Math.min(Math.max(newValue, 0), 1))
 }
 
-function startDrag() {
-    isDraging = true
-}
-
-function stopDrag(event) {
-    if (!isDraging) {
-        return
-    }
-    event.preventDefault()
-    previousTouchEvent = null
-    isDraging = false
-}
-
 function onScroll(event) {
     if (event.wheelDelta > 0) {
         setValue(Math.min(props.value + 0.01 * props.step, 1.0))
@@ -59,28 +40,13 @@ function onScroll(event) {
         setValue(Math.max(props.value - 0.01 * props.step, 0.0))
     }
 }
-
-onUnmounted(() => {
-    document.removeEventListener('mousemove', mouseMove)
-    document.removeEventListener('mouseup', stopDrag)
-    document.removeEventListener('touchmove', mouseMove)
-    document.removeEventListener('touhend', stopDrag)
-})
-
-onMounted(() => {
-    document.addEventListener('mousemove', mouseMove)
-    document.addEventListener('mouseup', stopDrag)
-    document.addEventListener('touchmove', mouseMove)
-    document.addEventListener('touchend', stopDrag)
-})
 </script>
 
 <template>
     <div class="circle-slider" :class="{ 'circle-field--focus': data.isFocused }" :style="{'--angel-value': (10 + (value * 340)) + 'deg'}"
         tabindex="0"
         @wheel="onScroll($event)"
-        @mousedown="startDrag()"
-        @touchstart="startDrag()">
+        v-drag="onDrag">
         <div class="circle-slider-content">
             <slot></slot>
         </div>

@@ -6,7 +6,7 @@ const emit = defineEmits(['change', 'select'])
 const config = {
     alignments: {
         inline: {
-            row: ['row', 'scroll-x', 'scroll--hidden', 'gap-m', 'py-s', 'px-m']
+            row: ['row', 'scroll-x', 'scroll--hidden', 'gap-m', 'px-m']
         },
         center: {
             row: ['row', 'flex--wrap', 'row--center', 'gap-m', 'py-s', 'px-m']
@@ -47,7 +47,8 @@ function select(plant) {
 <template>
     <div :class="alignment.row">
         <div class="plant clickable" v-for="plant of options" :key="plant.id"
-            :class="{'active': value.indexOf(plant.id) > -1, 'holdable': holdable }"
+            :class="{'active': value.indexOf(plant.id) > -1 }"
+            v-hold="holdable"
             @click="toggleValue(plant.id)"
             @contextmenu.prevent="select(plant)">
             <div class="plant__tag" v-if="plant.tag">{{ plant.tag }}</div>
@@ -66,6 +67,7 @@ function select(plant) {
     align-items: center;
     padding: 0px 4px;
     cursor: pointer;
+    user-select: none;
 }
 
 .plant__tag {
