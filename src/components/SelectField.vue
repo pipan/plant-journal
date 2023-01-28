@@ -4,11 +4,8 @@ import { reactive } from '@vue/reactivity'
 const emit = defineEmits(['change'])
 
 const props = defineProps({
-    placeholder: { type: String },
-    value: { type: String },
-    mode: { type: String, default: 'text' },
-    align: { type: String, default: 'center' },
-    disabled: { type: Boolean, default: false }
+    value: { type: [String, Number] },
+    options: { type: Array, default: () => [] }
 })
 
 const data = reactive({
@@ -24,19 +21,18 @@ function change(value) {
 </script>
 
 <template>
-    <div class="input-field" :class="{ 'input-field--focus': data.isFocused, 'input-field--disabled': disabled, 'input-field--left': align === 'left' }">
-        <input :type="mode"
-            :placeholder="placeholder"
-            :value="value"
-            :disabled="disabled"
+    <div class="select-field" :class="{ 'select-field--focus': data.isFocused }">
+        <select :value="value"
             @focus="data.isFocused = true"
             @blur="data.isFocused = false"
-            @input="change($event.target.value)" />
+            @change="change($event.target.value)">
+            <option v-for="item of options" :key="item.id" :value="item.id">{{ item.name }}</option>
+        </select>
     </div>
 </template>
 
 <style scoped>
-.input-field {
+.select-field {
     position: relative;
     width: 100%;
     display: flex;
@@ -44,7 +40,7 @@ function change(value) {
     align-items: center;
 }
 
-.input-field::before {
+.select-field::before {
     content: '';
     position: absolute;
     bottom: 0px;
@@ -54,22 +50,18 @@ function change(value) {
     transition: width 120ms ease-out, transform 120ms ease-in, background-color 120ms ease;
 }
 
-.input-field.input-field--focus::before {
+.select-field.select-field--focus::before {
     width: 100%;
     transform: translateX(0%);
     transition: width 120ms ease-in, transform 120ms ease-out, background-color 120ms ease;
     background-color: var(--color-highlight-primary);
 }
 
-.input-field:hover::before {
+.select-field:hover::before {
     background-color: var(--color-highlight-primary);
 }
 
-.input-field.input-field--disabled:hover::before {
-    background-color: var(--color-border);
-}
-
-.input-field input {
+.select-field select {
     box-sizing: border-box;
     width: 100%;
     padding: var(--unit-s);
@@ -79,14 +71,5 @@ function change(value) {
     color: var(--color-fg);
     outline: none;
     font-size: 16px;
-}
-.input-field input:disabled {
-    color: var(--color-border);
-}
-.input-field.input-field--left input {
-    text-align: left;
-}
-.input-field.input-field--left {
-    align-items: flex-start;
 }
 </style>

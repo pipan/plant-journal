@@ -31,6 +31,26 @@ export function usePlant() {
         return Promise.all(promises)
     }
 
+    function moveSingle(plantId, targetPotId, eventData) {
+        return plantRepo.select(plantId).then((plant) => {
+            let promises = []
+            promises.push(plantRepo.patch(plantId, { potId: targetPotId }))
+            let event = Object.assign({}, eventData, { source: plant.potId, target: targetPotId })
+            promises.push(createEvent([plantId], event))
+            return Promise.all(promises).then((events) => {
+                return { plant: events[0], event: events[0] }
+            })
+        })
+    }
+
+    function move(plantIds, targetPotId, eventData) {
+        let promises = []
+        for (let platnId of plantIds) {
+            promises.push(moveSingle(platnId, targetPotId, eventData))
+        }
+        return Promise.all(promises)
+    }
+
     function cut(plantIds, data) {
         return createEvent(plantIds, Object.assign({ type: 'cut' }, data))
     }
@@ -51,5 +71,5 @@ export function usePlant() {
         return createEvent(plantIds, Object.assign({ type: 'note' }, data))
     }
 
-    return { create, createBatch, cut, death, note }
+    return { create, createBatch, move, cut, death, note }
 }

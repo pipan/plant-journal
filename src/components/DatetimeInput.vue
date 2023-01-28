@@ -2,7 +2,6 @@
 import { reactive } from '@vue/reactivity'
 import InputField from './InputField.vue'
 import CircleSlider from './CircleSlider.vue'
-import CircleStepInput from './CircleStepInput.vue'
 import { computed, onMounted } from '@vue/runtime-core'
 import { normMap, stepRound } from '../services/units'
 

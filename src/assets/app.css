@@ -69,3 +69,7 @@ body {
   margin: calc(var(--shape-size) / 4) 0px;
   border-radius: calc(var(--shape-size) / 6);
 }
+
+.rotate-180 {
+  transform: rotate(180deg);
+}

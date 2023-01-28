@@ -6,10 +6,13 @@ const emit = defineEmits(['change', 'select'])
 const config = {
     alignments: {
         inline: {
-            row: ['row', 'scroll-x', 'scroll--hidden']
+            row: ['row', 'scroll-x', 'scroll--hidden', 'gap-m', 'py-s', 'px-m']
         },
         center: {
-            row: ['row', 'flex--wrap', 'row--center']
+            row: ['row', 'flex--wrap', 'row--center', 'gap-m', 'py-s', 'px-m']
+        },
+        list: {
+            row: ['column', 'gap-s']
         }
     }
 }
@@ -41,7 +44,7 @@ function select(plant) {
 </script>
 
 <template>
-    <div class="gap-m py-s px-m" :class="alignment.row">
+    <div :class="alignment.row">
         <div class="plant clickable" v-for="plant of options" :key="plant.id"
             :class="value.indexOf(plant.id) > -1 ? 'active' : ''"
             @click="toggleValue(plant.id)"
