@@ -104,6 +104,6 @@ function selectHold() {
 }
 
 .holdable::before {
-    content: none;
+    top: -6px;
 }
 </style>

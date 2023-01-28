@@ -76,14 +76,13 @@ body {
 
 .holdable.hold--active {
   transform: scale(0.96);
-  opacity: 0.5;
-  transition: transform linear 600ms 80ms, opacity linear 600ms 80ms;
+  transition: transform linear 600ms 80ms;
 }
 
 .holdable::before {
   content: '';
   position: absolute;
-  bottom: 0px;
+  top: 0px;
   left: 0px;
   height: 2px;
   transform: scale(0, 1);
