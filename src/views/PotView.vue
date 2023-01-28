@@ -120,6 +120,7 @@ onBeforeUnmount(() => {
             <plant-select align="inline"
                 :value="data.selectedPlants"
                 :options="data.plants"
+                :holdable="true"
                 @change="setSelectedPlants($event)"
                 @select="openPlantEdit($event.id)"></plant-select>
             <div class="column">

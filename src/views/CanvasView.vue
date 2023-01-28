@@ -71,6 +71,10 @@ function tap(event) {
 }
 
 function selectPot(pot) {
+    if (data.tapTimer) {
+        clearTimeout(data.tapTimer)
+        data.tapTimer = null
+    }
     if (data.tool == 'none') {
         router.push({ name: 'pot', params: { id: pot.id } })    
         return
@@ -100,7 +104,7 @@ onMounted(() => {
 
 <template>
 <div>
-    <div class="view canvas"
+    <div class="view canvas holdable"
         @click.stop="tap($event)"
         @contextmenu.prevent="openHome()"
         ref="canvasView">

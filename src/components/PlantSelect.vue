@@ -20,7 +20,8 @@ const config = {
 const props = defineProps({
     options: { type: Array, default: () => [] },
     value: { type: Array, default: () => [] },
-    align: { type: String, default: 'center' }
+    align: { type: String, default: 'center' },
+    holdable: { type: Boolean, default: false }
 })
 
 const alignment = computed(() => {
@@ -46,7 +47,7 @@ function select(plant) {
 <template>
     <div :class="alignment.row">
         <div class="plant clickable" v-for="plant of options" :key="plant.id"
-            :class="value.indexOf(plant.id) > -1 ? 'active' : ''"
+            :class="{'active': value.indexOf(plant.id) > -1, 'holdable': holdable }"
             @click="toggleValue(plant.id)"
             @contextmenu.prevent="select(plant)">
             <div class="plant__tag" v-if="plant.tag">{{ plant.tag }}</div>
@@ -57,6 +58,7 @@ function select(plant) {
 
 <style scoped>
 .plant {
+    position: relative;
     border-radius: 4px;
     display: flex;
     flex-direction: row;

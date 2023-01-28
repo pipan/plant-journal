@@ -42,7 +42,7 @@ onMounted(() => {
 <template>
 <div>
     <div class="view">
-        <div class="canvas-small"
+        <div class="canvas-small holdable"
             v-for="item in data.canvas"
             :key="item.id"
             @click="open(item.id)"
@@ -103,6 +103,7 @@ onMounted(() => {
     color: var(--color-border);
     font-size: 12px;
     transition: color 120ms ease;
+    user-select: none;
 }
 
 .canvas-small:hover {

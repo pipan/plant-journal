@@ -73,3 +73,21 @@ body {
 .rotate-180 {
   transform: rotate(180deg);
 }
+
+.holdable::before {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  height: 2px;
+  transform: scale(0, 1);
+  background-color: var(--color-primary);
+  width: 100%;
+  animation-play-state: paused;
+  transition: none;  
+}
+
+.holdable:active::before {
+  transform: scale(1, 1);
+  transition: transform ease 700ms 40ms;
+}
