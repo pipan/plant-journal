@@ -14,9 +14,7 @@ const router = useRouter()
 
 const data = reactive({
     canvas: null,
-    tool: 'none',
-    tapAt: -1,
-    tapTimer: null,
+    tool: 'none'
 })
 
 let patchDelays = {}
@@ -48,33 +46,20 @@ function openHome() {
 }
 
 function tap(event) {
-    if (data.tapTimer) {
-        clearTimeout(data.tapTimer)
-        data.tapTimer = null
-        openHome()
-        return
+    let position = {
+        x: 0.5,
+        y: 0.5
     }
-    data.tapTimer = setTimeout(() => {
-        data.tapTimer = null
-        let position = {
-            x: 0.5,
-            y: 0.5
-        }
-        if (canvasView.value) {
-            const x = event.clientX !== undefined ? event.clientX : event.touches[0].clientX
-            const y = event.clientY !== undefined ? event.clientY : event.touches[0].clientY
-            position.x = Math.min(1, Math.max(x / canvasView.value.offsetWidth, 0))
-            position.y = Math.min(1, Math.max(y / canvasView.value.offsetHeight, 0))
-        }
-        router.push({ name: 'pot.new', query: { x: position.x, y: position.y } })
-    }, 200)
+    if (canvasView.value) {
+        const x = event.clientX !== undefined ? event.clientX : event.touches[0].clientX
+        const y = event.clientY !== undefined ? event.clientY : event.touches[0].clientY
+        position.x = Math.min(1, Math.max(x / canvasView.value.offsetWidth, 0))
+        position.y = Math.min(1, Math.max(y / canvasView.value.offsetHeight, 0))
+    }
+    router.push({ name: 'pot.new', query: { x: position.x, y: position.y } })
 }
 
 function selectPot(pot) {
-    if (data.tapTimer) {
-        clearTimeout(data.tapTimer)
-        data.tapTimer = null
-    }
     if (data.tool == 'none') {
         router.push({ name: 'pot', params: { id: pot.id } })    
         return
@@ -115,7 +100,7 @@ onMounted(() => {
         ref="canvasView">
         <div class="hint">
             <div class="row row--middle row--center gap-s"><i class="icon icon-tap"></i> tap to create</div>
-            <div class="row row--middle row--center gap-s"><i class="icon icon-doubletap"></i> double tap to navigate</div>
+            <div class="row row--middle row--center gap-s"><i class="icon icon-doubletap"></i> hold to navigate</div>
         </div>
         <transition-group name="animation-row" duration="220" v-if="data.canvas">
             <plant-box v-for="pot in data.canvas.pots || []"
