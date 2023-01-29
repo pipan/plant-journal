@@ -10,6 +10,7 @@ export function initMigration(dbRef) {
     canvasStore.put({ id: 6, name: 'bottom left'})
     canvasStore.put({ id: 7, name: 'bottom'})
     canvasStore.put({ id: 8, name: 'bottom right'})
+    canvasStore.put({ id: 'archive', name: 'Archive'})
 
     const potStore = dbRef.createObjectStore("pot", { autoIncrement: true, keyPath: 'id' });
     potStore.createIndex("id", "id", { unique: true });

@@ -10,6 +10,13 @@ export function useCanvasRepository() {
             return hasMany(canvas, 'pots', (item) => { return potRepo.selectByIndex('canvasId', item.id) })
         })
     }
+
+    function selectAllActive() {
+        const key = IDBKeyRange.bound(0, 8)
+        return canvasRepo.selectByIndexRange('id', key).then((canvas) => {
+            return hasMany(canvas, 'pots', (item) => { return potRepo.selectByIndex('canvasId', item.id) })
+        })
+    }
     
     function select(id) {
         return canvasRepo.select(id).then((canvas) => {
@@ -29,5 +36,5 @@ export function useCanvasRepository() {
         return canvasRepo.insert(id, data)
     }
 
-    return { selectAll, select, update, patch, insert }
+    return { selectAll, selectAllActive, select, update, patch, insert }
 }

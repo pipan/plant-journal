@@ -12,6 +12,7 @@ import CanvasEditModal from '../modals/CanvasEditModal.vue'
 import PlantEditModal from '../modals/PlantEditModal.vue'
 import NoteEventModal from '../modals/NoteEventModal.vue'
 import DeathEventModal from '../modals/DeathEventModal.vue'
+import PotListView from '../views/PotListView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,12 @@ const router = createRouter({
           component: CanvasEditModal
         }
       ]
+    },
+    {
+      path: '/list/:id',
+      name: 'pot.list',
+      component: PotListView,
+      meta: { transition: '', layer: 1 },
     },
     {
       path: '/canvas/:id',

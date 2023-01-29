@@ -73,7 +73,7 @@ onMounted(() => {
     data.color = props.pot.color || 'orange'
     data.shape = props.pot.shape || 'circle'
     data.selectedCanvasId = props.pot.canvasId || 0
-    canvasRepo.selectAll().then((canvas) => {
+    canvasRepo.selectAllActive().then((canvas) => {
         data.canvas = canvas
     })
 })

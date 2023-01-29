@@ -16,12 +16,16 @@ function open(id) {
     router.push({ name: 'canvas', params: { id: id } })
 }
 
+function openArchive() {
+    router.push({ name: 'pot.list', params: { id: 'archive' } })
+}
+
 function openEdit(id) {
     router.push({ name: 'canvas.edit', params: { id: id } })
 }
 
 function load () {
-    canvasRepository.selectAll().then((canvas) => {
+    canvasRepository.selectAllActive().then((canvas) => {
         data.canvas = canvas
     })
 }
@@ -57,9 +61,9 @@ onMounted(() => {
     </div>
     <bottom-drawer>
         <div class="row text-center gap-s p-s">
-            <button type="button" class="bottom-drawer-button clickable">JOURNAL</button>
-            <button type="button" class="bottom-drawer-button clickable">STATS</button>
-            <button type="button" class="bottom-drawer-button clickable">SETTINGS</button>
+            <button type="button" class="bottom-drawer-button clickable" @click="openArchive()">
+                <i class="icon icon--l icon-archive"></i>
+            </button>
         </div>
     </bottom-drawer>
     <router-view v-slot="{ Component }">
@@ -125,8 +129,7 @@ onMounted(() => {
 
 .bottom-drawer-button {
     border-radius: 4px;
-    padding: 13px var(--unit-s);
+    padding: var(--unit-s);
     flex: 1;
-    user-select: none;
 }
 </style>

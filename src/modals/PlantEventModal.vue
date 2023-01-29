@@ -7,7 +7,6 @@ import RadioSelect from '../components/RadioSelect.vue'
 import NumberInput from '../components/NumberInput.vue'
 import PlantSelect from '../components/PlantSelect.vue'
 import TagInput from '../components/TagInput.vue'
-import CanvasSelect from '../components/CanvasSelect.vue'
 import SelectField from '../components/SelectField.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePlant } from '../services/plant'
@@ -130,7 +129,7 @@ function loadPot() {
 
 function loadCanvas() {
     const id = parseInt(route.params.id)
-    return canvasRepository.selectAll(id).then((canvas) => {
+    return canvasRepository.select(id).then((canvas) => {
         data.canvas = canvas
         return canvas
     })

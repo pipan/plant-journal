@@ -182,22 +182,6 @@ onMounted(() => {
     transition: border-radius 120ms ease, height 120ms ease, margin 120ms ease, border-color 120ms ease;
 }
 
-.color {
-    width: 24px;
-    height: 24px;
-    border-radius: 100%;
-    box-sizing: border-box;
-    border: 1px solid var(--color-value);
-}
-
-.color:hover {
-    border-width: 2px;
-}
-
-.color.color--active {
-    background-color: var(--color-value);
-}
-
 .bottom-drawer-button {
     --color-value: var(--color-border);
     border-radius: 4px;
