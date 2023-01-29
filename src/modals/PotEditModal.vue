@@ -21,16 +21,23 @@ function create(data) {
     })
 }
 
-function manage(data) {
+function manage(eventData) {
     const potId = parseInt(route.params.potId)
-    if (data.action == 'archive') {
+    if (eventData.action == 'archive') {
         potService.archive(potId).then(() => {
             close()
         })
-    } else if (data.action == 'delete') {
+    } else if (eventData.action == 'delete') {
         potService.remove(potId).then(() => {
             close()
         })
+    } else {
+        const canvasIdInt = parseInt(eventData.canvasId)
+        if (canvasIdInt !== data.pot.canvasId) {
+            potRepository.patch(potId, { canvasId: canvasIdInt }).then(() => {
+                close()
+            })
+        }
     }
 }
 

@@ -2,11 +2,14 @@
 import { reactive } from '@vue/reactivity'
 import Modal from '../components/Modal.vue'
 import InputField from '../components/InputField.vue'
+import SelectField from '../components/SelectField.vue'
 import InputSlider from '../components/InputSlider.vue'
 import ShapeSelect from '../components/ShapeSelect.vue'
 import { useScale } from '../services/scale'
 import { computed, onMounted } from '@vue/runtime-core'
+import { useCanvasRepository } from '../repository/canvas.repository'
 
+const canvasRepo = useCanvasRepository()
 const scale = useScale([0.0, 0.5, 1.0], [0, 3000, 10000])
 
 const props = defineProps({
@@ -20,7 +23,9 @@ const data = reactive({
     color: 'orange',
     shape: 'circle',
     managementAction: '',
-    management: false
+    selectedCanvasId: 0,
+    management: false,
+    canvas: []
 })
 
 const emit = defineEmits(['close', 'submit', 'manage'])
@@ -38,10 +43,7 @@ const volumeDisplayValue = computed(() => {
 
 function create() {
     if (data.management) {
-        if (data.managementAction == '') {
-            return
-        }
-        emit('manage', { action: data.managementAction })
+        emit('manage', { action: data.managementAction, canvasId: data.selectedCanvasId })
     } else {
         const pot = {
             name: data.name,
@@ -70,6 +72,10 @@ onMounted(() => {
     data.volumeNorm = scale.norm(props.pot.volume || 0)
     data.color = props.pot.color || 'orange'
     data.shape = props.pot.shape || 'circle'
+    data.selectedCanvasId = props.pot.canvasId || 0
+    canvasRepo.selectAll().then((canvas) => {
+        data.canvas = canvas
+    })
 })
 </script>
 
@@ -106,6 +112,11 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="column" v-else-if="data.management">
+                    <div class="row row--middle py-m">
+                        <select-field :value="data.selectedCanvasId"
+                            :options="data.canvas"
+                            @change="data.selectedCanvasId = $event"></select-field>
+                    </div>
                     <div class="row row--middle gap-l p-m clickable" 
                         :class="{'active': data.managementAction == 'archive'}"
                         @click="toggleManagementAction('archive')">
