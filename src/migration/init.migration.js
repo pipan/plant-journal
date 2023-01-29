@@ -22,4 +22,5 @@ export function initMigration(dbRef) {
     const eventStore = dbRef.createObjectStore("event", { autoIncrement: true, keyPath: 'id' });
     eventStore.createIndex("id", "id", { unique: true });
     eventStore.createIndex("plantId", "plantId", { unique: false });
+    eventStore.createIndex("potId", "potId", { unique: false });
 }

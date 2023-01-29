@@ -75,6 +75,7 @@ function select(plant) {
     padding: 2px 4px;
     color: var(--color-bg);
     border-radius: 4px;
+    font-size: 20px;
 }
 .plant.active .plant__tag {
     color: var(--color-highlight-primary);
@@ -82,7 +83,7 @@ function select(plant) {
 
 .plant__variety {
     padding: var(--unit-s);
-    font-size: 12px;
+    font-size: 16px;
     white-space: nowrap;
     color: var(--color-fg-secondary);
 }

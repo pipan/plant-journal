@@ -7,7 +7,7 @@ export function usePlant() {
 
     function create(plantData, eventData) {
         return plantRepo.insert(plantData).then((plantId) => {
-            const event = Object.assign({ plantId: plantId }, eventData)
+            const event = Object.assign({ plantId: plantId, potId: plantData.potId }, eventData)
             return eventRepo.insert(event).then((eventId) => {
                 return { plantId: plantId, eventId: eventId }
             })
@@ -25,28 +25,28 @@ export function usePlant() {
     function createEvent(plantIds, data) {
         let promises = []
         for (let id of plantIds) {
-            let insertPromise = eventRepo.insert(Object.assign({ plantId: id }, data))
+            let insertPromise = plantRepo.select(id).then((plant) => {
+                return eventRepo.insert(Object.assign({ plantId: id, potId: plant.potId }, data))
+            })
             promises.push(insertPromise)
         }
         return Promise.all(promises)
     }
 
     function moveSingle(plantId, targetPotId, eventData) {
-        return plantRepo.select(plantId).then((plant) => {
-            let promises = []
-            promises.push(plantRepo.patch(plantId, { potId: targetPotId }))
-            let event = Object.assign({}, eventData, { source: plant.potId, target: targetPotId })
-            promises.push(createEvent([plantId], event))
-            return Promise.all(promises).then((events) => {
-                return { plant: events[0], event: events[0] }
+        let plantOutEvent = Object.assign({}, eventData, { type: 'plantOut' })
+        return createEvent([plantId], plantOutEvent).then(() => {
+                return plantRepo.patch(plantId, { potId: targetPotId })
+            }).then(() => {
+                let plantInEvent = Object.assign({}, eventData, { type: 'plantIn' })
+                return createEvent([plantId], plantInEvent)
             })
-        })
     }
 
     function move(plantIds, targetPotId, eventData) {
         let promises = []
-        for (let platnId of plantIds) {
-            promises.push(moveSingle(platnId, targetPotId, eventData))
+        for (let plantId of plantIds) {
+            promises.push(moveSingle(plantId, targetPotId, eventData))
         }
         return Promise.all(promises)
     }

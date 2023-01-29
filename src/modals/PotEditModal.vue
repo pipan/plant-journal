@@ -3,8 +3,10 @@ import PotModal from './PotModal.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePotRepository } from '../repository/pot.repository'
 import { onMounted, reactive } from '@vue/runtime-core'
+import { usePot } from '../services/pot'
 
 const potRepository = usePotRepository()
+const potService = usePot()
 const route = useRoute()
 const router = useRouter()
 
@@ -19,9 +21,22 @@ function create(data) {
     })
 }
 
+function manage(data) {
+    const potId = parseInt(route.params.potId)
+    if (data.action == 'archive') {
+        potService.archive(potId).then(() => {
+            this.close()
+        })
+    } else if (data.action == 'delete') {
+        potService.remove(potId).then(() => {
+            this.close()
+        })
+    }
+}
+
 function close() {
     if (window.history.length <= 1) {
-        return router.push({ name: 'zone' })
+        return router.push({ name: 'canvas' })
     }
     router.go(-1)
 }
@@ -35,7 +50,12 @@ onMounted(() => {
 </script>
 
 <template>
-    <pot-modal v-if="data.pot" :pot="data.pot" @close="close()" @submit="create($event)"></pot-modal>
+    <pot-modal v-if="data.pot"
+        :pot="data.pot"
+        :canManage="true"
+        @close="close()"
+        @submit="create($event)"
+        @manage="manage($event)"></pot-modal>
 </template>
 
 <style scoped>

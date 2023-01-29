@@ -19,5 +19,9 @@ export function usePotRepository() {
         return potRepo.insert(data)
     }
 
-    return { update, patch, insert, select }
+    function remove(id) {
+        return potRepo.remove(id)
+    }
+
+    return { update, patch, insert, select, remove }
 }

@@ -61,6 +61,7 @@ function selectHold() {
 .plant-box {
     transform: translateX(-50%) translateY(-33%);
     cursor: move;
+    user-select: none;
 }
 
 .plant-box.drag--active:active {
@@ -81,6 +82,7 @@ function selectHold() {
     font-size: 12px;
     background-color: var(--color-bg);
     white-space: nowrap;
+    user-select: none;
 }
 
 .plant {

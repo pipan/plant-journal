@@ -24,7 +24,7 @@ function create(data) {
 
 function close() {
     if (window.history.length <= 1) {
-        return router.push({ name: 'zone' })
+        return router.push({ name: 'canvas' })
     }
     router.go(-1)
 }

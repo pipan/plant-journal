@@ -49,14 +49,20 @@ const targetCanvas = computed(() => {
 })
 
 function create() {
-    let eventData = { type: 'plant', plantType: data.plantType, createdAt: data.datetimeVisible ? data.datetime : new Date() }
+    let eventData = { plantType: data.plantType, createdAt: data.datetimeVisible ? data.datetime : new Date() }
     if (!isNewPlantType()) {
+        const sourcePotId = parseInt(route.params.potId)
+        if (data.target.selectedPotId == sourcePotId) {
+            // todo validation error
+            return
+        }
         plantService.move(data.selectedPlants, data.target.selectedPotId, eventData)
     } else {
         if (data.items.length === 0) {
             console.log("TODO: validate error / disable button")
             return
         }
+        eventData.type = 'plantIn'
         const potId = parseInt(route.params.potId)
         for (let item of data.items) {
             if (!item.variety) {
@@ -156,7 +162,7 @@ function removeItem(index) {
 
 function close() {
     if (window.history.length <= 1) {
-        return router.push({ name: 'zone' })
+        return router.push({ name: 'canvas' })
     }
     router.go(-1)
 }

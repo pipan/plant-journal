@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cog:before {
+  content: "\e90f";
+}
+.icon-bin:before {
+  content: "\e910";
+}
+.icon-archive:before {
+  content: "\e911";
+}
 .icon-arrow-right:before {
   content: "\e90e";
 }

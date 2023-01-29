@@ -36,5 +36,15 @@ export function usePlantRepository() {
         return plantRepo.insert(data)
     }
 
-    return { update, patch, insert, select, selectAllByPot, selectActiveByPot }
+    function removeByPot(potId) {
+        return selectAllByPot(potId).then((plants) => {
+            let ids = []
+            for (let plant of plants) {
+                ids.push(plant.id)
+            }
+            plantRepo.removeList(ids)
+        })
+    }
+
+    return { update, patch, insert, select, selectAllByPot, selectActiveByPot, removeByPot }
 }

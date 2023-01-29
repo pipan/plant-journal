@@ -65,7 +65,7 @@ function load(plantIds) {
     })
     return loadPlants().then((plants) => {
             data.plants = plants
-            return eventRepository.selectByPlants(plantIds)
+            return eventRepository.selectByPlantsForPot(plantIds, id)
         }).then((events) => {
             data.events = events
             data.events.sort((a, b) => {

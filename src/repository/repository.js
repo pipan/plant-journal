@@ -53,5 +53,21 @@ export function useRepository(name) {
         })
     }
 
-    return { selectAll, select, selectByIndex, selectByIndexRange, update, patch, insert }
+    function remove(id) {
+        return connect('plant').then((dbRef) => {
+            const transaction = dbRef.transaction([name], "readwrite")
+            const requestCursor = transaction.objectStore(name).delete(id)
+            return getRequest(requestCursor)
+        })
+    }
+
+    function removeList(ids) {
+        let promises = []
+        for  (let id of ids) {
+            promises.push(remove(id))
+        }
+        return Promise.all(promises)
+    }
+
+    return { selectAll, select, selectByIndex, selectByIndexRange, update, patch, insert, remove, removeList }
 }

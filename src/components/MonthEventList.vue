@@ -16,10 +16,17 @@ const config = {
             secondLine: event.volume + " g\t" + [event.n, event.p, event.k].join("-")
         }
     },
-    plant: (event) => {
+    plantOut: (event) => {
         return {
             icon: ['icon-trowel', 'color-trowel'],
-            firstLine: 'Plant',
+            firstLine: 'Plant Out',
+            secondLine: ''
+        }
+    },
+    plantIn: (event) => {
+        return {
+            icon: ['icon-trowel', 'color-trowel'],
+            firstLine: 'Plant in',
             secondLine: ''
         }
     },
