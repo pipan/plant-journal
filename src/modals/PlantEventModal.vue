@@ -128,8 +128,7 @@ function loadPot() {
 }
 
 function loadCanvas() {
-    const id = parseInt(route.params.id)
-    return canvasRepository.select(id).then((canvas) => {
+    return canvasRepository.selectAllActive().then((canvas) => {
         data.canvas = canvas
         return canvas
     })
