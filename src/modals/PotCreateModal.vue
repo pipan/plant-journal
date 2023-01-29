@@ -18,7 +18,7 @@ function create(data) {
         y: parseFloat(route.query.y)
     }
     potRepository.insert(pot).then(() => {
-        this.close()
+        close()
     })
 }
 

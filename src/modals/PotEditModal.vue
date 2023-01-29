@@ -17,7 +17,7 @@ const data = reactive({
 function create(data) {
     const potId = parseInt(route.params.potId)
     potRepository.patch(potId, data).then(() => {
-        this.close()
+        close()
     })
 }
 
@@ -25,11 +25,11 @@ function manage(data) {
     const potId = parseInt(route.params.potId)
     if (data.action == 'archive') {
         potService.archive(potId).then(() => {
-            this.close()
+            close()
         })
     } else if (data.action == 'delete') {
         potService.remove(potId).then(() => {
-            this.close()
+            close()
         })
     }
 }

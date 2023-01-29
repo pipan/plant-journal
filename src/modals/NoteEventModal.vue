@@ -28,7 +28,7 @@ function create() {
         note: data.note
     }
     plantService.note(data.selectedPlants, event).then(() => {
-        this.close()
+        close()
     })
 }
 

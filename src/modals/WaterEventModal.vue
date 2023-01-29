@@ -19,7 +19,7 @@ const data = reactive({
 function create() {
     const potId = parseInt(route.params.potId)
     potService.water(potId, { volume: data.volume, createdAt: data.datetimeVisible ? data.datetime : new Date() }).then(() => {
-        this.close()
+        close()
     })
 }
 

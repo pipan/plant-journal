@@ -21,7 +21,7 @@ const data = reactive({
 function save() {
     const id = parseInt(route.params.plantId)
     plantRepository.patch(id, { variety: data.variety, tag: data.withTag ? data.tag : '' }).then(() => {
-        this.close()
+        close()
     })
 }
 

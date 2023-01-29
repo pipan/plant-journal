@@ -25,7 +25,7 @@ function create() {
         createdAt: data.datetimeVisible ? data.datetime : new Date()
     }
     plantService.cut(data.selectedPlants, event).then(() => {
-        this.close()
+        close()
     })
 }
 

@@ -17,7 +17,7 @@ const data = reactive({
 function save() {
     const id = parseInt(route.params.id)
     canvasRepository.patch(id, { name: data.name }).then(() => {
-        this.close()
+        close()
     })
 }
 

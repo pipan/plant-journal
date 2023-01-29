@@ -46,7 +46,7 @@ function create() {
         createdAt: data.datetimeVisible ? data.datetime : new Date()
     }
     potService.fertilize(potId, event).then(() => {
-        this.close()
+        close()
     })
 }
 
