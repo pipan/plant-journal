@@ -50,16 +50,21 @@ onMounted(() => {
 
 <template>
 <div>
-    <div class="view">
-        <div class="column" v-if="data.canvas">
+    <div class="view column">
+        <div class="column" v-if="data.canvas && data.canvas.pots.length > 0">
             <div class="row row--middle px-l py-m gap-m clickable" 
-                v-for="pot of data.canvas.pots || []" :key="pot.id"
+                v-for="pot of data.canvas.pots" :key="pot.id"
                 @click="openPot(pot)">
                 <div class="plant" :class="['color--' + pot.color, 'shape--' + pot.shape]"></div>
                 <div class="column gap-s">
                     <div>{{ pot.name }}</div>
                     <div class="text-secondary text-s">{{ pot.archiveAt.toLocaleDateString() }}</div>
                 </div>
+            </div>
+        </div>
+        <div class="column flex column--middle column--center" v-if="!data.canvas || data.canvas.pots.length === 0">
+            <div class="p-l text-secondary">
+                Your archive is empyt
             </div>
         </div>
     </div>

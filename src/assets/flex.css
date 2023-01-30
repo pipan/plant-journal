@@ -13,6 +13,7 @@
 }
 
 .column--center { align-items: center; }
+.column--middle { justify-content: center; }
 .column--end { justify-content: flex-end; }
 
 .flex--wrap { flex-wrap: wrap; }
