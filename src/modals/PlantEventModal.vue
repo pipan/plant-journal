@@ -47,6 +47,27 @@ const targetCanvas = computed(() => {
     return getCanvasById(data.target.selectedCanvasId)
 })
 
+const targetPots = computed(() => {
+    if (!targetCanvas.value) {
+        return []
+    }
+    let result = []
+    for (let pot of targetCanvas.value.pots) {
+        if (pot.id === data.source.pot.id) {
+            continue
+        }
+        result.push(pot)
+    }
+    return result
+})
+
+const disabled = computed(() => {
+    if (isNewPlantType()) {
+        return data.items.length === 0
+    }
+    return data.plants.length === 0 || data.selectedPlants.length === 0
+})
+
 function create() {
     let eventData = { plantType: data.plantType, createdAt: data.datetimeVisible ? data.datetime : new Date() }
     if (!isNewPlantType()) {
@@ -167,7 +188,6 @@ function close() {
 
 onMounted(() => {
     data.target.selectedCanvasId = parseInt(route.params.id)
-    data.target.selectedPotId = parseInt(route.params.potId)
     addItem()
     loadPot().then(() => {
         loadPlants()
@@ -233,7 +253,7 @@ onMounted(() => {
                             :options="data.canvas"
                             @change="setTargetCanvas($event)"></select-field>
                         <select-field :value="data.target.selectedPotId"
-                            :options="targetCanvas ? targetCanvas.pots : []"
+                            :options="targetPots"
                             @change="setTargetPot($event)"></select-field>
                     </div>
                 </div>
@@ -248,7 +268,7 @@ onMounted(() => {
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="create()">
+            <button type="button" class="btn-circle btn-circle--primary" @click="create()" :disabled="disabled">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>

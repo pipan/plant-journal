@@ -62,12 +62,18 @@ onMounted(() => {
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
-        <plant-select align="center" :options="data.plants" :value="data.selectedPlants" @change="data.selectedPlants = $event"></plant-select>
+        <plant-select align="center" v-if="data.plants.length > 0"
+            :options="data.plants"
+            :value="data.selectedPlants"
+            @change="data.selectedPlants = $event"></plant-select>
+        <div class="row row--center row--middle text-warn" v-if="data.plants.length === 0">
+            <i class="icon icon--l icon-trowel px-s"></i>This pot needs plants
+        </div>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="create()">
+            <button type="button" class="btn-circle btn-circle--primary" @click="create()" :disabled="data.plants.length === 0">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>

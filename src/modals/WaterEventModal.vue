@@ -5,15 +5,19 @@ import VolumeInput from '../components/VolumeInput.vue'
 import DatetimeInput from '../components/DatetimeInput.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePot } from '../services/pot'
+import { onMounted } from '@vue/runtime-core'
+import { usePlantRepository } from '../repository/plant.repository'
 
 const router = useRouter()
 const route = useRoute()
 const potService = usePot()
+const plantsRepository = usePlantRepository()
 
 const data = reactive({
     volume: 800,
     datetime: new Date(),
-    datetimeVisible: false
+    datetimeVisible: false,
+    plants: []
 })
 
 function create() {
@@ -29,6 +33,13 @@ function close() {
     }
     router.go(-1)
 }
+
+onMounted(() => {
+    const potId = parseInt(route.params.potId)
+    plantsRepository.selectActiveByPot(potId).then((plants) => {
+        data.plants = plants
+    })
+})
 </script>
 
 <template>
@@ -48,11 +59,14 @@ function close() {
         <div class="row row--center gap-l">
             <volume-input :value="data.volume" @change="data.volume = $event"></volume-input>
         </div>
+        <div class="row row--center row--middle text-warn" v-if="data.plants.length === 0">
+            <i class="icon icon--l icon-trowel px-s"></i>This pot needs plants
+        </div>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="create()">
+            <button type="button" class="btn-circle btn-circle--primary" @click="create()" :disabled="data.plants.length === 0">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>

@@ -34,6 +34,12 @@ button, .clickable {
     border-width: 2px;
 }
 
+.btn-circle:disabled {
+    opacity: 0.2;
+    background-color: var(--color-border) !important;
+    border-color: var(--color-border) !important;
+}
+
 .btn-circle.btn-circle--primary {
     border-color: var(--color-highlight-primary);
     background-color: var(--color-primary);
