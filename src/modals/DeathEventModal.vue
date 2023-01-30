@@ -73,7 +73,7 @@ onMounted(() => {
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="create()" :disabled="data.plants.length === 0">
+            <button type="button" class="btn-circle btn-circle--primary" @click="create()" :disabled="data.selectedPlants.length === 0">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>
