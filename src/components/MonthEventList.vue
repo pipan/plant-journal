@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "@vue/runtime-core"
+import PlantInlineList from './PlantInlineList.vue'
 
 const config = {
     water: (event) => {
@@ -17,31 +18,51 @@ const config = {
         }
     },
     plantOut: (event) => {
+        let list = [event.plantId]
+        for (let item of event.similarList) {
+            list.push(item.plantId)
+        }
         return {
             icon: ['icon-trowel', 'color-trowel'],
             firstLine: 'Plant Out',
-            secondLine: ''
+            secondLine: '',
+            plantList: list
         }
     },
     plantIn: (event) => {
+        let list = [event.plantId]
+        for (let item of event.similarList) {
+            list.push(item.plantId)
+        }
         return {
             icon: ['icon-trowel', 'color-trowel'],
             firstLine: 'Plant in',
-            secondLine: ''
+            secondLine: '',
+            plantList: list
         }
     },
     cut: (event) => {
+        let list = [event.plantId]
+        for (let item of event.similarList) {
+            list.push(item.plantId)
+        }
         return {
             icon: ['icon-shears', 'color-shears'],
             firstLine: 'Cut',
-            secondLine: ''
+            secondLine: '',
+            plantList: list
         }
     },
     death: (event) => {
+        let list = [event.plantId]
+        for (let item of event.similarList) {
+            list.push(item.plantId)
+        }
         return {
             icon: ['icon-skull', 'color-skull'],
             firstLine: 'Death',
-            secondLine: ''
+            secondLine: '',
+            plantList: list
         }
     },
     note: (event) => {
@@ -56,7 +77,8 @@ const config = {
 const props = defineProps({
     month: { type: Number },
     year: { type: Number },
-    events: { type: Array, default: () => [] }
+    events: { type: Array, default: () => [] },
+    plantsMap: { type: Object, default: () => { return {} }}
 })
 
 const monthLabel = computed(() => {
@@ -88,6 +110,7 @@ const renderEvents = computed(() => {
             <div class="column gap-s flex">
                 <div>{{ event.firstLine }}</div>
                 <div class="text-secondary text-s text-pre" v-if="event.secondLine">{{ event.secondLine }}</div>
+                <plant-inline-list class="text-secondary text-s text-pre" :ids="event.plantList" v-if="event.plantList"></plant-inline-list>
             </div>
             <div class="column column--center text-idle">
                 <div>{{ event.date }}</div>

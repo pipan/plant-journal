@@ -37,13 +37,23 @@ const eventBlocks = computed(() => {
         for (let event of item.events) {
             const lastEvent = uniqueEvents[uniqueEvents.length - 1]
             if (uniqueEvents.length > 0 && lastEvent.type === event.type && lastEvent.createdAt.getTime() === event.createdAt.getTime()) {
+                lastEvent.similarList.push(event)
                 continue
             }
+            event.similarList = []
             uniqueEvents.push(event)
         }
         item.events = uniqueEvents
     }
     return result
+})
+
+const plantsMap = computed(() => {
+    let map = {}
+    for (let plant of data.plants) {
+        map[plant.id] = plant
+    }
+    return map
 })
 
 function close() {
@@ -116,7 +126,7 @@ onBeforeUnmount(() => {
 <div>
     <div class="view" id="pot-view" ref="view">
         <h1>{{ data.pot?.name || '' }}</h1>
-        <div class="column gap-m py-m">
+        <div class="column gap-s py-m">
             <plant-select align="inline"
                 :value="data.selectedPlants"
                 :options="data.plants"
@@ -125,6 +135,7 @@ onBeforeUnmount(() => {
                 @select="openPlantEdit($event.id)"></plant-select>
             <div class="column">
                 <month-event-list v-for="block of eventBlocks" :key="block.id"
+                    :plantsMap="plantsMap.value"
                     :month="block.date.getMonth() + 1"
                     :year="block.date.getFullYear()"
                     :events="block.events"></month-event-list>

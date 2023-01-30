@@ -20,6 +20,23 @@ export function usePlantRepository() {
         })
     }
 
+    function selectAll() {
+        return plantRepo.selectAll()
+    }
+
+    function selectAllActive() {
+        return selectAll().then((plants) => {
+            let result = []
+            for (let plant of plants) {
+                if (plant.dead) {
+                    continue
+                }
+                result.push(plant)
+            }
+            return result
+        })
+    }
+
     function select(id) {
         return plantRepo.select(id)
     }
@@ -46,5 +63,5 @@ export function usePlantRepository() {
         })
     }
 
-    return { update, patch, insert, select, selectAllByPot, selectActiveByPot, removeByPot }
+    return { update, patch, insert, select, selectAllByPot, selectActiveByPot, selectAllActive, selectAll, removeByPot }
 }

@@ -6,7 +6,7 @@ const emit = defineEmits(['change', 'select'])
 const config = {
     alignments: {
         inline: {
-            row: ['row', 'scroll-x', 'scroll--hidden', 'gap-m', 'px-m']
+            row: ['row', 'scroll-x', 'scroll--hidden', 'gap-m', 'px-m', 'py-s']
         },
         center: {
             row: ['row', 'flex--wrap', 'row--center', 'gap-m', 'py-s', 'px-m']
@@ -53,6 +53,7 @@ function select(plant) {
             @contextmenu.prevent="select(plant)">
             <div class="plant__tag" v-if="plant.tag">{{ plant.tag }}</div>
             <div class="plant__variety">{{ plant.variety }}</div>
+            <i class="icon icon-skull color-skull" v-if="plant.dead"></i>
         </div>
     </div>
 </template>
@@ -89,5 +90,13 @@ function select(plant) {
 }
 .plant.active .plant__variety {
     color: var(--color-highlight-primary);
+}
+
+.icon-skull {
+    color: var(--color-value);
+    font-size: 20px;
+    position: absolute;
+    top: -6px;
+    right: -6px;
 }
 </style>
