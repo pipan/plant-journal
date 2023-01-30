@@ -111,4 +111,8 @@ onMounted(() => {
     padding: var(--unit-s);
     flex: 1;
 }
+
+.holdable {
+    user-select: none;
+}
 </style>

@@ -10,8 +10,6 @@ function createHoldService(el) {
     }
 
     function contextmenu(event) {
-        // event.target.mouseup()
-        // event.target.touchend()
         end()
     }
 
