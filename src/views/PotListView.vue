@@ -25,7 +25,7 @@ function openPot(pot) {
 }
 
 function openEdit(pot) {
-    router.push({ name: 'pot.edit', params: { potId: pot.id } })
+    router.push({ name: 'pot.list.edit', params: { potId: pot.id } })
 }
 
 function load () {
@@ -54,7 +54,9 @@ onMounted(() => {
         <div class="column" v-if="data.canvas && data.canvas.pots.length > 0">
             <div class="row row--middle px-l py-m gap-m clickable" 
                 v-for="pot of data.canvas.pots" :key="pot.id"
-                @click="openPot(pot)">
+                v-hold
+                @click="openPot(pot)"
+                @contextmenu.prevent.stop="openEdit(pot)">
                 <div class="plant" :class="['color--' + pot.color, 'shape--' + pot.shape]"></div>
                 <div class="column gap-s">
                     <div>{{ pot.name }}</div>

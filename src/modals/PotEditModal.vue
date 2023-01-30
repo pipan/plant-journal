@@ -23,22 +23,30 @@ function create(data) {
 
 function manage(eventData) {
     const potId = parseInt(route.params.potId)
+    let promises = []
     if (eventData.action == 'archive') {
-        potService.archive(potId).then(() => {
-            close()
-        })
-    } else if (eventData.action == 'delete') {
-        potService.remove(potId).then(() => {
-            close()
-        })
-    } else {
-        const canvasIdInt = parseInt(eventData.canvasId)
-        if (canvasIdInt !== data.pot.canvasId) {
-            potRepository.patch(potId, { canvasId: canvasIdInt }).then(() => {
-                close()
-            })
-        }
+        const promise = potService.archive(potId)
+        promises.push(promise)
     }
+    if (eventData.action == 'recover') {
+        const promise = potService.recover(potId)
+        promises.push(promise)
+    }
+    if (eventData.action == 'delete') {
+        const promise = potService.remove(potId)
+        promises.push(promise)
+    }
+
+    const canvasIdInt = parseInt(eventData.canvasId)
+    if (canvasIdInt && canvasIdInt !== data.pot.canvasId) {
+        const promise = potRepository.patch(potId, { canvasId: canvasIdInt })
+        promises.push(promise)
+    }
+
+    if (promises.length === 0) {
+        return
+    }
+    Promise.all(promises).then(() => { close() })
 }
 
 function close() {

@@ -112,12 +112,21 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="column" v-else-if="data.management">
-                    <div class="row row--middle py-m">
+                    <div class="row row--middle py-m" v-if="!pot.archiveAt">
                         <select-field :value="data.selectedCanvasId"
                             :options="data.canvas"
                             @change="data.selectedCanvasId = $event"></select-field>
                     </div>
-                    <div class="row row--middle gap-l p-m clickable" 
+                    <div class="row row--middle gap-l p-m clickable" v-if="pot.archiveAt"
+                        :class="{'active': data.managementAction == 'recover'}"
+                        @click="toggleManagementAction('recover')">
+                        <i class="icon icon-archive icon--l" :class="[data.managementAction == 'recover' ? '' : 'text-idle']"></i>
+                        <div class="column">
+                            <div>Recover</div>
+                            <div class="text-secondary text-s">Recover pot, all plants and events from archive</div>
+                        </div>
+                    </div>
+                    <div class="row row--middle gap-l p-m clickable" v-if="!pot.archiveAt"
                         :class="{'active': data.managementAction == 'archive'}"
                         @click="toggleManagementAction('archive')">
                         <i class="icon icon-archive icon--l" :class="[data.managementAction == 'archive' ? '' : 'text-idle']"></i>
@@ -126,7 +135,7 @@ onMounted(() => {
                             <div class="text-secondary text-s">Move this pot, all plants and events to archive</div>
                         </div>
                     </div>
-                    <div class="row row--middle gap-l p-m clickable"
+                    <div class="row row--middle gap-l p-m clickable" v-if="!pot.archiveAt"
                         @click="toggleManagementAction('delete')">
                         <i class="icon icon-bin icon--l" :class="[data.managementAction == 'delete' ? 'text-warn' : 'text-idle']"></i>
                         <div class="column">

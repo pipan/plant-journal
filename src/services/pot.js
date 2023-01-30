@@ -32,6 +32,12 @@ export function usePot() {
         })
     }
 
+    function recover(potId) {
+        return potRepo.select(potId).then((pot) => {
+            return potRepo.patch(potId, { canvasId: pot.lastCanvasId, archiveAt: null, lastCanvasId: null })
+        })
+    }
+
     function remove(potId) {
         return Promise.all([
             eventRepo.removeByPot(potId),
@@ -40,5 +46,5 @@ export function usePot() {
         ])
     }
 
-    return { archive, remove, water, fertilize }
+    return { archive, recover, remove, water, fertilize }
 }

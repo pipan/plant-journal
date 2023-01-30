@@ -35,6 +35,13 @@ const router = createRouter({
       name: 'pot.list',
       component: PotListView,
       meta: { transition: '', layer: 1 },
+      children: [
+        {
+          path: 'pot/:potId/edit',
+          name: 'pot.list.edit',
+          component: PotEditModal
+        }
+      ]
     },
     {
       path: '/canvas/:id',
