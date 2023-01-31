@@ -12,6 +12,18 @@
 .origin--7 .view { transform-origin: 50% 97%; }
 .origin--8 .view { transform-origin: 97% 97%; }
 
+@media (orientation: landscape) {
+  .origin--2 .view { transform-origin: 3% 3%; } 
+  .origin--5 .view { transform-origin: 50% 3%; }
+  .origin--8 .view { transform-origin: 97% 3%; }
+  .origin--1 .view { transform-origin: 3% 50%; }
+  .origin--4 .view { transform-origin: 50% 50%; }
+  .origin--7 .view { transform-origin: 97% 50%; }
+  .origin--0 .view { transform-origin: 3% 97%; }
+  .origin--3 .view { transform-origin: 50% 97%; }
+  .origin--6 .view { transform-origin: 97% 97%; }
+}
+
 .animation-canvas-leave-from .view, .animation-navigation-enter-to .view {
   opacity: 1;
   transform: scale(1);
