@@ -44,7 +44,7 @@ function selectHold() {
 
 <template>
 <div class="plant-box"
-    :class="['color--' + plant.color, volumeClass]"
+    :class="['color--' + plant.color, volumeClass, plant.name ? '' : 'plant-box--no-name']"
     :style="{ 'left': plant.x * 100 + '%', 'top': plant.y * 100 + '%' }"
     @mousedown="data.mouse = 'down'"
     @mouseup="select()"
@@ -52,26 +52,28 @@ function selectHold() {
     v-drag="move">
     <div class="column gap-s column--center" v-hold @contextmenu.prevent.stop="selectHold()">
         <div class="plant" :class="'shape--' + plant.shape"></div>
-        <div class="plant-label">{{ plant.name }}</div>
+        <div class="plant-label" v-if="plant.name">{{ plant.name }}</div>
     </div>
 </div>
 </template>
 
 <style scoped>
+.plant-box.plant-box--no-name { --transform-y: -50%; }
 .plant-box {
-    transform: translateX(-50%) translateY(-33%);
+    --transform-y: -33%;
+    transform: translateX(-50%) translateY(var(--transform-y));
     cursor: move;
     user-select: none;
 }
 
 .plant-box.drag--active:active {
-    transform: translateX(-50%) translateY(-33%) scale(1.15);
+    transform: translateX(-50%) translateY(var(--transform-y)) scale(1.15);
     z-index: 5;
 }
 
 .plant-box:active {
     transition-duration: 0ms;
-    transform: translateX(-50%) translateY(-33%) scale(0.9);
+    transform: translateX(-50%) translateY(var(--transform-y)) scale(0.9);
 }
 
 .plant-label {

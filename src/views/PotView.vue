@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
 <template>
 <div>
     <div class="view" id="pot-view" ref="view">
-        <h1>{{ data.pot?.name || '' }}</h1>
+        <h1 v-if="data.pot?.name">{{ data.pot?.name || '' }}</h1>
         <div class="column gap-s py-m">
             <plant-select align="inline"
                 :value="data.selectedPlants"

@@ -103,20 +103,22 @@ const renderEvents = computed(() => {
 <template>
     <div class="column">
         <div class="devider">{{ monthLabel }}</div>
-        <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id">
-            <div class="event-icon">
-                <i class="icon icon--l" :class="event.icon"></i>
+        <transition-group name="animation-row" duration="220" appear>
+            <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id">
+                <div class="event-icon">
+                    <i class="icon icon--l" :class="event.icon"></i>
+                </div>
+                <div class="column gap-s flex">
+                    <div>{{ event.firstLine }}</div>
+                    <div class="text-secondary text-s text-pre" v-if="event.secondLine">{{ event.secondLine }}</div>
+                    <plant-inline-list class="text-secondary text-s text-pre" :ids="event.plantList" v-if="event.plantList"></plant-inline-list>
+                </div>
+                <div class="column column--center text-idle">
+                    <div>{{ event.date }}</div>
+                    <div class="text-s">{{ event.time }}</div>
+                </div>
             </div>
-            <div class="column gap-s flex">
-                <div>{{ event.firstLine }}</div>
-                <div class="text-secondary text-s text-pre" v-if="event.secondLine">{{ event.secondLine }}</div>
-                <plant-inline-list class="text-secondary text-s text-pre" :ids="event.plantList" v-if="event.plantList"></plant-inline-list>
-            </div>
-            <div class="column column--center text-idle">
-                <div>{{ event.date }}</div>
-                <div class="text-s">{{ event.time }}</div>
-            </div>
-        </div>
+        </transition-group>
     </div>
 </template>
 
