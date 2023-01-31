@@ -45,7 +45,7 @@ function selectHold() {
 <template>
 <div class="plant-box"
     :class="['color--' + plant.color, volumeClass, plant.name ? '' : 'plant-box--no-name']"
-    :style="{ 'left': plant.x * 100 + '%', 'top': plant.y * 100 + '%' }"
+    :style="{ '--left': plant.x * 100 + '%', '--top': plant.y * 100 + '%' }"
     @mousedown="data.mouse = 'down'"
     @mouseup="select()"
     @click.stop
@@ -62,8 +62,17 @@ function selectHold() {
 .plant-box {
     --transform-y: -33%;
     transform: translateX(-50%) translateY(var(--transform-y));
+    left: var(--left);
+    top: var(--top);
     cursor: move;
     user-select: none;
+}
+
+@media (orientation: landscape) {
+    .plant-box {
+        left: var(--top);
+        top: calc(100% - var(--left));
+    }
 }
 
 .plant-box.drag--active:active {

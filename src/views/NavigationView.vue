@@ -55,7 +55,7 @@ onMounted(() => {
             <div v-for="pot in item.pots" :key="pot.id"
                 class="plant-small"
                 :class="['color--' + pot.color, 'shape--' + pot.shape, pot.volume < 1000 ? 'volume--s' : pot.volume < 3000 ? 'volume--m' : 'volume--l']"
-                :style="{ left: pot.x * 100 + '%', top: pot.y * 100 + '%' }"></div>
+                :style="{ '--left': pot.x * 100 + '%', '--top': pot.y * 100 + '%' }"></div>
             <div class="canvas-name">{{ item.name }}</div>
         </div>
     </div>
@@ -118,7 +118,17 @@ onMounted(() => {
     transform: translateX(-50%) translateY(-50%);
     border: 2px solid var(--color-value);
     background-color: var(--color-bg);
+    left: var(--left);
+    top: var(--top);
 }
+
+@media (orientation: landscape) {
+    .plant-small {
+        left: var(--top);
+        top: calc(100% - var(--left));
+    }
+}
+
 .plant-small.volume--s { --shape-size: 12px; }
 .plant-small.volume--m { --shape-size: 18px; }
 .plant-small.volume--l { --shape-size: 24px; }

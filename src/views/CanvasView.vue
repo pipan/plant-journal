@@ -22,8 +22,18 @@ let patchDelays = {}
 const canvasView = ref(null)
 
 function move(pot, event) {
-    pot.x = Math.min(1, Math.max(0, pot.x + event.deltaX / canvasView.value.offsetWidth))
-    pot.y = Math.min(1, Math.max(0, pot.y + event.deltaY / canvasView.value.offsetHeight))
+    let delta = {
+        x: event.deltaX / canvasView.value.offsetWidth,
+        y: event.deltaY / canvasView.value.offsetHeight
+    }
+    if (screen.orientation.angle == 90) {
+        delta = {
+            x: event.deltaY * -1 / canvasView.value.offsetHeight,
+            y: event.deltaX / canvasView.value.offsetWidth
+        }
+    }
+    pot.x = Math.min(1, Math.max(0, pot.x + delta.x))
+    pot.y = Math.min(1, Math.max(0, pot.y + delta.y))
     if (patchDelays[pot.id]) {
         clearTimeout(patchDelays[pot.id])
     }
