@@ -1,16 +1,20 @@
+import { seed } from '../services/database'
+
 export function initMigration(dbRef) {
     const canvasStore = dbRef.createObjectStore("canvas", { keyPath: 'id' });
     canvasStore.createIndex("id", "id", { unique: true });
-    canvasStore.put({ id: 0, name: 'top left'})
-    canvasStore.put({ id: 1, name: 'top'})
-    canvasStore.put({ id: 2, name: 'top right'})
-    canvasStore.put({ id: 3, name: 'left'})
-    canvasStore.put({ id: 4, name: 'center'})
-    canvasStore.put({ id: 5, name: 'right'})
-    canvasStore.put({ id: 6, name: 'bottom left'})
-    canvasStore.put({ id: 7, name: 'bottom'})
-    canvasStore.put({ id: 8, name: 'bottom right'})
-    canvasStore.put({ id: 'archive', name: 'Archive'})
+    let promise = seed(canvasStore, [
+        { id: 0, name: 'top left'},
+        { id: 1, name: 'top'},
+        { id: 2, name: 'top right'},
+        { id: 3, name: 'left'},
+        { id: 4, name: 'center'},
+        { id: 5, name: 'right'},
+        { id: 6, name: 'bottom left'},
+        { id: 7, name: 'bottom'},
+        { id: 8, name: 'bottom right'},
+        { id: 'archive', name: 'Archive'}
+    ])
 
     const potStore = dbRef.createObjectStore("pot", { autoIncrement: true, keyPath: 'id' });
     potStore.createIndex("id", "id", { unique: true });
@@ -24,4 +28,6 @@ export function initMigration(dbRef) {
     eventStore.createIndex("id", "id", { unique: true });
     eventStore.createIndex("plantId", "plantId", { unique: false });
     eventStore.createIndex("potId", "potId", { unique: false });
+
+    return promise
 }

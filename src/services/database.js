@@ -17,10 +17,16 @@ export function connect(dbName) {
             return resolve(connections[dbName].ref)
         }
 
+        let upgradeProgress = null
         const DBOpenRequest = window.indexedDB.open(dbName, connections[dbName].migrations.length)
         DBOpenRequest.onsuccess = (event) => {
             connections[dbName].ref = event.target.result;
-            resolve(connections[dbName].ref)
+            if (!upgradeProgress) {
+                return resolve(connections[dbName].ref)    
+            }
+            upgradeProgress.then(() => {
+                resolve(connections[dbName].ref)
+            })
         }
 
         DBOpenRequest.onerror = (event) => {
@@ -29,9 +35,19 @@ export function connect(dbName) {
         }
 
         DBOpenRequest.onupgradeneeded = (event) => {
-            for (let i = event.oldVersion; i < event.newVersion; i++) {
-                connections[dbName].migrations[i](event.target.result)
-            }
+            upgradeProgress = new Promise((resolve) => {
+                let promises = []
+                for (let i = event.oldVersion; i < event.newVersion; i++) {
+                    promises.push(
+                        connections[dbName].migrations[i](event.target.result)
+                    )
+                }
+                return Promise.all(promises).then(() => {
+                    upgradeProgress = null
+                    resolve(true)
+                })
+            })
+            
         }
     })
 }
@@ -81,4 +97,14 @@ export function hasMany(items, property, fn) {
         }
         return isArray ? items : items[0] 
     })
+}
+
+export function seed(objectStore, data) {
+    let promises = []
+    for (let item of data) {
+        promises.push(
+            getRequest(objectStore.add(item))
+        )
+    }
+    return Promise.all(promises)
 }

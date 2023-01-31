@@ -25,6 +25,10 @@
   --unit-l: 24px;
 }
 
+html{
+  overscroll-behavior-y: contain;
+}
+
 body {
   min-height: 100vh;
   color: var(--color-fg);
