@@ -127,6 +127,16 @@ onMounted(() => {
         left: var(--top);
         top: calc(100% - var(--left));
     }
+
+    .canvas-small:nth-child(9n+1) { order: 7; }
+    .canvas-small:nth-child(9n+2) { order: 4; }
+    .canvas-small:nth-child(9n+3) { order: 1; }
+    .canvas-small:nth-child(9n+4) { order: 8; }
+    .canvas-small:nth-child(9n+5) { order: 5; }
+    .canvas-small:nth-child(9n+6) { order: 2; }
+    .canvas-small:nth-child(9n+7) { order: 9; }
+    .canvas-small:nth-child(9n+8) { order: 6; }
+    .canvas-small:nth-child(9n+9) { order: 3; }
 }
 
 .plant-small.volume--s { --shape-size: 12px; }
