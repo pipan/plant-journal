@@ -35,11 +35,15 @@ function move(pot, event) {
         x: event.deltaX / canvasView.value.offsetWidth,
         y: event.deltaY / canvasView.value.offsetHeight
     }
-    if (screen.orientation.angle == 90) {
+    if (screen.orientation.angle === 90 || screen.orientation.angle === 270) {
         delta = {
             x: event.deltaY * -1 / canvasView.value.offsetHeight,
             y: event.deltaX / canvasView.value.offsetWidth
         }
+    }
+    if (screen.orientation.angle >= 180) {
+        delta.x *= -1
+        delta.y *= -1 
     }
     pot.x = Math.min(1, Math.max(0, pot.x + delta.x))
     pot.y = Math.min(1, Math.max(0, pot.y + delta.y))

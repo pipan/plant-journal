@@ -122,22 +122,48 @@ onMounted(() => {
     top: var(--top);
 }
 
-@media (orientation: landscape) {
-    .plant-small {
-        left: var(--top);
-        top: calc(100% - var(--left));
-    }
-
-    .canvas-small:nth-child(9n+1) { order: 7; }
-    .canvas-small:nth-child(9n+2) { order: 4; }
-    .canvas-small:nth-child(9n+3) { order: 1; }
-    .canvas-small:nth-child(9n+4) { order: 8; }
-    .canvas-small:nth-child(9n+5) { order: 5; }
-    .canvas-small:nth-child(9n+6) { order: 2; }
-    .canvas-small:nth-child(9n+7) { order: 9; }
-    .canvas-small:nth-child(9n+8) { order: 6; }
-    .canvas-small:nth-child(9n+9) { order: 3; }
+.orientation-90 .plant-small {
+    left: var(--top);
+    top: calc(100% - var(--left));
 }
+.orientation-180 .plant-small {
+    left: calc(100% - var(--left));
+    top: calc(100% - var(--top));
+}
+.orientation-270 .plant-small {
+    left: calc(100% - var(--top));
+    top: var(--left);
+}
+
+.orientation-90 .canvas-small:nth-child(9n+1) { order: 7; }
+.orientation-90 .canvas-small:nth-child(9n+2) { order: 4; }
+.orientation-90 .canvas-small:nth-child(9n+3) { order: 1; }
+.orientation-90 .canvas-small:nth-child(9n+4) { order: 8; }
+.orientation-90 .canvas-small:nth-child(9n+5) { order: 5; }
+.orientation-90 .canvas-small:nth-child(9n+6) { order: 2; }
+.orientation-90 .canvas-small:nth-child(9n+7) { order: 9; }
+.orientation-90 .canvas-small:nth-child(9n+8) { order: 6; }
+.orientation-90 .canvas-small:nth-child(9n+9) { order: 3; }
+
+.orientation-180 .canvas-small:nth-child(9n+1) { order: 9; }
+.orientation-180 .canvas-small:nth-child(9n+2) { order: 8; }
+.orientation-180 .canvas-small:nth-child(9n+3) { order: 7; }
+.orientation-180 .canvas-small:nth-child(9n+4) { order: 6; }
+.orientation-180 .canvas-small:nth-child(9n+5) { order: 5; }
+.orientation-180 .canvas-small:nth-child(9n+6) { order: 4; }
+.orientation-180 .canvas-small:nth-child(9n+7) { order: 3; }
+.orientation-180 .canvas-small:nth-child(9n+8) { order: 2; }
+.orientation-180 .canvas-small:nth-child(9n+9) { order: 1; }
+
+.orientation-270 .canvas-small:nth-child(9n+1) { order: 3; }
+.orientation-270 .canvas-small:nth-child(9n+2) { order: 6; }
+.orientation-270 .canvas-small:nth-child(9n+3) { order: 9; }
+.orientation-270 .canvas-small:nth-child(9n+4) { order: 2; }
+.orientation-270 .canvas-small:nth-child(9n+5) { order: 5; }
+.orientation-270 .canvas-small:nth-child(9n+6) { order: 8; }
+.orientation-270 .canvas-small:nth-child(9n+7) { order: 1; }
+.orientation-270 .canvas-small:nth-child(9n+8) { order: 4; }
+.orientation-270 .canvas-small:nth-child(9n+9) { order: 7; }
 
 .plant-small.volume--s { --shape-size: 12px; }
 .plant-small.volume--m { --shape-size: 18px; }

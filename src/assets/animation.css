@@ -1,28 +1,53 @@
 :root {
   --animation-duration: 300ms;
+
+  --origin-topleft: 3% 3%;
+  --origin-top: 50% 3%;
+  --origin-topright: 97% 3%;
+  --origin-left: 3% 50%;
+  --origin-center: 50% 50%;
+  --origin-right: 97% 50%;
+  --origin-bottomleft: 3% 97%;
+  --origin-bottom: 50% 97%;
+  --origin-bottomright: 97% 97%;
 }
 
-.origin--0 .view { transform-origin: 3% 3%; }
-.origin--1 .view { transform-origin: 50% 3%; }
-.origin--2 .view { transform-origin: 97% 3%; }
-.origin--3 .view { transform-origin: 3% 50%; }
-.origin--4 .view { transform-origin: 50% 50%; }
-.origin--5 .view { transform-origin: 97% 50%; }
-.origin--6 .view { transform-origin: 3% 97%; }
-.origin--7 .view { transform-origin: 50% 97%; }
-.origin--8 .view { transform-origin: 97% 97%; }
+.origin--0 .view { transform-origin: var(--origin-topleft); }
+.origin--1 .view { transform-origin: var(--origin-top); }
+.origin--2 .view { transform-origin: var(--origin-topright); }
+.origin--3 .view { transform-origin: var(--origin-left); }
+.origin--4 .view { transform-origin: var(--origin-center); }
+.origin--5 .view { transform-origin: var(--origin-right); }
+.origin--6 .view { transform-origin: var(--origin-bottomleft); }
+.origin--7 .view { transform-origin: var(--origin-bottom); }
+.origin--8 .view { transform-origin: var(--origin-bottomright); }
 
-@media (orientation: landscape) {
-  .origin--2 .view { transform-origin: 3% 3%; } 
-  .origin--5 .view { transform-origin: 50% 3%; }
-  .origin--8 .view { transform-origin: 97% 3%; }
-  .origin--1 .view { transform-origin: 3% 50%; }
-  .origin--4 .view { transform-origin: 50% 50%; }
-  .origin--7 .view { transform-origin: 97% 50%; }
-  .origin--0 .view { transform-origin: 3% 97%; }
-  .origin--3 .view { transform-origin: 50% 97%; }
-  .origin--6 .view { transform-origin: 97% 97%; }
-}
+.orientation-90 .origin--2 .view { transform-origin: var(--origin-topleft); } 
+.orientation-90 .origin--5 .view { transform-origin: var(--origin-top); }
+.orientation-90 .origin--8 .view { transform-origin: var(--origin-topright); }
+.orientation-90 .origin--1 .view { transform-origin: var(--origin-left); }
+.orientation-90 .origin--7 .view { transform-origin: var(--origin-right); }
+.orientation-90 .origin--0 .view { transform-origin: var(--origin-bottomleft); }
+.orientation-90 .origin--3 .view { transform-origin: var(--origin-bottom); }
+.orientation-90 .origin--6 .view { transform-origin: var(--origin-bottomright); }
+
+.orientation-180 .origin--8 .view { transform-origin: var(--origin-topleft); }
+.orientation-180 .origin--7 .view { transform-origin: var(--origin-top); }
+.orientation-180 .origin--6 .view { transform-origin: var(--origin-topright); }
+.orientation-180 .origin--5 .view { transform-origin: var(--origin-left); }
+.orientation-180 .origin--3 .view { transform-origin: var(--origin-right); }
+.orientation-180 .origin--2 .view { transform-origin: var(--origin-bottomleft); }
+.orientation-180 .origin--1 .view { transform-origin: var(--origin-bottom); }
+.orientation-180 .origin--0 .view { transform-origin: var(--origin-bottomright); }
+
+.orientation-270 .origin--6 .view { transform-origin: var(--origin-topleft); }
+.orientation-270 .origin--3 .view { transform-origin: var(--origin-top); }
+.orientation-270 .origin--0 .view { transform-origin: var(--origin-topright); }
+.orientation-270 .origin--7 .view { transform-origin: var(--origin-left); }
+.orientation-270 .origin--1 .view { transform-origin: var(--origin-right); }
+.orientation-270 .origin--8 .view { transform-origin: var(--origin-bottomleft); }
+.orientation-270 .origin--5 .view { transform-origin: var(--origin-bottom); }
+.orientation-270 .origin--2 .view { transform-origin: var(--origin-bottomright); }
 
 .animation-canvas-leave-from .view, .animation-navigation-enter-to .view {
   opacity: 1;

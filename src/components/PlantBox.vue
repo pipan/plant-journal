@@ -68,11 +68,17 @@ function selectHold() {
     user-select: none;
 }
 
-@media (orientation: landscape) {
-    .plant-box {
-        left: var(--top);
-        top: calc(100% - var(--left));
-    }
+.orientation-90 .plant-box {
+    left: var(--top);
+    top: calc(100% - var(--left));
+}
+.orientation-180 .plant-box {
+    left: calc(100% - var(--left));
+    top: calc(100% - var(--top));
+}
+.orientation-270 .plant-box {
+    left: calc(100% - var(--top));
+    top: var(--left);
 }
 
 .plant-box.drag--active:active {
