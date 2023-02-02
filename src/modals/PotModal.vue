@@ -87,10 +87,10 @@ onMounted(() => {
                 <i class="icon icon-cog icon--l"></i>
             </button>
         </div>
-        <div class="column gap-l">
+        <form class="column gap-l" @submit.prevent="create()">
             <transition name="animation-row" duration="220" mode="out-in" appear>
                 <div class="column gap-l" v-if="!data.management">
-                    <input-field placeholder="Name" :value="data.name" @change="data.name = $event"></input-field>
+                    <input-field placeholder="Pot name" :value="data.name" @change="data.name = $event"></input-field>
                     <div class="row row--center">
                         <div class="plant" :class="['shape--' + data.shape, 'color--' + data.color]">
                             <div>{{ volumeDisplayValue }}</div>
@@ -149,11 +149,11 @@ onMounted(() => {
                 <button type="button" class="btn-circle" @click="close()">
                     <i class="icon icon--l icon-close"></i>
                 </button>
-                <button type="button" class="btn-circle btn-circle--primary" @click="create()">
+                <button type="primary" class="btn-circle btn-circle--primary">
                     <i class="icon icon--l icon-check"></i>
                 </button>
             </div>
-        </div>
+        </form>
     </div>
 </modal>
 </template>

@@ -38,17 +38,17 @@ onMounted(() => {
 
 <template>
 <modal @outside-click="close()">
-    <div class="p-m column gap-l">
+    <form class="p-m column gap-l" @submit.prevent="save()">
         <input-field placeholder="Name" :value="data.name" @change="data.name = $event"></input-field>
         <div class="row row--center gap-l">
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="save()">
+            <button type="submit" class="btn-circle btn-circle--primary">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>
-    </div>
+    </form>
 </modal>
 </template>
 

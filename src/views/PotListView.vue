@@ -66,7 +66,7 @@ onMounted(() => {
         </div>
         <div class="column flex column--middle column--center" v-if="!data.canvas || data.canvas.pots.length === 0">
             <div class="p-l text-secondary">
-                Your archive is empyt
+                Your archive is empty
             </div>
         </div>
     </div>

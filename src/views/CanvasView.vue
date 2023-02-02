@@ -14,7 +14,16 @@ const router = useRouter()
 
 const data = reactive({
     canvas: null,
-    tool: 'none'
+    tool: 'none',
+    toolHints: {
+        none: { icon: 'icon-tap', text: 'tap to create' },
+        plant: { icon: 'icon-trowel', text: 'plant' },
+        cut: { icon: 'icon-shears', text: 'cut' },
+        fertilizer: { icon: 'icon-fertilizer', text: 'fertilize' },
+        water: { icon: 'icon-water-drop', text: 'water' },
+        note: { icon: 'icon-note', text: 'add note' },
+        death: { icon: 'icon-skull', text: 'remove' },
+    }
 })
 
 let patchDelays = {}
@@ -109,8 +118,12 @@ onMounted(() => {
         @contextmenu.prevent="openHome()"
         ref="canvasView">
         <div class="hint">
-            <div class="row row--middle row--center gap-s"><i class="icon icon-tap"></i> tap to create</div>
-            <div class="row row--middle row--center gap-s"><i class="icon icon-doubletap"></i> hold to navigate</div>
+            <transition  name="animation-row" duration="220" mode="out-in">
+                <div class="row row--middle row--center gap-s" :key="data.tool"><i class="icon" :class="[data.toolHints[data.tool].icon]"></i> {{ data.toolHints[data.tool].text }}</div>
+            </transition>
+            <transition  name="animation-row" duration="220">
+                <div class="row row--middle row--center gap-s" v-if="data.tool == 'none'"><i class="icon icon-doubletap"></i> hold to navigate</div>
+            </transition>
         </div>
         <transition-group name="animation-row" duration="220" v-if="data.canvas">
             <plant-box v-for="pot in data.canvas.pots || []"

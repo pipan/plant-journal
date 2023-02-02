@@ -45,7 +45,7 @@ onMounted(() => {
 
 <template>
 <modal @outside-click="close()">
-    <div class="p-m column gap-l">
+    <form class="p-m column gap-l" @submit.prevent="save()">
         <div class="column">
             <div class="row row--end row--middle">
                 <button type="button" class="btn-icon" :class="{'btn-icon--active': data.withTag}" @click="data.withTag = !data.withTag">
@@ -63,11 +63,11 @@ onMounted(() => {
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="save()">
+            <button type="submit" class="btn-circle btn-circle--primary">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>
-    </div>
+    </form>
 </modal>
 </template>
 

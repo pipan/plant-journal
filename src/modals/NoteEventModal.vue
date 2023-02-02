@@ -23,6 +23,9 @@ const data = reactive({
 })
 
 function create() {
+    if (data.selectedPlants.length === 0) {
+        return
+    }
     let event = {
         createdAt: data.datetimeVisible ? data.datetime : new Date(),
         note: data.note
@@ -53,7 +56,7 @@ onMounted(() => {
 
 <template>
 <modal @outside-click="close()">
-    <div class="p-m column gap-l">
+    <form class="p-m column gap-l" @submit.prevent="create()">
         <div class="pos-r row row--center row--middle">
             <i class="icon icon-note icon--l color-note"></i>
             <button type="button" class="pos-a pos-right btn-icon" :class="{'btn-icon--active': data.datetimeVisible}" @click="data.datetimeVisible = !data.datetimeVisible">
@@ -77,11 +80,11 @@ onMounted(() => {
             <button type="button" class="btn-circle" @click="close()">
                 <i class="icon icon--l icon-close"></i>
             </button>
-            <button type="button" class="btn-circle btn-circle--primary" @click="create()" :disabled="data.selectedPlants.length === 0">
+            <button type="submit" class="btn-circle btn-circle--primary" :disabled="data.selectedPlants.length === 0">
                 <i class="icon icon--l icon-check"></i>
             </button>
         </div>
-    </div>
+    </form>
 </modal>
 </template>
 

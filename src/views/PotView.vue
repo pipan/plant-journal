@@ -124,21 +124,26 @@ onBeforeUnmount(() => {
 
 <template>
 <div>
-    <div class="view" id="pot-view" ref="view">
+    <div class="view column" id="pot-view" ref="view">
         <h1 v-if="data.pot?.name">{{ data.pot?.name || '' }}</h1>
-        <div class="column gap-s py-m">
+        <div class="column flex gap-s py-m">
             <plant-select align="inline"
                 :value="data.selectedPlants"
                 :options="data.plants"
                 :holdable="true"
                 @change="setSelectedPlants($event)"
                 @select="openPlantEdit($event.id)"></plant-select>
-            <div class="column">
+            <div class="column" v-if="eventBlocks.length > 0">
                 <month-event-list v-for="block of eventBlocks" :key="block.id"
                     :plantsMap="plantsMap.value"
                     :month="block.date.getMonth() + 1"
                     :year="block.date.getFullYear()"
                     :events="block.events"></month-event-list>
+            </div>
+            <div class="column flex column--middle column--center" v-if="eventBlocks.length === 0">
+                <div class="p-l text-secondary">
+                    Pot has no events
+                </div>
             </div>
         </div>
     </div>
