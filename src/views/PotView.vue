@@ -18,7 +18,8 @@ const data = reactive({
     pot: null,
     plants: [],
     events: [],
-    selectedPlants: []
+    selectedPlants: [],
+    isCheckMode: false
 })
 
 const view = ref(null)
@@ -87,6 +88,10 @@ function load(plantIds) {
         })
 }
 
+function openEvent(ids) {
+    router.push({ name: 'event.edit', query: { ids: ids } })
+}
+
 function openPlantEdit(id) {
     router.push({ name: 'plant.edit', params: { plantId: id } })
 }
@@ -138,7 +143,8 @@ onBeforeUnmount(() => {
                     :plantsMap="plantsMap.value"
                     :month="block.date.getMonth() + 1"
                     :year="block.date.getFullYear()"
-                    :events="block.events"></month-event-list>
+                    :events="block.events"
+                    @select="openEvent($event)"></month-event-list>
             </div>
             <div class="column flex column--middle column--center" v-if="eventBlocks.length === 0">
                 <div class="p-l text-secondary">

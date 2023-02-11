@@ -13,6 +13,7 @@ import PlantEditModal from '../modals/PlantEditModal.vue'
 import NoteEventModal from '../modals/NoteEventModal.vue'
 import DeathEventModal from '../modals/DeathEventModal.vue'
 import PotListView from '../views/PotListView.vue'
+import EventEditModal from '../modals/EventEditModal.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,6 +102,11 @@ const router = createRouter({
           path: 'plant/:plantId/edit',
           name: 'plant.edit',
           component: PlantEditModal
+        },
+        {
+          path: 'event/edit',
+          name: 'event.edit',
+          component: EventEditModal
         }
       ]
     }

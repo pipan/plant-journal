@@ -74,6 +74,8 @@ const config = {
     }
 }
 
+const emit = defineEmits(['select'])
+
 const props = defineProps({
     month: { type: Number },
     year: { type: Number },
@@ -98,13 +100,23 @@ const renderEvents = computed(() => {
     return result
 })
 
+function select(event) {
+    let list = [event.native.id]
+    for (let item of event.native.similarList) {
+        list.push(item.id)
+    }
+    emit('select', list)
+}
+
 </script>
 
 <template>
     <div class="column">
         <div class="devider">{{ monthLabel }}</div>
         <transition-group name="animation-row" duration="220" appear>
-            <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id">
+            <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id"
+                v-hold
+                @contextmenu.prevent="select(event)">
                 <div class="event-icon">
                     <i class="icon icon--l" :class="event.icon"></i>
                 </div>

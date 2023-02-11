@@ -78,5 +78,9 @@ export function useEventRepository() {
         })
     }
 
-    return { update, patch, insert, select, selectByPot, selectByPlant, selectByPlants, selectByPlantForPot, selectByPlantsForPot, removeByPot }
+    function removeList(ids) {
+        return eventRepo.removeList(ids)
+    }
+
+    return { update, patch, insert, select, selectByPot, selectByPlant, selectByPlants, selectByPlantForPot, selectByPlantsForPot, removeByPot, removeList }
 }
