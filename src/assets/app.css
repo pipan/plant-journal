@@ -78,6 +78,10 @@ body {
   transform: rotate(180deg);
 }
 
+.holdable {
+  user-select: none;
+}
+
 .holdable.hold--active {
   transform: scale(0.96);
   transition: transform linear 600ms 80ms;
