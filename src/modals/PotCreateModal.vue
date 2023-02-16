@@ -12,7 +12,7 @@ function create(data) {
         canvasId: parseInt(route.params.id),
         name: data.name,
         volume: data.volume,
-        color: data.color,
+        hue: data.hue,
         shape: data.shape,
         x: parseFloat(route.query.x),
         y: parseFloat(route.query.y)

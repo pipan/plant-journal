@@ -17,3 +17,7 @@
 .scroll--hidden::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
 }
+
+.hide {
+    display: none;
+}

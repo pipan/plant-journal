@@ -4,6 +4,7 @@ import BottomDrawer from '../components/BottomDrawer.vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { onMounted } from '@vue/runtime-core'
 import { useCanvasRepository } from '../repository/canvas.repository'
+import { hslCss } from '../services/color'
 
 const canvasRepository = useCanvasRepository()
 const route = useRoute()
@@ -12,6 +13,10 @@ const router = useRouter()
 const data = reactive({
     canvas: null
 })
+
+function hslColor(pot) {
+    return hslCss(pot.hue !== undefined ? pot.hue : 30)
+}
 
 function close() {
     if (window.history.length <= 1) {
@@ -57,7 +62,7 @@ onMounted(() => {
                 v-hold
                 @click="openPot(pot)"
                 @contextmenu.prevent.stop="openEdit(pot)">
-                <div class="plant" :class="['color--' + pot.color, 'shape--' + pot.shape]"></div>
+                <div class="plant" :class="['shape--' + pot.shape]" :style="{'--color-value': hslColor(pot)}"></div>
                 <div class="column gap-s">
                     <div>{{ pot.name }}</div>
                     <div class="text-secondary text-s">{{ pot.archiveAt.toLocaleDateString() }}</div>

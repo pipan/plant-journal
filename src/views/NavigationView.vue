@@ -1,8 +1,9 @@
 <script setup>
 import BottomDrawer from '../components/BottomDrawer.vue'
 import { onBeforeRouteUpdate, useRouter } from 'vue-router'
-import { onMounted, reactive } from '@vue/runtime-core'
+import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { useCanvasRepository } from '../repository/canvas.repository'
+import { hslCss } from '../services/color'
 
 
 const canvasRepository = useCanvasRepository()
@@ -11,6 +12,10 @@ const router = useRouter()
 const data = reactive({
     canvas: []
 })
+
+function hslColor(pot) {
+    return hslCss(pot.hue !== undefined ? pot.hue : 30)
+}
 
 function open(id) {
     router.push({ name: 'canvas', params: { id: id } })
@@ -54,8 +59,8 @@ onMounted(() => {
             @contextmenu.prevent="openEdit(item.id)">
             <div v-for="pot in item.pots" :key="pot.id"
                 class="plant-small"
-                :class="['color--' + pot.color, 'shape--' + pot.shape, pot.volume < 1000 ? 'volume--s' : pot.volume < 3000 ? 'volume--m' : 'volume--l']"
-                :style="{ '--left': pot.x * 100 + '%', '--top': pot.y * 100 + '%' }"></div>
+                :class="['shape--' + pot.shape, pot.volume < 1000 ? 'volume--s' : pot.volume < 3000 ? 'volume--m' : 'volume--l']"
+                :style="{ '--left': pot.x * 100 + '%', '--top': pot.y * 100 + '%', '--color-value': hslColor(pot) }"></div>
             <div class="canvas-name">{{ item.name }}</div>
         </div>
     </div>

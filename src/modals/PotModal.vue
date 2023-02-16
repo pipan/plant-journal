@@ -5,9 +5,11 @@ import InputField from '../components/InputField.vue'
 import SelectField from '../components/SelectField.vue'
 import InputSlider from '../components/InputSlider.vue'
 import ShapeSelect from '../components/ShapeSelect.vue'
+import ColorHueInput from '../components/ColorHueInput.vue'
 import { useScale } from '../services/scale'
 import { computed, onMounted } from '@vue/runtime-core'
 import { useCanvasRepository } from '../repository/canvas.repository'
+import { getHueList, hslCss } from '../services/color'
 
 const canvasRepo = useCanvasRepository()
 const scale = useScale([0.0, 0.5, 1.0], [0, 3000, 10000])
@@ -20,12 +22,13 @@ const props = defineProps({
 const data = reactive({
     name: '',
     volumeNorm: scale.norm(0),
-    color: 'orange',
+    hue: 0,
     shape: 'circle',
     managementAction: '',
     selectedCanvasId: 0,
     management: false,
-    canvas: []
+    canvas: [],
+    hues: []
 })
 
 const emit = defineEmits(['close', 'submit', 'manage'])
@@ -41,6 +44,10 @@ const volumeDisplayValue = computed(() => {
     return dataVolume.value >= 1000 ? (Math.round(dataVolume.value / 10) / 100).toFixed(2) : dataVolume.value
 })
 
+function hueColor(value) {
+    return hslCss(value)
+}
+
 function create() {
     if (data.management) {
         emit('manage', { action: data.managementAction, canvasId: data.selectedCanvasId })
@@ -48,7 +55,7 @@ function create() {
         const pot = {
             name: data.name,
             volume: dataVolume.value,
-            color: data.color,
+            hue: data.hue,
             shape: data.shape
         }
         emit('submit', pot)
@@ -70,11 +77,14 @@ function close() {
 onMounted(() => {
     data.name = props.pot.name || ''
     data.volumeNorm = scale.norm(props.pot.volume || 0)
-    data.color = props.pot.color || 'orange'
+    data.hue = props.pot.hue !== undefined ? props.pot.hue : 30
     data.shape = props.pot.shape || 'circle'
     data.selectedCanvasId = props.pot.canvasId || 0
     canvasRepo.selectAllActive().then((canvas) => {
         data.canvas = canvas
+    })
+    getHueList().then((hues) => {
+        data.hues = hues
     })
 })
 </script>
@@ -92,7 +102,8 @@ onMounted(() => {
                 <div class="column gap-l" v-if="!data.management">
                     <input-field placeholder="Pot name" :value="data.name" @change="data.name = $event"></input-field>
                     <div class="row row--center">
-                        <div class="plant" :class="['shape--' + data.shape, 'color--' + data.color]">
+                        <div class="plant" :class="['shape--' + data.shape]"
+                            :style="{'border-color': hueColor(data.hue)}">
                             <div>{{ volumeDisplayValue }}</div>
                             <div class="text-s text-secondary">{{ unit }}</div>
                         </div>
@@ -105,10 +116,16 @@ onMounted(() => {
                     
                     <shape-select :value="data.shape" @change="data.shape = $event"></shape-select>
                     <div class="row row--middle row--center gap-m">
-                        <div class="color color--red" :class="{ 'color--active': data.color == 'red' }" @click="data.color = 'red'"></div>
-                        <div class="color color--orange" :class="{ 'color--active': data.color == 'orange' }" @click="data.color = 'orange'"></div>
-                        <div class="color color--blue" :class="{ 'color--active': data.color == 'blue' }" @click="data.color = 'blue'"></div>
-                        <div class="color color--purple" :class="{ 'color--active': data.color == 'purple' }" @click="data.color = 'purple'"></div>
+                        <color-hue-input :value="data.hue"
+                            :saturation="65"
+                            :lightness="50"
+                            @change="data.hue = $event"></color-hue-input>
+                        <div class="row row--middle gap-m scroll-x scroll--hidden">
+                            <div class="color" v-for="hue of data.hues" :key="hue"
+                                :style="{'--color-value': hueColor(hue)}"
+                                :class="{ 'color--active': data.hue == hue }" 
+                                @click="data.hue = hue"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="column" v-else-if="data.management">
@@ -161,7 +178,7 @@ onMounted(() => {
 <style scoped>
 .plant {
     --shape-size: 80px;
-    border: 3px solid var(--color-value);
+    border: 3px solid;
     box-sizing: border-box;
     font-size: 20px;
     display: flex;
@@ -178,6 +195,7 @@ onMounted(() => {
     border-radius: 100%;
     box-sizing: border-box;
     border: 1px solid var(--color-value);
+    flex-shrink: 0;
 }
 
 .color:hover {
@@ -186,5 +204,9 @@ onMounted(() => {
 
 .color.color--active {
     background-color: var(--color-value);
+}
+
+.icon-sliders {
+    font-size: 14px;
 }
 </style>

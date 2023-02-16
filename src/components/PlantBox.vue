@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from "@vue/reactivity"
 import { computed } from "@vue/runtime-core"
+import { hslCss } from '../services/color'
 
 const props = defineProps({
     plant: Object
@@ -11,6 +12,10 @@ const data = reactive({
 })
 
 const emit = defineEmits(['move', 'select', 'selectHold'])
+
+const hslColor = computed(() => {
+    return hslCss(props.plant.hue !== undefined ? props.plant.hue : 30)
+})
 
 const volumeClass = computed(() => {
     if (props.plant.volume < 1000) {
@@ -44,8 +49,8 @@ function selectHold() {
 
 <template>
 <div class="plant-box"
-    :class="['color--' + plant.color, volumeClass, plant.name ? '' : 'plant-box--no-name']"
-    :style="{ '--left': plant.x * 100 + '%', '--top': plant.y * 100 + '%' }"
+    :class="[volumeClass, plant.name ? '' : 'plant-box--no-name']"
+    :style="{ '--left': plant.x * 100 + '%', '--top': plant.y * 100 + '%', '--color-value': hslColor }"
     @mousedown="data.mouse = 'down'"
     @mouseup="select()"
     @click.stop

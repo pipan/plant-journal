@@ -7,6 +7,10 @@ export function usePotRepository() {
         return potRepo.select(id)
     }
 
+    function selectAll() {
+        return potRepo.selectAll()
+    }
+
     function update(data) {
         return potRepo.update(data)
     }
@@ -23,5 +27,5 @@ export function usePotRepository() {
         return potRepo.remove(id)
     }
 
-    return { update, patch, insert, select, remove }
+    return { update, patch, insert, select, selectAll, remove }
 }
