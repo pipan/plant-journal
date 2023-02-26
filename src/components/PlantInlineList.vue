@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>{{ plantsResolved.join(", ") }}</div>
+    <div class="ellipsis">{{ plantsResolved.join(", ") }}</div>
 </template>
 
 <style scoped>
