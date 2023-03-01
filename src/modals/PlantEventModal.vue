@@ -27,7 +27,7 @@ const data = reactive({
     datetimeVisible: false,
     withTag: true,
     items: [],
-    plantType: 'pot',
+    plantType: 'plant',
     plantOptions: [{ id: 'pot', name: 'pot' }, { id: 'seed', name: 'seed' }, { id: 'cutting', name: 'cutting' }, { id: 'plant', name: 'plant' }],
     newPlantTypes: ['seed', 'cutting', 'plant'],
     forwardDirection: true,
@@ -213,13 +213,17 @@ onMounted(() => {
                     <i class="icon icon-clock icon--l"></i>
                 </button>
             </div>
+            <div class="pos-a pos-left row">
+                <select @change="data.plantType = $event.target.value">
+                    <option v-for="item of data.plantOptions" :key="item.id" :value="item.id" :selected="data.plantType == item.id">{{ item.name }}</option>
+                </select>
+            </div>
         </div>
         <transition name="animation-row" duration="220">
             <datetime-input v-if="data.datetimeVisible"
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
-        <radio-select :options="data.plantOptions" :value="data.plantType" @change="data.plantType = $event"></radio-select>
 
         <transition name="animation-row" duration="220" mode="out-in" appear>
             <div class="column gap-m" v-if="isNewPlantType()">

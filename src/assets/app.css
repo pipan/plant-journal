@@ -40,6 +40,14 @@ body {
   overscroll-behavior-y: contain;
 }
 
+select {
+  background-color: transparent;
+  color: var(--color-fg);
+  border: none;
+  border-radius: 24px;
+  padding: 4px 8px;
+}
+
 .color--red { --color-value: #AC2525; }
 .color--orange { --color-value: #AC6625; }
 .color--blue { --color-value: #258CAC; }
