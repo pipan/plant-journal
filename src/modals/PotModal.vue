@@ -186,7 +186,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     background-color: var(--color-bg);
-    transition: border-radius 120ms ease, height 120ms ease, margin 120ms ease, border-color 120ms ease;
+    transition: border-radius 120ms ease, height 120ms ease, width 120ms ease, margin 120ms ease, border-color 120ms ease;
 }
 
 .color {

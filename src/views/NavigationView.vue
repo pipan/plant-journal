@@ -174,9 +174,8 @@ onMounted(() => {
 .plant-small.volume--m { --shape-size: 18px; }
 .plant-small.volume--l { --shape-size: 24px; }
 
-.plant-small.shape--rectangle {
-    transform: translateX(-50%) translateY(-100%);
-}
+.plant-small.shape--rectangle { transform: translateX(-50%) translateY(-100%); }
+.plant-small.shape--rectangle90 { transform: translateX(-100%) translateY(-50%); }
 
 .bottom-drawer-button {
     border-radius: 4px;

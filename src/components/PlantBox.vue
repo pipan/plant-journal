@@ -155,7 +155,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     background-color: var(--color-bg);
-    transition: border-radius 120ms ease, height 120ms ease, margin 120ms ease, border-color 120ms ease;
+    transition: border-radius 120ms ease, height 120ms ease, width 120ms ease, margin 120ms ease, border-color 120ms ease;
 }
 
 .plant-box.drag--active .plant {
@@ -199,4 +199,11 @@ onMounted(() => {
 .shape--rectangle .event:nth-child(7n+6) { transform: translateX(-300%) translateY(-50%); }
 .shape--rectangle .event:nth-child(7n+7) { transform: translateX(-185%) translateY(-135%); }
 
+.shape--rectangle90 .event:nth-child(7n+1) { transform: translateX(55%) translateY(-185%); }
+.shape--rectangle90 .event:nth-child(7n+2) { transform: translateX(55%) translateY(-50%); }
+.shape--rectangle90 .event:nth-child(7n+3) { transform: translateX(55%) translateY(85%); }
+.shape--rectangle90 .event:nth-child(7n+4) { transform: translateX(-50%) translateY(200%); }
+.shape--rectangle90 .event:nth-child(7n+5) { transform: translateX(-155%) translateY(85%); }
+.shape--rectangle90 .event:nth-child(7n+6) { transform: translateX(-155%) translateY(-50%); }
+.shape--rectangle90 .event:nth-child(7n+7) { transform: translateX(-155%) translateY(-185%); }
 </style>

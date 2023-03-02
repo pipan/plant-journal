@@ -31,6 +31,10 @@ function setValue(value) {
             :class="{ 'shape--active': value == 'rectangle' }"
             @click="setValue('rectangle')"
             @keypress.enter="setValue('rectangle')"></div>
+        <div class="shape shape-rectangle90" tabindex="0"
+            :class="{ 'shape--active': value == 'rectangle90' }"
+            @click="setValue('rectangle90')"
+            @keypress.enter="setValue('rectangle90')"></div>
     </div>
 </template>
 
@@ -50,6 +54,12 @@ function setValue(value) {
 .shape-rectangle {
     width: 32px;
     height: 16px;
+    border-radius: 4px;
+}
+
+.shape-rectangle90 {
+    width: 16px;
+    height: 32px;
     border-radius: 4px;
 }
 

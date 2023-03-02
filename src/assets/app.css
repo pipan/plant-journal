@@ -82,6 +82,12 @@ select {
   margin: calc(var(--shape-size) / 4) 0px;
   border-radius: calc(var(--shape-size) / 6);
 }
+.shape--rectangle90 {
+  width: calc(var(--shape-size) / 2);
+  height: var(--shape-size);
+  margin: 0px calc(var(--shape-size) / 4);
+  border-radius: calc(var(--shape-size) / 6);
+}
 
 .rotate-180 {
   transform: rotate(180deg);
