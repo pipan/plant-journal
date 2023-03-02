@@ -122,7 +122,7 @@ function select(event) {
                 </div>
                 <div class="column gap-s flex ellipsis">
                     <div>{{ event.firstLine }}</div>
-                    <div class="text-secondary text-s text-pre ellipsis" v-if="event.secondLine">{{ event.secondLine }}</div>
+                    <div class="text-secondary text-s text-pre" v-if="event.secondLine">{{ event.secondLine }}</div>
                     <plant-inline-list class="text-secondary text-s text-pre" :ids="event.plantList" v-if="event.plantList"></plant-inline-list>
                 </div>
                 <div class="column column--center text-idle">
