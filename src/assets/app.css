@@ -48,16 +48,17 @@ select {
   padding: 4px 8px;
 }
 
+.color--border { --color-value: var(--color-border); }
 .color--red { --color-value: #AC2525; }
 .color--orange { --color-value: #AC6625; }
 .color--blue { --color-value: #258CAC; }
 .color--purple { --color-value: #9125AC; }
 .color-fertilize { --color-value: #7d2a78 }
 .color-water { --color-value: #2d5884 }
-.color-trowel { --color-value: #377322 }
-.color-shears { --color-value: #5b3d1f }
+.color-trowel, .color-plant, .color-plantIn, .color-plantOut { --color-value: #377322 }
+.color-shears, .color-cut { --color-value: #5b3d1f }
 .color-note { --color-value: #9b8f29 }
-.color-skull { --color-value: #662323 }
+.color-skull, .color-death { --color-value: #662323 }
 
 .volume--s { --shape-size: 36px }
 .volume--m { --shape-size: 54px }
