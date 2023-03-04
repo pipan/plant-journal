@@ -95,7 +95,10 @@ onMounted(() => {
         <div class="plant" :class="'shape--' + plant.shape">
             <div class="event" :class="eventType ? 'color-' + eventType : 'color--border'" v-for="(eventType, index) of data.eventTypes" :key="index"></div>
         </div>
-        <div class="plant-label" v-if="plant.name">{{ plant.name }}</div>
+        <div class="plant-label">
+            <div v-if="plant.name">{{ plant.name }}</div>
+            <div class="plant-label__id">{{ plant.id }}</div>
+        </div>
     </div>
 </div>
 </template>
@@ -138,11 +141,20 @@ onMounted(() => {
     border: solid 1px var(--color-value);
     border-radius: 8px;
     text-align: center;
-    padding: 4px var(--unit-m);
+    padding: 4px var(--unit-s);
     font-size: 12px;
     background-color: var(--color-bg);
     white-space: nowrap;
     user-select: none;
+    display: flex;
+    flex-direction: row;
+    gap: var(--unit-s);
+    align-items: center;
+}
+
+.plant-label__id {
+    border-radius: 4px;
+    color: var(--color-value);
 }
 
 .plant {

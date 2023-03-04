@@ -56,7 +56,7 @@ const targetPots = computed(() => {
         if (pot.id === data.source.pot.id) {
             continue
         }
-        result.push(pot)
+        result.push({ id: pot.id, name: `${pot.name} [ ${pot.id} ]` })
     }
     return result
 })
