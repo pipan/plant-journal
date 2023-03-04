@@ -3,6 +3,10 @@ import { useRepository } from "./repository"
 export function useEventRepository() {
     const eventRepo = useRepository('event')
 
+    function selectAll() {
+        return eventRepo.selectAll()
+    }
+
     function selectByPlant(plantId) {
         return eventRepo.selectByIndex('plantId', plantId)
     }
@@ -82,5 +86,5 @@ export function useEventRepository() {
         return eventRepo.removeList(ids)
     }
 
-    return { update, patch, insert, select, selectByPot, selectByPlant, selectByPlants, selectByPlantForPot, selectByPlantsForPot, removeByPot, removeList }
+    return { update, patch, insert, select, selectAll, selectByPot, selectByPlant, selectByPlants, selectByPlantForPot, selectByPlantsForPot, removeByPot, removeList }
 }

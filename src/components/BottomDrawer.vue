@@ -32,8 +32,10 @@ const props = defineProps({
 
 .bottom-drawer__title {
     text-align: center;
-    padding: var(--unit-s);
+    padding: var(--unit-s) var(--unit-m);
     color: var(--color-fg-secondary);
+    background-color: var(--color-bg);
+    border-radius: 8px;
 }
 
 .bottom-drawer__line {

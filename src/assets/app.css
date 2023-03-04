@@ -119,3 +119,11 @@ select {
   transform: scale(1, 1);
   transition: transform ease 600ms 80ms;
 }
+
+.view {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--color-bg);
+  padding-bottom: 58px;
+  box-sizing: border-box;
+}

@@ -169,13 +169,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.view  {
-    min-height: 100vh;
-    width: 100vw;
-    background-color: var(--color-bg);
-    padding-bottom: 58px;
-    box-sizing: border-box;
-}
 h1 {
     position: sticky;
     top: 0px;

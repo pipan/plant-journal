@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-import:before {
+  content: "\e912";
+}
+.icon-export:before {
+  content: "\e913";
+}
 .icon-cog:before {
   content: "\e90f";
 }
@@ -84,4 +90,34 @@
 
 .icon.icon--l {
   font-size: 24px;
+}
+
+.icon-loading {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  background: conic-gradient(var(--color-fg) 0deg 60deg, var(--color-bg) 60deg 360deg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  animation: 1s infinite normal loading;
+}
+
+.icon-loading::before {
+  content: '';
+  width: calc(1em - 4px);
+  height: calc(1em - 4px);
+  background-color: var(--color-bg);
+  border-radius: 100%;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

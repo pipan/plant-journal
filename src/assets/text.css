@@ -6,7 +6,10 @@
 .text-warn { color: #AC2525; }
 
 .text-s { font-size: 12px; }
-.text-pre { white-space: pre-wrap; }
+.text-pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
 
 .ellipsis {
     white-space: nowrap;

@@ -55,23 +55,25 @@ onMounted(() => {
 
 <template>
 <div>
-    <div class="view column">
-        <div class="column" v-if="data.canvas && data.canvas.pots.length > 0">
-            <div class="row row--middle px-l py-m gap-m clickable" 
-                v-for="pot of data.canvas.pots" :key="pot.id"
-                v-hold
-                @click="openPot(pot)"
-                @contextmenu.prevent.stop="openEdit(pot)">
-                <div class="plant" :class="['shape--' + pot.shape]" :style="{'--color-value': hslColor(pot)}"></div>
-                <div class="column gap-s">
-                    <div>{{ pot.name }}</div>
-                    <div class="text-secondary text-s">{{ pot.archiveAt.toLocaleDateString() }}</div>
+    <div class="view">
+        <div class="column py-m">
+            <div class="column" v-if="data.canvas && data.canvas.pots.length > 0">
+                <div class="row row--middle px-l py-m gap-m clickable" 
+                    v-for="pot of data.canvas.pots" :key="pot.id"
+                    v-hold
+                    @click="openPot(pot)"
+                    @contextmenu.prevent.stop="openEdit(pot)">
+                    <div class="plant" :class="['shape--' + pot.shape]" :style="{'--color-value': hslColor(pot)}"></div>
+                    <div class="column gap-s">
+                        <div>{{ pot.name }}</div>
+                        <div class="text-secondary text-s">{{ pot.archiveAt.toLocaleDateString() }}</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="column flex column--middle column--center" v-if="!data.canvas || data.canvas.pots.length === 0">
-            <div class="p-l text-secondary">
-                Your archive is empty
+            <div class="column flex column--middle column--center" v-if="!data.canvas || data.canvas.pots.length === 0">
+                <div class="p-l text-secondary">
+                    Your archive is empty
+                </div>
             </div>
         </div>
     </div>
@@ -91,13 +93,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.view  {
-    min-height: 100vh;
-    width: 100vw;
-    background-color: var(--color-bg);
-    padding-bottom: 58px;
-    box-sizing: border-box;
-}
 .plant {
     --shape-size: 40px;
     border: 3px solid var(--color-value);

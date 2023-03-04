@@ -25,6 +25,10 @@ function openArchive() {
     router.push({ name: 'pot.list', params: { id: 'archive' } })
 }
 
+function openSettings() {
+    router.push({ name: 'settings' })
+}
+
 function openEdit(id) {
     router.push({ name: 'canvas.edit', params: { id: id } })
 }
@@ -51,23 +55,28 @@ onMounted(() => {
 <template>
 <div>
     <div class="view">
-        <div class="canvas-small"
-            v-hold
-            v-for="item in data.canvas"
-            :key="item.id"
-            @click="open(item.id)"
-            @contextmenu.prevent="openEdit(item.id)">
-            <div v-for="pot in item.pots" :key="pot.id"
-                class="plant-small"
-                :class="['shape--' + pot.shape, pot.volume < 1000 ? 'volume--s' : pot.volume < 3000 ? 'volume--m' : 'volume--l']"
-                :style="{ '--left': pot.x * 100 + '%', '--top': pot.y * 100 + '%', '--color-value': hslColor(pot) }"></div>
-            <div class="canvas-name">{{ item.name }}</div>
+        <div class="view-inner">
+            <div class="canvas-small"
+                v-hold
+                v-for="item in data.canvas"
+                :key="item.id"
+                @click="open(item.id)"
+                @contextmenu.prevent="openEdit(item.id)">
+                <div v-for="pot in item.pots" :key="pot.id"
+                    class="plant-small"
+                    :class="['shape--' + pot.shape, pot.volume < 1000 ? 'volume--s' : pot.volume < 3000 ? 'volume--m' : 'volume--l']"
+                    :style="{ '--left': pot.x * 100 + '%', '--top': pot.y * 100 + '%', '--color-value': hslColor(pot) }"></div>
+                <div class="canvas-name">{{ item.name }}</div>
+            </div>
         </div>
     </div>
     <bottom-drawer>
         <div class="row text-center gap-s p-s">
             <button type="button" class="bottom-drawer-button clickable" @click="openArchive()">
                 <i class="icon icon--l icon-archive"></i>
+            </button>
+            <button type="button" class="bottom-drawer-button clickable" @click="openSettings()">
+                <i class="icon icon--l icon-cog"></i>
             </button>
         </div>
     </bottom-drawer>
@@ -80,7 +89,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.view {
+.view-inner {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -88,8 +97,7 @@ onMounted(() => {
     flex-wrap: wrap;
     padding: var(--unit-s);
     box-sizing: border-box;
-    height: calc(100vh - 83px);
-    width: 100vw;
+    height: calc(100vh - 58px);
 }
 
 .canvas-small {

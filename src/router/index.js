@@ -14,6 +14,7 @@ import NoteEventModal from '../modals/NoteEventModal.vue'
 import DeathEventModal from '../modals/DeathEventModal.vue'
 import PotListView from '../views/PotListView.vue'
 import EventEditModal from '../modals/EventEditModal.vue'
+import SettingsView from '../views/SettingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -109,6 +110,12 @@ const router = createRouter({
           component: EventEditModal
         }
       ]
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsView,
+      meta: { transition: '', layer: 1 },
     }
   ]
 })

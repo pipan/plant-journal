@@ -116,27 +116,27 @@ onMounted(() => {
 
 <template>
 <div>
-    <div class="view canvas"
-        v-hold
-        @click.stop="tap($event)"
-        @contextmenu.prevent="openHome()"
-        ref="canvasView">
-        <div class="hint">
-            <transition  name="animation-row" duration="220" mode="out-in">
-                <div class="row row--middle row--center gap-s" :key="data.tool"><i class="icon" :class="[data.toolHints[data.tool].icon]"></i> {{ data.toolHints[data.tool].text }}</div>
-            </transition>
-            <transition  name="animation-row" duration="220">
-                <div class="row row--middle row--center gap-s" v-if="data.tool == 'none'"><i class="icon icon-doubletap"></i> hold to navigate</div>
-            </transition>
+    <div class="view" @click.stop="tap($event)">
+        <div class="canvas" v-hold
+            @contextmenu.prevent="openHome()"
+            ref="canvasView">
+            <div class="hint">
+                <transition  name="animation-row" duration="220" mode="out-in">
+                    <div class="row row--middle row--center gap-s" :key="data.tool"><i class="icon" :class="[data.toolHints[data.tool].icon]"></i> {{ data.toolHints[data.tool].text }}</div>
+                </transition>
+                <transition  name="animation-row" duration="220">
+                    <div class="row row--middle row--center gap-s" v-if="data.tool == 'none'"><i class="icon icon-doubletap"></i> hold to navigate</div>
+                </transition>
+            </div>
+            <transition-group name="animation-row" duration="220" v-if="data.canvas">
+                <plant-box v-for="pot in data.canvas.pots || []"
+                    :key="pot.id"
+                    :plant="pot"
+                    @move="move(pot, $event)"
+                    @select="selectPot(pot)"
+                    @selectHold="openEdit(pot)"></plant-box>
+            </transition-group>
         </div>
-        <transition-group name="animation-row" duration="220" v-if="data.canvas">
-            <plant-box v-for="pot in data.canvas.pots || []"
-                :key="pot.id"
-                :plant="pot"
-                @move="move(pot, $event)"
-                @select="selectPot(pot)"
-                @selectHold="openEdit(pot)"></plant-box>
-        </transition-group>
     </div>
     <bottom-drawer :title="data.canvas ? data.canvas.name : '...'">
         <div class="row text-center gap-s p-s">
@@ -188,7 +188,7 @@ onMounted(() => {
 .canvas {
     position: relative;
     width: 100vw;
-    height: calc(100vh - 92.5px);
+    height: calc(100vh - 58px);
     overflow: hidden;
 }
 
