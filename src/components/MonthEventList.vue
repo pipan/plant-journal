@@ -113,7 +113,7 @@ function select(event) {
 <template>
     <div class="column">
         <div class="devider">{{ monthLabel }}</div>
-        <transition-group name="animation-row" duration="220" appear>
+        <transition-group name="animation-row" duration="300" appear>
             <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id"
                 v-hold
                 @contextmenu.prevent="select(event)">

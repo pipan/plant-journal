@@ -161,7 +161,7 @@ onBeforeUnmount(() => {
         </div>
     </bottom-drawer>
     <router-view v-slot="{ Component }">
-        <transition name="animation-modal" duration="220">
+        <transition name="animation-modal" duration="300">
             <component :is="Component"></component>
         </transition>
     </router-view>

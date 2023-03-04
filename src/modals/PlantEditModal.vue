@@ -53,7 +53,7 @@ onMounted(() => {
                 </button>
             </div>
             <div class="row row--middle gap-l">
-                <transition name="animation-row" duration="220" @before-enter="data.inputAlign = 'left'" @after-leave="data.inputAlign = 'center'">
+                <transition name="animation-row" duration="300" @before-enter="data.inputAlign = 'left'" @after-leave="data.inputAlign = 'center'">
                     <tag-input v-if="data.withTag" :value="data.tag" @change="data.tag = $event"></tag-input>
                 </transition>
                 <input-field placeholder="Variety" :value="data.variety" :align="data.inputAlign" @change="data.variety = $event"></input-field>

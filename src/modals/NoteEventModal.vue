@@ -63,7 +63,7 @@ onMounted(() => {
                 <i class="icon icon-clock icon--l"></i>
             </button>
         </div>
-        <transition name="animation-row" duration="220">
+        <transition name="animation-row" duration="300">
             <datetime-input v-if="data.datetimeVisible"
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>

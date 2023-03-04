@@ -98,7 +98,7 @@ onMounted(() => {
             </button>
         </div>
         <form class="column gap-l" @submit.prevent="create()">
-            <transition name="animation-row" duration="220" mode="out-in" appear>
+            <transition name="animation-row" duration="300" mode="out-in" appear>
                 <div class="column gap-l" v-if="!data.management">
                     <input-field placeholder="Pot name" :value="data.name" @change="data.name = $event"></input-field>
                     <div class="row row--center">

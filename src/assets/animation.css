@@ -4,12 +4,12 @@
   --origin-topleft: 3% 3%;
   --origin-top: 50% 3%;
   --origin-topright: 97% 3%;
-  --origin-left: 3% 50%;
-  --origin-center: 50% 50%;
-  --origin-right: 97% 50%;
-  --origin-bottomleft: 3% 97%;
-  --origin-bottom: 50% 97%;
-  --origin-bottomright: 97% 97%;
+  --origin-left: 3% calc((100% - 58px) * 0.5);
+  --origin-center: 50% calc((100% - 58px) * 0.5);
+  --origin-right: 97% calc((100% - 58px) * 0.5);
+  --origin-bottomleft: 3% calc((100% - 58px) * 0.97);
+  --origin-bottom: 50% calc((100% - 58px) * 0.97);
+  --origin-bottomright: 97% calc((100% - 58px) * 0.97);
 }
 
 .origin--0 .view { transform-origin: var(--origin-topleft); }

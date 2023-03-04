@@ -121,14 +121,14 @@ onMounted(() => {
             @contextmenu.prevent="openHome()"
             ref="canvasView">
             <div class="hint">
-                <transition  name="animation-row" duration="220" mode="out-in">
+                <transition  name="animation-row" duration="300" mode="out-in">
                     <div class="row row--middle row--center gap-s" :key="data.tool"><i class="icon" :class="[data.toolHints[data.tool].icon]"></i> {{ data.toolHints[data.tool].text }}</div>
                 </transition>
-                <transition  name="animation-row" duration="220">
+                <transition  name="animation-row" duration="300">
                     <div class="row row--middle row--center gap-s" v-if="data.tool == 'none'"><i class="icon icon-doubletap"></i> hold to navigate</div>
                 </transition>
             </div>
-            <transition-group name="animation-row" duration="220" v-if="data.canvas">
+            <transition-group name="animation-row" duration="300" v-if="data.canvas">
                 <plant-box v-for="pot in data.canvas.pots || []"
                     :key="pot.id"
                     :plant="pot"
@@ -161,7 +161,7 @@ onMounted(() => {
         </div>
     </bottom-drawer>
     <router-view v-slot="{ Component }">
-        <transition name="animation-modal" duration="220">
+        <transition name="animation-modal" duration="300">
             <component :is="Component"></component>
         </transition>
     </router-view>

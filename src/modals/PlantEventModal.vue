@@ -202,7 +202,7 @@ onMounted(() => {
         <div class="pos-r row row--center row--middle">
             <i class="icon icon-trowel icon--l color-trowel"></i>
             <div class="pos-a pos-right row">
-                <transition name="animation-row" duration="220" appear>
+                <transition name="animation-row" duration="300" appear>
                     <button type="button" class="btn-icon" v-if="isNewPlantType()"
                         :class="{'btn-icon--active': data.withTag}"
                         @click="data.withTag = !data.withTag">
@@ -219,15 +219,15 @@ onMounted(() => {
                 </select>
             </div>
         </div>
-        <transition name="animation-row" duration="220">
+        <transition name="animation-row" duration="300">
             <datetime-input v-if="data.datetimeVisible"
                 :value="data.datetime"
                 @change="data.datetime = $event"></datetime-input>
         </transition>
 
-        <transition name="animation-row" duration="220" mode="out-in" appear>
+        <transition name="animation-row" duration="300" mode="out-in" appear>
             <div class="column gap-m" v-if="isNewPlantType()">
-                <transition-group name="animation-row" duration="220" appear>
+                <transition-group name="animation-row" duration="300" appear>
                     <div class="row row--middle gap-m" v-for="(item, index) of data.items" :key="item">
                         <number-input v-if="!data.withTag" :sensitivity="1.5" sufix="x" :value="item.count" @change="item.count = $event" :max="30"></number-input>
                         <tag-input v-if="data.withTag" :value="item.tag" @change="item.tag = $event"></tag-input>
