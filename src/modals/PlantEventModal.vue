@@ -110,6 +110,7 @@ function getCanvasById(id) {
 }
 
 function toggleDirection() {
+    data.selectedPlants = []
     data.forwardDirection = !data.forwardDirection
     loadPlants()
 }
