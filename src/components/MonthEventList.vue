@@ -93,6 +93,7 @@ const renderEvents = computed(() => {
     for (let event of props.events) {
         result.push(Object.assign({
             native: event,
+            key: event.type + '-' + event.createdAt.getTime(),
             date: event.createdAt.getDate(),
             time: event.createdAt.toLocaleTimeString(navigator.language, { timeStyle: "short", hours: '2-digit', hour12: false }) 
         }, config[event.type](event)))
@@ -114,7 +115,7 @@ function select(event) {
     <div class="column">
         <div class="devider">{{ monthLabel }}</div>
         <transition-group name="animation-row" duration="300" appear>
-            <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.native.id"
+            <div class="row row--middle gap-m p-m" v-for="event of renderEvents" :key="event.key"
                 v-hold
                 @contextmenu.prevent="select(event)">
                 <div class="event-icon">
