@@ -21,12 +21,26 @@ const props = defineProps({
     options: { type: Array, default: () => [] },
     value: { type: Array, default: () => [] },
     align: { type: String, default: 'center' },
-    holdable: { type: Boolean, default: false }
+    holdable: { type: Boolean, default: false },
+    mode: { type: String, default: 'full' }
 })
 
 const alignment = computed(() => {
     return config.alignments[props.align]
 })
+
+function getPlantName(plant) {
+    if (props.mode === 'short') {
+        const nameParts = plant.variety.split(' ')
+        for (let i = 1; i < nameParts.length; i++) {
+            if (nameParts[i].length > 2) {
+                nameParts[i] = nameParts[i].substr(0, 1) + '.'
+            }
+        }
+        return nameParts.join(' ')
+    }
+    return plant.variety
+}
 
 function toggleValue(id) {
     let copy = [...props.value]
@@ -46,13 +60,13 @@ function select(plant) {
 
 <template>
     <div :class="alignment.row">
-        <div class="plant clickable" v-for="plant of options" :key="plant.id"
+        <div class="plant clickable" v-for="plant of options" :key="plant.id" :title="plant.variety"
             :class="{'active': value.indexOf(plant.id) > -1 }"
             v-hold="holdable"
             @click="toggleValue(plant.id)"
             @contextmenu.prevent="select(plant)">
             <div class="plant__tag" v-if="plant.tag">{{ plant.tag }}</div>
-            <div class="plant__variety">{{ plant.variety }}</div>
+            <div class="plant__variety">{{ getPlantName(plant) }}</div>
             <i class="icon icon-skull color-skull" v-if="plant.dead"></i>
         </div>
     </div>

@@ -75,17 +75,17 @@ function load(plantIds) {
         data.pot = pot
     })
     return loadPlants().then((plants) => {
-            data.plants = plants
-            return eventRepository.selectByPlantsForPot(plantIds, id)
-        }).then((events) => {
-            data.events = events
-            data.events.sort((a, b) => {
-                if (a.createdAt.getTime() < b.createdAt.getTime()) return 1
-                else if (a.createdAt.getTime() > b.createdAt.getTime()) return -1
-                else return 0
-            })
-            return data.events
+        data.plants = plants
+        return eventRepository.selectByPlantsForPot(plantIds, id)
+    }).then((events) => {
+        data.events = events
+        data.events.sort((a, b) => {
+            if (a.createdAt.getTime() < b.createdAt.getTime()) return 1
+            else if (a.createdAt.getTime() > b.createdAt.getTime()) return -1
+            else return 0
         })
+        return data.events
+    })
 }
 
 function openEvent(ids) {
@@ -132,7 +132,7 @@ onBeforeUnmount(() => {
     <div class="view column" id="pot-view" ref="view">
         <h1 v-if="data.pot?.name">{{ data.pot?.name || '' }}</h1>
         <div class="column flex gap-s py-m">
-            <plant-select align="inline"
+            <plant-select align="inline" mode="short"
                 :value="data.selectedPlants"
                 :options="data.plants"
                 :holdable="true"
