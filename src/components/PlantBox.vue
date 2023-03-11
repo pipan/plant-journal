@@ -85,13 +85,13 @@ onMounted(() => {
 
 <template>
 <div class="plant-box"
-    :class="[volumeClass, plant.name ? '' : 'plant-box--no-name']"
+    :class="[volumeClass]"
     :style="{ '--left': plant.x * 100 + '%', '--top': plant.y * 100 + '%', '--color-value': hslColor }"
     @mousedown="data.mouse = 'down'"
     @mouseup="select()"
     @click.stop
     v-drag="move">
-    <div class="column gap-s column--center" v-hold @contextmenu.prevent.stop="selectHold()">
+    <div class="column column--center pos-r" v-hold @contextmenu.prevent.stop="selectHold()">
         <div class="plant" :class="'shape--' + plant.shape">
             <div class="event" :class="eventType ? 'color-' + eventType : 'color--border'" v-for="(eventType, index) of data.eventTypes" :key="index"></div>
         </div>
@@ -104,14 +104,14 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.plant-box.plant-box--no-name { --transform-y: -50%; }
 .plant-box {
-    --transform-y: -33%;
+    --transform-y: -50%;
     transform: translateX(-50%) translateY(var(--transform-y));
     left: var(--left);
     top: var(--top);
     cursor: move;
     user-select: none;
+    z-index: 10;
 }
 
 .orientation-90 .plant-box {
@@ -129,7 +129,7 @@ onMounted(() => {
 
 .plant-box.drag--active:active {
     transform: translateX(-50%) translateY(var(--transform-y)) scale(1.15);
-    z-index: 5;
+    z-index: 15;
 }
 
 .plant-box:active {
@@ -138,10 +138,11 @@ onMounted(() => {
 }
 
 .plant-label {
+    position: absolute;
     border: solid 1px var(--color-value);
     border-radius: 8px;
     text-align: center;
-    padding: 4px var(--unit-s);
+    padding: 2px var(--unit-s);
     font-size: 12px;
     background-color: var(--color-bg);
     white-space: nowrap;
@@ -150,7 +151,12 @@ onMounted(() => {
     flex-direction: row;
     gap: var(--unit-s);
     align-items: center;
+    bottom: 0;
+    transform: translateY(70%);
 }
+
+.volume--m .plant-label { transform: translateY(60%); }
+.volume--l .plant-label { transform: translateY(50%); }
 
 .plant-label__id {
     border-radius: 4px;
