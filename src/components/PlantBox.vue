@@ -111,7 +111,6 @@ onMounted(() => {
     top: var(--top);
     cursor: move;
     user-select: none;
-    z-index: 10;
 }
 
 .orientation-90 .plant-box {
@@ -129,7 +128,7 @@ onMounted(() => {
 
 .plant-box.drag--active:active {
     transform: translateX(-50%) translateY(var(--transform-y)) scale(1.15);
-    z-index: 15;
+    z-index: 2;
 }
 
 .plant-box:active {

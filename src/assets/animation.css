@@ -152,7 +152,7 @@
   --origin-y: 0px;
   position: absolute;
   top: 0px;
-  z-index: 2;
+  z-index: 3;
   transform-origin: 50vw calc(50vh + var(--origin-y));
 }
 .animation-view-enter-active .view {
@@ -173,7 +173,7 @@
   top: 0px;
   width: 100vw;
   min-height: 100vh;
-  z-index: 2;
+  z-index: 3;
   overflow: hidden;
 }
 .animation-view-enter-active {

@@ -24,6 +24,10 @@ const props = defineProps({
 }
 
 .bottom-drawer__top {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
     display: flex;
     flex-direction: row;
     justify-content: center;
