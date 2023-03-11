@@ -37,8 +37,8 @@ const props = defineProps({
 .bottom-drawer__title {
     text-align: center;
     padding: var(--unit-s) var(--unit-m);
-    color: var(--color-fg-secondary);
-    background-color: var(--color-bg);
+    color: var(--color-fg);
+    background-color: var(--color-overlay);
     border-radius: 8px;
 }
 
