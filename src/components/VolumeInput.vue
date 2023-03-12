@@ -3,7 +3,9 @@ import { reactive } from '@vue/reactivity'
 import { onMounted } from '@vue/runtime-core'
 import { computed } from '@vue/runtime-core'
 import CircleSlider from './CircleSlider.vue'
-import { volumeMap, volumeNorm } from '../services/units'
+import { useScale } from '../services/scale'
+
+const scale = useScale([0.0, 0.25, 0.5, 0.75, 1.0], [0, 100, 1000, 3000, 10000])
 
 const data = reactive({
     sliderValue: 0.5
@@ -24,7 +26,7 @@ const emit = defineEmits(['change'])
 
 function onChange(value) {
     data.sliderValue = value
-    const newValue = volumeMap(value)
+    const newValue = scale.mapRound(value, [5, 50, 100, 250])
     if (newValue == props.value) {
         return
     }
@@ -32,7 +34,7 @@ function onChange(value) {
 }
 
 onMounted(() => {
-    data.sliderValue = volumeNorm(props.value)
+    data.sliderValue = scale.norm(props.value)
 })
 </script>
 

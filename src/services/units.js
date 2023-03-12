@@ -6,11 +6,3 @@ export function normMap(value, start, end) {
 export function stepRound(value, step) {
     return Math.round(value / step) * step
 }
-
-export function volumeNorm(value) {
-    return (normMap(value, 0, 1000) * 0.35) + (normMap(value, 1000, 3000) * 0.35) + (normMap(value, 3000, 10000) * 0.3)
-}
-
-export function volumeMap(value) {
-    return stepRound(normMap(value, 0.0, 0.35) * 1000, 50) + stepRound(normMap(value, 0.35, 0.7) * 2000, 100) + stepRound(normMap(value, 0.7, 1.0) * 7000, 250)
-}
