@@ -19,7 +19,8 @@ const data = reactive({
     plants: [],
     events: [],
     selectedPlants: [],
-    isCheckMode: false
+    isCheckMode: false,
+    loading: true
 })
 
 const view = ref(null)
@@ -70,6 +71,7 @@ function loadPlants() {
 }
 
 function load(plantIds) {
+    data.loading = true
     const id = parseInt(route.params.id)
     potRepository.select(id).then((pot) => {
         data.pot = pot
@@ -84,6 +86,7 @@ function load(plantIds) {
             else if (a.createdAt.getTime() > b.createdAt.getTime()) return -1
             else return 0
         })
+        data.loading = false
         return data.events
     })
 }
@@ -146,9 +149,9 @@ onBeforeUnmount(() => {
                     :events="block.events"
                     @select="openEvent($event)"></month-event-list>
             </div>
-            <div class="column flex column--middle column--center" v-if="eventBlocks.length === 0">
+            <div class="column flex column--middle column--center" v-if="eventBlocks.length === 0 && !data.loading">
                 <div class="p-l text-secondary">
-                    Pot has no events
+                    No events to display
                 </div>
             </div>
         </div>
