@@ -89,8 +89,8 @@ onMounted(() => {
     :style="{ '--left': plant.x * 100 + '%', '--top': plant.y * 100 + '%', '--color-value': hslColor }"
     @mousedown="data.mouse = 'down'"
     @mouseup="select()"
-    @click.stop
-    v-drag="move">
+    @click.stop v-drag
+    @appDrag="move($event)">
     <div class="column column--center pos-r" v-hold @contextmenu.prevent.stop="selectHold()">
         <div class="plant" :class="'shape--' + plant.shape">
             <div class="event" :class="eventType ? 'color-' + eventType : 'color--border'" v-for="(eventType, index) of data.eventTypes" :key="index"></div>

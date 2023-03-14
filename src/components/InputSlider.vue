@@ -19,7 +19,7 @@ function setValue(value) {
 }
 
 function onDrag(event) {
-    const newValue = (event.x - inputSlider.value.offsetLeft) / inputSlider.value.offsetWidth
+    const newValue = (event.detail.x - inputSlider.value.offsetLeft) / inputSlider.value.offsetWidth
     setValue(Math.min(Math.max(newValue, 0), 1))
 }
 </script>
@@ -27,8 +27,8 @@ function onDrag(event) {
 <template>
     <div class="input-slider" tabindex="0"
         :class="{ 'input-field--focus': data.isFocused }"
-        ref="inputSlider"
-        v-drag="onDrag">
+        v-drag ref="inputSlider"
+        @appDrag="onDrag($event)">
         <div class="input-slider__pin" :style="{ left: (value * 100) + '%' }"></div>
     </div>
 </template>

@@ -1,6 +1,6 @@
 const listenerMap = {}
 
-function createDragService(el, fn) {
+function createDragService(el) {
     let config = null
     
     function checkMove() {
@@ -10,7 +10,9 @@ function createDragService(el, fn) {
         const diff = { x: config.current.x - config.start.x, y: config.current.y - config.start.y }
         if (diff.x !== 0 || diff.y !== 0) {
             config.start = config.current
-            fn({ deltaX: diff.x, deltaY: diff.y, x: config.current.x, y: config.current.y })
+            let eventData = { deltaX: diff.x, deltaY: diff.y, x: config.current.x, y: config.current.y }
+            const event = new CustomEvent('appDrag', {detail: eventData, bubbles: true});
+            el.dispatchEvent(event);
         }
     }
     
@@ -87,7 +89,7 @@ export const dragDirective = {
         const hash = Math.random().toString().substring(2)
         el.dataset.dragHash = hash
 
-        listenerMap[hash] = createDragService(el, binding.value)
+        listenerMap[hash] = createDragService(el)
         el.addEventListener('touchstart', listenerMap[hash].touch)
         el.addEventListener('mousedown', listenerMap[hash].mouse)
     },

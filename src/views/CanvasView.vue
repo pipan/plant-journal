@@ -32,13 +32,13 @@ const canvasView = ref(null)
 
 function move(pot, event) {
     let delta = {
-        x: event.deltaX / canvasView.value.offsetWidth,
-        y: event.deltaY / canvasView.value.offsetHeight
+        x: event.detail.deltaX / canvasView.value.offsetWidth,
+        y: event.detail.deltaY / canvasView.value.offsetHeight
     }
     if (screen.orientation.angle === 90 || screen.orientation.angle === 270) {
         delta = {
-            x: event.deltaY * -1 / canvasView.value.offsetHeight,
-            y: event.deltaX / canvasView.value.offsetWidth
+            x: event.detail.deltaY * -1 / canvasView.value.offsetHeight,
+            y: event.detail.deltaX / canvasView.value.offsetWidth
         }
     }
     if (screen.orientation.angle >= 180) {
