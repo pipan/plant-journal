@@ -22,7 +22,7 @@ function create() {
             intIds.push(parseInt(id))
         }
         eventRepository.removeList(intIds).then(() => {
-            this.close()
+            close()
         })
     }
 }
