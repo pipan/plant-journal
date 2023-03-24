@@ -180,7 +180,7 @@ onMounted(() => {
     flex-direction: column;
     gap: var(--unit-m);
     font-weight: 100;
-    opacity: 0.5;
+    opacity: 0.75;
 }
 .hint .icon {
     font-size: 52px;
