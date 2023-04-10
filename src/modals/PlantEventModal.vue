@@ -76,7 +76,8 @@ function create() {
             // todo validation error
             return
         }
-        plantService.move(data.selectedPlants, data.target.selectedPotId, eventData)
+        const targetPotid = data.forwardDirection ? data.target.selectedPotId : data.source.pot.id
+        plantService.move(data.selectedPlants, targetPotid, eventData)
     } else {
         if (data.items.length === 0) {
             console.log("TODO: validate error / disable button")
